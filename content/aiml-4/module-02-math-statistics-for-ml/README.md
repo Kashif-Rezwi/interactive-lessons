@@ -2,7 +2,7 @@
 
 **Course:** AIML-4<br>
 **Package status:** Active — all classes share this module package; this README is the single navigation surface for every source and generated artifact (ADR-0001; a class-level package directory scheme was evaluated and rejected in [ADR-0005](../../../docs/adr/0005-class-packages-within-modules.md), see the [convention change history](../../../docs/02-system/content-package-convention.md))<br>
-**Source status:** Class 1 — captured; source identity recorded in [SRC-2026-0001](../../../records/sources/src-2026-0001-aiml-4-module-02.md). Class 2 — awaiting source<br>
+**Source status:** Class 1 — captured; source identity recorded in [SRC-2026-0001](../../../records/sources/src-2026-0001-aiml-4-module-02.md). Class 2 — captured; source identity recorded in [SRC-2026-0002](../../../records/sources/src-2026-0002-matrix-decompositions-applications.md). Class 3 — captured; source identity recorded in [SRC-2026-0003](../../../records/sources/src-2026-0003-high-dimensional-geometry.md)<br>
 **Governed-generation status:** The **active benchmark is [BMK-2026-0001](../../../records/benchmarks/bmk-2026-0001-linear-algebra-foundations-v4.md)** (CAN-2026-0003, `linear-algebra-foundations-v4.html`, EVAL-2026-0002; per [ADR-0011](../../../docs/adr/0011-benchmark-definition-and-artifact-change-protocol.md)). The **current reference candidate for new authoring is `linear-algebra-foundations-v10.html`** (candidate CAN-2026-0009), generated under [RUN-20260904-0001](../../../records/runs/run-20260904-0001-linear-algebra-foundations-v10.md) as the full-verification reproduction run: it reproduces the validated v9 reference design under the unchanged prompt card @0.6.0 and completes the live rendered-output verification ([ADR-0010](../../../docs/adr/0010-rendered-output-verification.md) Audit 6) that RUN-20260903-0001 could not perform in degraded mode, repairing four inherited defect classes along the way (title identity, §10.6 per-element slider encapsulation, §10.1 body-font floor, 320px overflow/clipping). It closed as `private-pilot-complete` under a non-independent review ([EVAL-2026-0010](../../../records/evaluations/eval-2026-0010-linear-algebra-foundations-v10.md), weighted 3.85, live-browser Audit 6 — no degraded-mode caps) and is **not a public release, benchmark result, or efficacy claim**. The previous reference candidate `linear-algebra-foundations-v9.html` (CAN-2026-0008, RUN-20260903-0001, EVAL-2026-0009; including its post-evaluation norm-clarification fix at commit `201a778`) is superseded and preserved as a historical version. Earlier candidates — v1 (historical), v2 (CAN-2026-0001), v3 (CAN-2026-0002), v4 (CAN-2026-0003), v5 (CAN-2026-0004), v6 (CAN-2026-0005), v7 (CAN-2026-0006), v8 (CAN-2026-0007) — are preserved as historical versions; see the Version history table below and the run ledgers of the governed candidates (v1, preserved from the initial commit, has no reconstructable run or evaluation record).
 
 ## Classes and material
@@ -14,7 +14,11 @@ Each class runs its own governed pipeline (source package → concept model → 
 | 1 · Mathematical Foundations & Linear Algebra Fundamentals | Source notebook | [Open notebook](sources/Mathematical_Foundations_&_Linear_Algebra_Fundamentals.ipynb) |
 | | Interactive notes — **reference version** (CAN-2026-0009, v10; non-independent review; not released) | [Open the v10 notes](generated/linear-algebra-foundations-v10.html) |
 | | Interactive notes — **previous reference** (CAN-2026-0008, v9; non-independent review; not released; superseded by v10) | [Open v9 (historical)](generated/linear-algebra-foundations-v9.html) |
-| 2 · Probability Basics | Awaiting source — notes not yet supplied; intake will create the next SRC record via workflow P0 | — |
+| 2 · Matrix Decompositions & Applications | Source notebook | [Open notebook](sources/Matrix_Decompositions_&_Applications.ipynb) |
+| | Interactive notes — **reference version** (CAN-2026-0011, v2; non-independent review; not released) | [Open the v2 notes](generated/matrix-decompositions-applications-v2.html) |
+| | Interactive notes — **previous reference** (CAN-2026-0010, v1; non-independent review; not released; superseded by v2) | [Open v1 (historical)](generated/matrix-decompositions-applications-v1.html) |
+| 3 · High-Dimensional Geometry | Source notebook | [Open notebook](sources/High_Dimensional_Geometry.ipynb) |
+| | Interactive notes — **reference version** (CAN-2026-0012, v1; non-independent review; not released) | [Open the v1 notes](generated/high-dimensional-geometry-v1.html) |
 
 *Rows are in class sequence. Files on disk are ordered alphabetically by convention (source filenames are preserved originals, generated files follow `<note-slug>-v<N>`), so use this table — never file enumeration — to determine class order.*
 
@@ -38,11 +42,31 @@ The reference entry point for each class is the **reference version** in the Cla
 | 1 | v8 | `generated/linear-algebra-foundations-v8.html` | CAN-2026-0007 | private-pilot-complete (EVAL-2026-0008, non-independent, weighted 3.85, live-browser Audit 6); engineering remediation run — ADR-0013 + lesson-standard §10; @0.5.0 comparison run hypothesis supported; not released |
 | 1 | v9 | `generated/linear-algebra-foundations-v9.html` | CAN-2026-0008 | private-pilot-complete (EVAL-2026-0009, non-independent, weighted 3.58, degraded-mode Audit 6); autonomous @0.6.0 comparison run — component layout contracts (§10.6–10.8), formula manifest, term registry, and structured assessment modality; hypothesis supported; not released |
 | 1 | v10 | `generated/linear-algebra-foundations-v10.html` | CAN-2026-0009 | private-pilot-complete (EVAL-2026-0010, non-independent, weighted 3.85, live-browser Audit 6); full-verification reproduction run — completed ADR-0010 rendered verification, repaired four inherited defect classes (title identity, §10.6 per-element encapsulation, §10.1 font floor, 320px overflow/clipping); not released |
+| 2 | v1 | `generated/matrix-decompositions-applications-v1.html` | CAN-2026-0010 | private-pilot-complete (EVAL-2026-0011, non-independent, weighted 3.45); superseded by v2; not released |
+| 2 | v2 | `generated/matrix-decompositions-applications-v2.html` | CAN-2026-0011 | private-pilot-complete (EVAL-2026-0012, non-independent, weighted 3.50, live-browser Audit 6); from-scratch rebuild closing the v1 gaps (numeric SVD, persistent progress, confidence-calibrated mastery); not released |
+| 3 | v1 | `generated/high-dimensional-geometry-v1.html` | CAN-2026-0012 | private-pilot-complete (EVAL-2026-0013, non-independent, weighted 3.50, live-browser Audit 6); first governed artifact for Class 3 — abstract source converted to seeded live Monte-Carlo evidence (distance concentration, thin shell, cell-11 replication); not released |
 
 ## Governed work
 
 | Record | Title |
 | --- | --- |
+| [SRC-2026-0002](../../../records/sources/src-2026-0002-matrix-decompositions-applications.md) | Matrix decompositions and applications source manifest |
+| [CM-2026-0008](../../../records/concepts/cm-2026-0008-matrix-decompositions-applications.md) | Concept model |
+| [LP-2026-0009](../../../records/plans/lp-2026-0009-matrix-decompositions-applications.md) | Learning plan |
+| [XS-2026-0009](../../../records/specifications/xs-2026-0009-matrix-decompositions-applications-v1.md) | Experience specification |
+| [RUN-20260906-0001](../../../records/runs/run-20260906-0001-matrix-decompositions-applications-v1.md) | Stage 1 private-pilot run ledger |
+| [EVAL-2026-0011](../../../records/evaluations/eval-2026-0011-matrix-decompositions-applications-v1.md) | Candidate v1 evaluation |
+| [CM-2026-0009](../../../records/concepts/cm-2026-0009-matrix-decompositions-applications.md) | Concept model for the v2 from-scratch rebuild (iteration of CM-2026-0008; deeper re-read, 38 anchored claims) |
+| [LP-2026-0010](../../../records/plans/lp-2026-0010-matrix-decompositions-applications.md) | Learning plan for candidate v2 (full depth pass; 3 gates, 5 ladders, 7-item confidence-calibrated mastery) |
+| [XS-2026-0010](../../../records/specifications/xs-2026-0010-matrix-decompositions-applications-v2.md) | Experience specification for candidate v2 (formula manifest EQ-001–011, 32-term registry, per-widget viewports) |
+| [RUN-20260906-0002](../../../records/runs/run-20260906-0002-matrix-decompositions-applications-v2.md) | v2 from-scratch rebuild run ledger (CAN-2026-0011; live-browser Audit 6; adversarial gate) |
+| [EVAL-2026-0012](../../../records/evaluations/eval-2026-0012-matrix-decompositions-applications-v2.md) | Candidate v2 evaluation (non-independent; weighted 3.50; live-browser Audit 6; private-pilot-complete) |
+| [SRC-2026-0003](../../../records/sources/src-2026-0003-high-dimensional-geometry.md) | High-dimensional geometry source manifest |
+| [CM-2026-0010](../../../records/concepts/cm-2026-0010-high-dimensional-geometry.md) | Concept model |
+| [LP-2026-0011](../../../records/plans/lp-2026-0011-high-dimensional-geometry.md) | Learning plan (6 units + orientation, full depth pass; 3 gates, 6 ladders, 8-item confidence-calibrated mastery) |
+| [XS-2026-0011](../../../records/specifications/xs-2026-0011-high-dimensional-geometry-v1.md) | Experience specification for candidate v1 (6 widgets: W1/W6 numeric, W2–W5 canvases with per-widget viewports; seeded Monte-Carlo contract) |
+| [RUN-20260907-0001](../../../records/runs/run-20260907-0001-high-dimensional-geometry-v1.md) | First governed generation run ledger (CAN-2026-0012; live-browser Audit 6; PRNG cross-check appendices) |
+| [EVAL-2026-0013](../../../records/evaluations/eval-2026-0013-high-dimensional-geometry-v1.md) | Candidate v1 evaluation (non-independent; weighted 3.50; live-browser Audit 6; private-pilot-complete) |
 | [CM-2026-0001](../../../records/concepts/cm-2026-0001-linear-algebra-foundations.md) | Concept model grounded in SRC-2026-0001 |
 | [LP-2026-0001](../../../records/plans/lp-2026-0001-linear-algebra-foundations.md) | Learning plan |
 | [XS-2026-0001](../../../records/specifications/xs-2026-0001-linear-algebra-foundations-v2.md) | Experience specification for the candidate |

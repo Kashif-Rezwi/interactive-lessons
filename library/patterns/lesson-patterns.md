@@ -172,9 +172,20 @@ Patterns are **implementation techniques**, not principles. The principles they 
 - **Learner benefit:** the payoff moment converts notation into insight ("it was a dot product all along"); the gap between setup and payoff is free spaced retrieval.
 - **Trade-offs:** requires plan-level design — the arc and its payoff unit are declared in the LP; **a promise that never pays off is a defect (dangling forward reference; CAN-2026-0004 promised the wᵀx payoff and never delivered it).**
 - **Accessibility:** none special.
-- **Evidence/confidence:** the wᵀx reveal was among the most-praised moves in CAN-2026-0003's audits; the broken promise in CAN-2026-0004 is the negative evidence.
+- **Evidence/confidence:** the wᵀx reveal was among the most-praised moves in CAN-2026-0003's audits; the broken promise in CAN-2026-0004 is the negative evidence. **Confirmed durable across independent generations:** every LP-declared arc shipped and paid off in both CAN-2026-0011 and CAN-2026-0012 (the U3 distance-concentration promise pays off in U5's norm-concentration widget with an explicit award note; RUN-20260907-0001) — plan-declared arcs survive generation when the LP names the payoff unit (MEM-2026-0006).
 - **Anti-patterns:** artificial suspense with no pedagogical payoff; arcs whose setup uses unexplained machinery (violates explain-before-use, standard §2).
 - **Do not use when:** the compact form can be taught correctly at first contact without scaffolding.
+
+## P-16 Seeded deterministic Monte-Carlo for stochastic claims (Simulate) — *Candidate*
+
+- **Problem:** a source notebook demonstrates a distributional claim with one random draw (or a code cell the learner cannot run); restating the claim as prose proves nothing, and an unseeded widget shows different numbers on every load — the lesson cannot be verified, and the learner cannot reproduce what the text cites.
+- **Applicability:** any claim that is a statement about a distribution (typical distances, norm concentration, sampling variance) where a live sample makes the mechanism visible: distance-concentration histograms, thin-shell norm distributions, replicated experiments with quoted expected values.
+- **Learner benefit:** the widget always shows the exact numbers the prose cites (readouts provably match the text), and a seed control invites "same experiment, different draw" exploration while remaining honest — the readout labels itself a seeded run.
+- **Trade-offs:** the PRNG must be canonical and the derivation discipline strict (each widget derives its stream from `(seed × prime + offset)` so runs are addressable); verification must cross-check the core in a harness against an independent reimplementation.
+- **Accessibility:** the text readout carries the same numbers as the histogram; the seed control is a native number input.
+- **Evidence/confidence:** introduced in CAN-2026-0012 (`high-dimensional-geometry-v1.html`, RUN-20260907-0001): mulberry32 verified canonical (Node-executed page core identical to an independent Python reimplementation, 2 keys × 8 samples); all live readouts matched the fixed harness bit-for-bit (W3 d=1000 contrast 0.098; W5 σ/μ 2.2% vs theory 2.24%); confidence Candidate pending a second lesson.
+- **Anti-patterns:** consuming PRNG draws differently in the harness than in the page (an early RUN-20260907-0001 harness driver did exactly this and initially misread the widget — replicate the page's draw code exactly); seeding from `Date.now()`; presenting a single seeded draw as proof of a distribution without quoting the closed-form expected value alongside.
+- **Do not use when:** the claim is deterministic (compute it directly), or genuine unpredictability is the pedagogical point (then label it as unrepeatable).
 
 ---
 

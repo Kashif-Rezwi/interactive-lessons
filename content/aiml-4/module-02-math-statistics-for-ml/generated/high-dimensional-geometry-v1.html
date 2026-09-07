@@ -1,0 +1,1537 @@
+<!-- candidate: CAN-2026-0012 | model: Cline (Claude Sonnet 4.6) | date: 2026-09-07 | run: RUN-20260907-0001 | source: SRC-2026-0003 | prompt card: prm-generator-lesson-standard@0.6.0 digest 532febec136b | inputs: CM-2026-0010 / LP-2026-0011 / XS-2026-0011 -->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>High-Dimensional Geometry · Interactive Notes v1</title>
+<style>
+:root{--ink:#1c2430;--ink-soft:#3d4a5a;--ink-faint:#66727f;--paper:#f7f6f2;--card:#fff;--line:#e3e0d8;--line-soft:#eeece5;--accent:#2f5fd0;--accent-soft:#e8eefa;--accent-deep:#1e3f8f;--good:#1e7a46;--good-soft:#e4f3ea;--bad:#b3382e;--bad-soft:#fae9e7;--warn:#8a6116;--warn-soft:#faf3e2;--core:#2f5fd0;--foundation:#8a6116;--deep:#0f6f6a;--ml:#1e7a46;--ext:#6d4fa3;--mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;--sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;--radius:10px;--maxw:48rem;--space:1rem;--shadow:0 1px 2px rgba(28,36,48,.08);--focus:0 0 0 3px rgba(47,95,208,.25)}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:16.5px;line-height:1.65;-webkit-font-smoothing:antialiased}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 1.1rem 3rem}
+h1{font-size:1.9rem;line-height:1.25;margin:.3rem 0 .4rem}
+h2{font-size:1.42rem;line-height:1.3;margin:1.6rem 0 .5rem}
+h3{font-size:1.12rem;margin:1.2rem 0 .35rem}
+p{margin:.55rem 0}
+a{color:var(--accent-deep)}
+.topnav{position:sticky;top:0;z-index:40;background:rgba(247,246,242,.94);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border-bottom:1px solid var(--line)}
+.navin{max-width:var(--maxw);margin:0 auto;padding:.45rem 1.1rem;overflow-x:auto;scrollbar-width:thin;white-space:nowrap}
+.topnav a{display:inline-flex;align-items:center;gap:.32rem;border-radius:999px;border:1px solid transparent;padding:.32rem .6rem;margin-right:.25rem;text-decoration:none;color:var(--ink-soft);font-size:.82rem}
+.topnav a:hover{border-color:var(--line)}
+.topnav a[aria-current="true"]{background:var(--accent-soft);color:var(--accent-deep);border-color:var(--accent-soft);font-weight:600}
+.dot{width:.5rem;height:.5rem;border-radius:50%;background:var(--line);display:inline-block;flex-shrink:0}
+.dot.done{background:var(--good)}
+header.pagehead{padding:1.6rem 0 .4rem}
+.kicker{text-transform:uppercase;letter-spacing:.12em;font-size:.74rem;font-weight:700;color:var(--accent)}
+.sub{color:var(--ink-soft);font-size:1.02rem}
+.head-meta{display:flex;flex-wrap:wrap;gap:.45rem;margin:.7rem 0 .2rem}
+.chip{font-size:.74rem;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:.22rem .65rem;color:var(--ink-soft)}
+section{margin:1.7rem 0}
+.label{font-size:.7rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-faint);margin:.1rem 0 .25rem}
+.badge{display:inline-block;font-size:.68rem;font-weight:700;letter-spacing:.09em;border-radius:5px;padding:.14rem .5rem;margin-bottom:.3rem}
+.badge.core{background:var(--accent-soft);color:var(--core)}
+.badge.foundation{background:var(--warn-soft);color:var(--foundation)}
+.badge.deep{background:#e2f2f0;color:var(--deep)}
+.badge.ml{background:var(--good-soft);color:var(--ml)}
+.badge.ext{background:#efe9f6;color:var(--ext)}
+.ptag{display:inline-block;font-size:.66rem;border:1px solid var(--line);border-radius:4px;padding:.05rem .4rem;color:var(--ink-faint);margin-left:.35rem;vertical-align:1px}
+.term{border-bottom:1px dotted var(--accent);text-decoration:none;color:inherit}
+.map{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:1rem;box-shadow:var(--shadow)}
+.map svg{width:100%;height:auto;display:block}
+.map .node{fill:var(--accent-soft);stroke:var(--accent);stroke-width:1.2}
+.map .node2{fill:var(--good-soft);stroke:var(--ml)}
+.map .nodef{fill:var(--warn-soft);stroke:var(--foundation)}
+.map text{font-size:11px;fill:var(--ink-soft);font-family:var(--sans)}
+.map .edge{stroke:var(--ink-faint);stroke-width:1.1;fill:none;marker-end:url(#arrow)}
+.formula{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:8px;padding:.7rem .9rem;margin:.8rem 0;font-family:var(--mono);font-size:1.02rem;overflow-x:auto}
+.formula .fx{white-space:nowrap}
+.symkey{margin:.45rem 0 0;font-family:var(--sans);font-size:.82rem;color:var(--ink-soft);line-height:1.5;list-style:none;padding-left:0}
+.symkey li{margin:.12rem 0;padding-left:1rem;position:relative}
+.symkey li::before{content:"–";position:absolute;left:0;color:var(--ink-faint)}
+.widget{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:.95rem 1rem;margin:.9rem 0;box-shadow:var(--shadow)}
+.widget .label{color:var(--accent)}
+.goal{background:var(--accent-soft);border-radius:6px;padding:.4rem .7rem;font-size:.9rem;margin:.3rem 0 .6rem}
+.ctrl-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:.85rem 1.25rem;width:100%;margin:.55rem 0}
+.slider-control{display:flex;flex-direction:column;gap:.35rem;min-width:0}
+.slider-head{display:flex;justify-content:space-between;align-items:baseline;gap:.5rem}
+.slider-label{font-size:.84rem;color:var(--ink-soft)}
+.slider-val{font-family:var(--mono);font-variant-numeric:tabular-nums;min-width:4.5ch;text-align:right;font-size:.88rem;color:var(--ink)}
+.slider-track{display:block}
+.slider-track input[type=range]{width:100%;margin:0}
+.readout{font-family:var(--mono);font-size:.86rem;background:var(--paper);border:1px solid var(--line-soft);border-radius:8px;padding:.6rem .75rem;margin:.6rem 0;line-height:1.6;overflow-x:auto}
+.readout b{color:var(--accent-deep)}
+.readout .ok{color:var(--good);font-weight:700}
+.readout .no{color:var(--bad);font-weight:700}
+canvas.viz{width:100%;height:auto;border:1px solid var(--line);border-radius:8px;background:#fff;display:block;margin:.4rem 0}
+.legend-inline{font-size:.78rem;color:var(--ink-soft);display:flex;flex-wrap:wrap;gap:.9rem;margin:.2rem 0 .4rem}
+.legend-inline span::before{content:"";display:inline-block;width:.7rem;height:.7rem;border-radius:2px;margin-right:.3rem;vertical-align:-1px}
+.lg-a::before{background:var(--accent)}
+.lg-b::before{background:var(--bad)}
+.lg-c::before{background:var(--good)}
+.lg-d::before{background:var(--warn)}
+.lg-e::before{background:var(--ext)}
+.predict{border:1.5px dashed var(--accent);border-radius:var(--radius);padding:.85rem 1rem;margin:1rem 0;background:rgba(232,238,250,.4)}
+.option-stack{display:flex;flex-direction:column;gap:.55rem;width:100%;margin:.75rem 0}
+.option-item{display:flex;align-items:flex-start;gap:.75rem;padding:.65rem .9rem;border:1.5px solid var(--line);border-radius:8px;background:var(--card);cursor:pointer}
+.option-item:hover{border-color:var(--accent)}
+.option-item input{margin-top:.2rem;flex-shrink:0}
+.option-text{font-size:.92rem;line-height:1.45}
+button{font-family:var(--sans);font-size:.88rem;background:var(--accent);color:#fff;border:none;border-radius:7px;padding:.5rem .95rem;cursor:pointer}
+button:hover{background:var(--accent-deep)}
+button.ghost{background:var(--card);color:var(--ink-soft);border:1px solid var(--line)}
+button.ghost:hover{border-color:var(--accent);color:var(--accent-deep);background:var(--card)}
+:focus-visible{outline:none;box-shadow:var(--focus);border-radius:4px}
+.feedback{border-radius:8px;padding:.6rem .8rem;margin:.55rem 0;font-size:.9rem;line-height:1.5}
+.feedback.ok{background:var(--good-soft);border:1px solid var(--good)}
+.feedback.no{background:var(--bad-soft);border:1px solid var(--bad)}
+.callout{border-radius:var(--radius);border:1px solid var(--warn);background:var(--warn-soft);padding:.7rem .95rem;margin:1rem 0;font-size:.92rem;line-height:1.55}
+.callout.good{border-color:var(--good);background:var(--good-soft)}
+.callout.info{border-color:var(--accent);background:var(--accent-soft)}
+.ladder{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:.85rem 1rem;margin:1rem 0}
+.rung{border-top:1px dashed var(--line-soft);padding:.75rem 0 .35rem}
+.rung:first-of-type{border-top:none}
+.rung .label{color:var(--deep)}
+.rung p{font-size:.92rem}
+.hint{background:var(--warn-soft);border:1px solid var(--warn);border-radius:7px;padding:.5rem .75rem;margin:.4rem 0;font-size:.86rem}
+.worked{background:var(--paper);border:1px solid var(--line-soft);border-radius:7px;padding:.55rem .8rem;margin:.4rem 0;font-family:var(--mono);font-size:.88rem;overflow-x:auto}
+.numin{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;margin:.45rem 0}
+.numin input[type=number]{font-family:var(--mono);font-variant-numeric:tabular-nums;font-size:.95rem;padding:.4rem .55rem;border:1.5px solid var(--line);border-radius:7px;width:11ch;background:var(--card);color:var(--ink)}
+.check{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:.85rem 1rem;margin:1rem 0}
+.check .label{color:var(--ml)}
+.mastery{background:var(--card);border:1.5px solid var(--ml);border-radius:var(--radius);padding:.95rem 1.05rem;margin:1.1rem 0}
+.mitem{border-top:1px dashed var(--line-soft);padding:.8rem 0 .3rem}
+.mitem:first-of-type{border-top:none}
+.conf{display:flex;flex-wrap:wrap;gap:.8rem;font-size:.84rem;color:var(--ink-soft);margin:.3rem 0}
+.msum{background:var(--good-soft);border:1px solid var(--good);border-radius:8px;padding:.6rem .85rem;margin:.6rem 0;font-size:.92rem}
+table.apptable{border-collapse:collapse;width:100%;font-size:.88rem;margin:.7rem 0;display:block;overflow-x:auto}
+table.apptable th,table.apptable td{border:1px solid var(--line);padding:.45rem .6rem;text-align:left;vertical-align:top}
+table.apptable th{background:var(--accent-soft);color:var(--accent-deep)}
+.matblock{display:inline-block;font-family:var(--mono);font-size:.9rem;border:1px solid var(--line);border-radius:6px;padding:.4rem .55rem;margin:.3rem .45rem .3rem 0;background:var(--card);vertical-align:middle}
+.matblock .bn{font-family:var(--sans);font-size:.7rem;color:var(--ink-faint);display:block;text-align:center}
+.gloss-list{margin:.5rem 0}
+.gitem{border-top:1px solid var(--line-soft);padding:.6rem 0}
+.gitem dt{font-weight:700;color:var(--accent-deep);font-size:.95rem}
+.gitem dd{margin:.15rem 0 0;font-size:.86rem;line-height:1.55}
+.gitem dd b{color:var(--ink-soft);font-weight:600}
+.reviewbox{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:.85rem 1rem;margin:1rem 0}
+#reviewList{font-size:.9rem;line-height:1.7}
+footer.colophon{text-align:center;color:var(--ink-faint);font-size:.78rem;margin-top:2.4rem;border-top:1px solid var(--line-soft);padding:1rem 0 .2rem}
+footer.colophon .heart{color:var(--bad)}
+details.ext{border:1px solid var(--line-soft);border-radius:8px;padding:.5rem .8rem;margin:.8rem 0;background:var(--card)}
+details.ext summary{cursor:pointer;font-weight:600;font-size:.9rem;color:var(--ext)}
+details.ext p{font-size:.9rem}
+.storagenote{font-size:.78rem;color:var(--ink-faint)}
+.explain-reveal{background:var(--accent-soft);border:1px solid var(--accent);border-radius:8px;padding:.6rem .85rem;margin:.45rem 0;font-size:.9rem;line-height:1.55}
+.looptable{border-collapse:collapse;width:100%;font-size:.88rem;margin:.6rem 0}
+.looptable td,.looptable th{border:1px solid var(--line);padding:.4rem .6rem;text-align:left}
+.looptable th{background:var(--accent-soft);color:var(--accent-deep)}
+@media (max-width:640px){
+ h1{font-size:1.55rem}
+ .wrap{padding:0 .8rem 2.4rem}
+ .formula{font-size:.95rem}
+}
+@media print{
+ .topnav,.widget,.predict,.ladder,.check .ctrl-grid,.mastery,button,.hint,.storagenote{display:none !important}
+ body{background:#fff;font-size:11pt}
+ .callout,.formula,.readout{border:1px solid #999;background:#fff}
+ a{color:#000;text-decoration:none}
+}
+@media (prefers-reduced-motion:reduce){
+ html{scroll-behavior:auto}
+ *{transition:none !important;animation:none !important}
+}
+</style>
+</head>
+<body>
+<nav class="topnav" aria-label="Lesson units"><div class="navin"><a href="#u0" aria-current="true">00 Start</a><a href="#u1">01 Dimensionality</a><a href="#u2">02 The Curse</a><a href="#u3">03 Distances</a><a href="#u4">04 Metrics</a><a href="#u5">05 Concentration</a><a href="#u6">06 Fixes</a><a href="#synthesis">Synthesis</a><a href="#mastery">Mastery</a><a href="#glossary">Glossary</a></div></nav>
+<main id="main" class="wrap">
+<header class="pagehead">
+<div class="kicker">AIML-4 · Class 3 · High-dimensional geometry</div>
+<h1>When intuition breaks: geometry in a thousand dimensions</h1>
+<p class="sub">A hands-on route from the curse of dimensionality to distance concentration, metric choice, and the fixes modern ML actually uses — every number you see is computed live in your browser.</p>
+<div class="head-meta"><span class="chip">⏱ 60–80 minutes</span><span class="chip">6 units + mastery</span><span class="chip">Works offline</span><span class="chip">Progress saved locally</span></div>
+</header>
+<section id="u0" aria-labelledby="u0t">
+<div class="label">UNIT 0 · ORIENTATION</div>
+<h2 id="u0t">How to learn with this page</h2>
+<p>Each unit follows the same loop: build intuition, <b>commit to a prediction</b> before the reveal, explore a live model, practice with fading help, then check yourself. Checks fill the dots in the top navigation; misses go to your personal review list at the end.</p>
+<table class="looptable"><caption class="label">The learning loop</caption><tr><th>Step</th><th>What you do</th><th>Why it works</th></tr>
+<tr><td>Learn</td><td>Read a short explanation with a worked number first.</td><td>Intuition before notation.</td></tr>
+<tr><td>Predict</td><td>Commit to an answer <i>before</i> the model reveals it.</td><td>Predictions make errors correctable.</td></tr>
+<tr><td>Explore</td><td>Move a slider, watch the geometry respond.</td><td>Causal feedback beats passive reading.</td></tr>
+<tr><td>Practice</td><td>Three-rung ladders: worked → completion → independent.</td><td>Support fades as you gain skill.</td></tr>
+<tr><td>Check</td><td>Auto-graded numeric + diagnostic choice questions.</td><td>Retrieval strengthens memory.</td></tr>
+<tr><td>Connect</td><td>See where each idea runs inside real ML systems.</td><td>Transfer, not trivia.</td></tr></table>
+<p>Content is labeled so you always know where you are: <span class="badge core">CLASS CORE</span> from the source notes · <span class="badge foundation">FOUNDATION</span> a prerequisite the notes assumed · <span class="badge deep">DEEP DIVE</span> added intuition · <span class="badge ml">ML LINK</span> application · <span class="badge ext">EXTENSION</span> optional, beyond the source. A small tag like <span class="ptag">constructed example</span> marks material invented for this lesson; <span class="ptag">source</span> marks the notes' own claims; <span class="ptag">supplemental</span> marks verified additions. Dotted-underlined terms link to the glossary without leaving your place.</p>
+<p><b>Prerequisites:</b> vectors, dot products, norms, and means/variances from Class 1; the vocabulary of SVD and PCA from Class 2 (see the <a href="../../module-02-math-statistics-for-ml/generated/matrix-decompositions-applications-v2.html">Class 2 interactive notes</a> — we will reuse PCA but not re-derive it). New probability ideas (Gaussian vectors, Monte-Carlo simulation) are built here when needed.</p>
+<h3>The map of this lesson</h3>
+<div class="map"><svg viewBox="0 0 560 300" role="img" aria-label="Concept map: dimensionality leads to volume collapse, sparsity, and sample complexity; sparsity and a sum-of-contributions mechanism lead to distance concentration; the thin shell explains the mechanism and normalization; distance concentration and normalization lead to metric choice; metric choice leads to vector search; distance concentration leads to ML failures, which lead to fixes.">
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#66727f"/></marker></defs>
+<path class="edge" d="M95,54 L95,88"/><path class="edge" d="M95,124 L95,158"/><path class="edge" d="M95,194 L95,228"/>
+<path class="edge" d="M275,54 L275,88"/><path class="edge" d="M275,124 L275,158"/><path class="edge" d="M275,194 L275,228"/>
+<path class="edge" d="M455,54 L455,88"/><path class="edge" d="M455,124 L455,158"/>
+<path class="edge" d="M150,177 L218,177"/>
+<path class="edge" d="M330,37 L398,37"/>
+<path class="edge" d="M330,168 L398,102"/>
+<path class="edge" d="M330,247 L398,247"/>
+<path class="edge" d="M150,37 L185,37 L185,247 L218,247"/>
+<path class="edge" d="M510,44 L545,44 L545,177 L512,177"/>
+<path class="edge" d="M510,107 L528,107 L528,247 L512,247"/>
+<rect class="node" x="40" y="20" width="110" height="34" rx="6"/><text x="95" y="41" text-anchor="middle">dimensionality</text>
+<rect class="node" x="40" y="90" width="110" height="34" rx="6"/><text x="95" y="111" text-anchor="middle">volume ε^d</text>
+<rect class="node" x="40" y="160" width="110" height="34" rx="6"/><text x="95" y="181" text-anchor="middle">sparsity</text>
+<rect class="nodef" x="40" y="230" width="110" height="34" rx="6"/><text x="95" y="251" text-anchor="middle">sample cost</text>
+<rect class="nodef" x="220" y="20" width="110" height="34" rx="6"/><text x="275" y="41" text-anchor="middle">thin shell</text>
+<rect class="nodef" x="220" y="90" width="110" height="34" rx="6"/><text x="275" y="106" text-anchor="middle">sum of many</text><text x="275" y="118" text-anchor="middle">random parts</text>
+<rect class="node" x="220" y="160" width="110" height="34" rx="6"/><text x="275" y="181" text-anchor="middle">distances equalize</text>
+<rect class="node2" x="220" y="230" width="110" height="34" rx="6"/><text x="275" y="251" text-anchor="middle">KNN / clustering fail</text>
+<rect class="nodef" x="400" y="20" width="110" height="34" rx="6"/><text x="455" y="41" text-anchor="middle">normalization</text>
+<rect class="node" x="400" y="90" width="110" height="34" rx="6"/><text x="455" y="106" text-anchor="middle">metric choice:</text><text x="455" y="118" text-anchor="middle">Euclidean vs cosine</text>
+<rect class="node2" x="400" y="160" width="110" height="34" rx="6"/><text x="455" y="181" text-anchor="middle">vector search / RAG</text>
+<rect class="node2" x="400" y="230" width="110" height="34" rx="6"/><text x="455" y="251" text-anchor="middle">fixes &amp; regularization</text>
+</svg></div>
+<p>You will meet this map again at the end of the lesson — the goal is that every arrow feels earned by then.</p>
+</section>
+
+<section id="u1" class="unit" aria-labelledby="u1t">
+<div class="label">UNIT 1 · THE DIMENSIONALITY OF EVERYTHING</div>
+<h2 id="u1t">Every image, sentence, and click is already a huge vector</h2>
+<p><span class="badge core">CLASS CORE</span> <b>Lede:</b> modern machine learning does not draw pictures of data — it computes with points that live in spaces with thousands of coordinates, and that changes what "near", "far", and "between" mean.</p>
+<p>A <a class="term" href="#g-dim" data-term="g-dim">dimension</a> (or <a class="term" href="#g-feature" data-term="g-feature">feature</a>) is one measurable coordinate of a data point. An image is not "a picture" to an algorithm: it is one number per pixel-channel value. A 256×256 RGB image therefore has 256 × 256 × 3 = <b>196,608</b> dimensions <span class="ptag">source</span>. A text <a class="term" href="#g-embedding" data-term="g-embedding">embedding</a> — a learned vector that represents an item's meaning — typically has 768 dimensions (BERT), 1536 (OpenAI embeddings), or 384–1024 (sentence-transformer families) <span class="ptag">source</span>. A <a class="term" href="#g-recsys" data-term="g-recsys">recommender system</a> represents every user and product as a dense latent vector too <span class="ptag">source</span>.</p>
+<div class="formula"><div class="fx">d = w · h · c</div>
+<ul class="symkey">
+<li><b>w</b> — image width in pixels</li>
+<li><b>h</b> — image height in pixels</li>
+<li><b>c</b> — channels per pixel (3 for RGB, 1 for grayscale, 4 for RGBA)</li>
+<li><b>d</b> — the dimension of the space one image lives in</li>
+<li><b>Why it makes sense:</b> every (row, column, channel) triple is one independent readable number, so the count of triples is the count of coordinates.</li>
+<li><b>How to read the result:</b> d is the address length of each data point — a 256×256×3 image is a point in ℝ<sup>196,608</sup>.</li>
+</ul></div>
+<p><span class="badge deep">DEEP DIVE</span> <span class="ptag">constructed example</span> Here is the number that should bother you: if a grid put just 2 values on every axis of ℝ<sup>196,608</sup>, visiting every point at one billion points per second would take about 10<sup>59,000</sup> years. No dataset, no computer, no century touches that. Yet the images we actually see occupy a vanishingly thin slice of that space. The rest of this lesson is about the consequences of that fact. <span class="ptag">supplemental</span></p>
+<div class="widget" id="w1">
+<div class="label">EXPLORE · DIMENSIONALITY CALCULATOR</div>
+<p class="goal">🎯 Goal: build a sensor and watch its dimensionality — then find a setting that beats 196,608.</p>
+<div class="ctrl-grid">
+<div class="slider-control"><div class="slider-head"><span class="slider-label">width w (pixels)</span><output class="slider-val" id="wVal">256</output></div><div class="slider-track"><input id="dimw" type="range" min="16" max="512" step="16" value="256" aria-label="Sensor width in pixels"></div></div>
+<div class="slider-control"><div class="slider-head"><span class="slider-label">height h (pixels)</span><output class="slider-val" id="hVal">256</output></div><div class="slider-track"><input id="dimh" type="range" min="16" max="512" step="16" value="256" aria-label="Sensor height in pixels"></div></div>
+<div class="slider-control"><div class="slider-head"><span class="slider-label">channels c (1 = gray, 3 = RGB)</span><output class="slider-val" id="cVal">3</output></div><div class="slider-track"><input id="dimc" type="range" min="1" max="4" step="1" value="3" aria-label="Channels per pixel"></div></div>
+</div>
+<div class="readout" id="r1" aria-live="polite"></div>
+</div>
+<p><span class="badge foundation">FOUNDATION</span> One habit before we go on: when this page says "a point in 1000 dimensions," it never means a place you can picture. It means a list of 1000 numbers, and everything we compute — lengths, angles, distances — is arithmetic on those lists.</p>
+<div class="ladder" id="lad1">
+<div class="label">PRACTICE · LADDER 1 — DIMENSIONALITY ARITHMETIC (3 RUNGS)</div>
+<div class="rung">
+<div class="label">RUNG 1 · WORKED EXAMPLE</div>
+<p>What is the dimension of a 320×240 RGB image?</p>
+<div class="worked">d = 320 · 240 · 3 = <b>230,400</b>.<br>Rule used: one coordinate per (row, column, channel) triple.</div>
+</div>
+<div class="rung">
+<div class="label">RUNG 2 · COMPLETION — FILL THE BLANK</div>
+<p>A 128×128 RGBA frame has c = 4 channels. Enter its dimension.</p>
+<div class="numin"><input type="number" id="l1r2in" min="0" max="1000000" step="1" aria-label="Dimension of a 128 by 128 RGBA frame"><button type="button" class="ghost" data-ladder="l1r2">Check</button><button type="button" class="ghost" data-hint="l1r2h">Hint</button></div>
+<div class="hint" id="l1r2h" hidden>128 · 128 = 16,384 positions — each holds 4 numbers.</div>
+<div class="feedback" id="l1r2fb" aria-live="polite"></div>
+</div>
+<div class="rung">
+<div class="label">RUNG 3 · INDEPENDENT</div>
+<p>A 96×96 grayscale frame (c = 1). Enter its dimension.</p>
+<div class="numin"><input type="number" id="l1r3in" min="0" max="1000000" step="1" aria-label="Dimension of a 96 by 96 grayscale frame"><button type="button" class="ghost" data-ladder="l1r3">Check</button><button type="button" class="ghost" data-hint="l1r3h">Hint</button></div>
+<div class="hint" id="l1r3h" hidden>Same rule, but the channel count collapses to 1: 96 · 96 · 1.</div>
+<div class="feedback" id="l1r3fb" aria-live="polite"></div>
+</div>
+</div>
+<div class="check" id="chk1">
+<div class="label">CHECK · UNIT 1</div>
+<p><b>1. Numeric.</b> A depth camera outputs 640×480 frames with c = 4 values per pixel (RGB plus depth). Enter the dimension.</p>
+<div class="numin"><input type="number" id="c1n" min="0" max="5000000" step="1" aria-label="Dimension of a 640 by 480 4-channel frame"><button type="button" data-check="c1n" data-target="c1nfb">Check</button></div>
+<div class="feedback" id="c1nfb" aria-live="polite"></div>
+<p><b>2. Diagnostic choice.</b> A teammate proposes: "Our model is weak — let's append 50 more sensor channels; more dimensions always mean more information, so accuracy must rise." What is the flaw?</p>
+<div class="option-stack">
+<label class="option-item"><input type="radio" name="c1m" value="a"><span class="option-text">No flaw — in high dimensions there is always room for more information.</span></label>
+<label class="option-item"><input type="radio" name="c1m" value="b"><span class="option-text">Extra dimensions only help if they carry signal; irrelevant or redundant ones add noise and instability, and the space they create must be covered with data — this is the curse of dimensionality, Unit 2's subject.</span></label>
+<label class="option-item"><input type="radio" name="c1m" value="c"><span class="option-text">The flaw is arithmetic — 50 channels barely change the dimension, so nothing can happen.</span></label>
+</div>
+<button type="button" data-mcq="c1m" data-target="c1mfb">Check choice</button>
+<div class="feedback" id="c1mfb" aria-live="polite"></div>
+</div>
+<div class="label">CONNECT · WHERE THIS RUNS <span class="badge ml">ML LINK</span></div>
+<p>The embedding widths above are not trivia: every semantic-search or recommendation product compares such long vectors billions of times a day. Hold onto the setup — <i>your data is already a point in a huge space</i> — because Unit 6 shows exactly which machinery (vector search, RAG) runs on it, and Units 2–5 show why naive geometry in that space misleads. <span class="ptag">source</span></p>
+</section>
+
+<section id="u2" class="unit" aria-labelledby="u2t">
+<div class="label">UNIT 2 · THE CURSE OF DIMENSIONALITY</div>
+<h2 id="u2t">Cover a fixed slice of every axis — and the covered space vanishes</h2>
+<p><span class="badge core">CLASS CORE</span> <b>Lede:</b> the <a class="term" href="#g-curse" data-term="g-curse">curse of dimensionality</a> is not one problem but a family of failures — vanishing coverage, sparsity, and exponential data hunger — that all come from the same exponential arithmetic.</p>
+<p>Start with the object the notes use: the <a class="term" href="#g-hypercube" data-term="g-hypercube">unit hypercube</a>, the d-dimensional box where every coordinate lies in [0, 1]. Its volume is 1<sup>d</sup> = 1 in every dimension <span class="ptag">source</span> — the cube itself is harmless, and it is worth being precise here: what explodes with dimension is not the cube's volume but the <i>number of small boxes needed to cover it</i> and the <i>fraction of it</i> that any fixed-size neighborhood covers <span class="ptag">supplemental</span> (the notes' phrase "volume grows exponentially" is tightened here — tagged as an artifact correction).</p>
+<p>Suppose you want a neighborhood that covers a fraction ε of every axis — say ε = 0.01, "the 1% local neighborhood." In d dimensions that neighborhood covers</p>
+<div class="formula"><div class="fx">V(ε, d) = ε<sup>d</sup></div>
+<ul class="symkey">
+<li><b>ε</b> — the fraction of one axis your neighborhood spans</li>
+<li><b>d</b> — the dimension of the space</li>
+<li><b>ε<sup>d</sup></b> — the product of d copies of ε: the covered share of total volume</li>
+<li><b>Why it makes sense:</b> volume in d dimensions multiplies per-axis shares — the box is ε wide in <i>every one</i> of d independent directions.</li>
+<li><b>How to read the result:</b> ε = 0.01 gives 0.0001 in 2-D, 10<sup>−20</sup> in 10-D, and effectively 0 in 100-D — the numbers from the notes' table, reproduced live below.</li>
+</ul></div>
+<div class="formula"><div class="fx">N(ε, d) = (1/ε)<sup>d</sup></div>
+<ul class="symkey">
+<li><b>1/ε</b> — how many ε-sized boxes fit along one axis</li>
+<li><b>(1/ε)<sup>d</sup></b> — boxes needed to tile the whole d-cube at that resolution</li>
+<li><b>Why it makes sense:</b> tiling multiplies counts per axis, just as volume did.</li>
+<li><b>How to read the result:</b> at ε = 0.1, going from 2-D (100 boxes) to 12-D (10<sup>12</sup> boxes) multiplies the work by ten billion — with a dataset that grew not at all.</li>
+</ul></div>
+<div class="predict" id="gate1">
+<div class="label">PREDICT · BEFORE YOU PLAY</div>
+<p>You cover 10% of every axis (ε = 0.1) of a 6-dimensional unit cube. What fraction of the cube's volume do you cover?</p>
+<div class="option-stack">
+<label class="option-item"><input type="radio" name="g1" value="a"><span class="option-text">10% — coverage of the axes adds up to coverage of the cube.</span></label>
+<label class="option-item"><input type="radio" name="g1" value="b"><span class="option-text">60% — six axes at 10% each.</span></label>
+<label class="option-item"><input type="radio" name="g1" value="c"><span class="option-text">0.0001% — a millionth of a percent.</span></label>
+</div>
+<button type="button" data-gate="g1" data-target="w2">Commit answer</button>
+<div class="feedback" id="g1fb" aria-live="polite"></div>
+</div>
+<div class="widget" id="w2" data-locked="true">
+<div class="label">EXPLORE · VOLUME COLLAPSE</div>
+<p class="goal">🎯 Goal: find the dimension where covering 10% of every axis becomes hopeless — and watch the log-scale bar fall.</p>
+<canvas class="viz" id="cv2" aria-label="Volume collapse canvas: on the left, a unit square with a small inner box of side epsilon highlighted; on the right, a horizontal log-scale bar showing the covered fraction epsilon to the power d. A text readout below gives the same numbers." role="img"></canvas>
+<div class="legend-inline"><span class="lg-a">unit cube (side 1)</span><span class="lg-b">covered box (side ε per axis)</span></div>
+<div class="ctrl-grid">
+<div class="slider-control"><div class="slider-head"><span class="slider-label">ε — covered fraction of each axis</span><output class="slider-val" id="epsVal">0.10</output></div><div class="slider-track"><input id="eps" type="range" min="0.05" max="0.5" step="0.01" value="0.10" aria-label="Per-axis covered fraction epsilon"></div></div>
+<div class="slider-control"><div class="slider-head"><span class="slider-label">d — dimension</span><output class="slider-val" id="dvVal">2</output></div><div class="slider-track"><input id="dimd" type="range" min="1" max="20" step="1" value="2" aria-label="Dimension from 1 to 20"></div></div>
+</div>
+<div class="readout" id="r2" aria-live="polite"></div>
+</div>
+<p><span class="badge core">CLASS CORE</span> The same arithmetic explains <a class="term" href="#g-sparsity" data-term="g-sparsity">sparsity</a>. One million points sounds like a lot — until you ask what fraction of [0,1]<sup>1000</sup> they occupy: essentially zero. High-dimensional datasets are mostly empty space <span class="ptag">source</span>. And the data hunger follows: if 10 points per axis felt comfortable in 1-D, the same per-axis comfort needs 10<sup>2</sup> in 2-D, 10<sup>10</sup> in 10-D, and 10<sup>100</sup> in 100-D <span class="ptag">source</span>. Treat those as an illustrative sketch of the growth rate (an honest statement of exponential <a class="term" href="#g-sample" data-term="g-sample">sample complexity</a>), not an exact law — constants depend on the task <span class="ptag">supplemental</span>.</p>
+<div class="ladder" id="lad2">
+<div class="label">PRACTICE · LADDER 2 — COVERED FRACTIONS AND BOX COUNTS (3 RUNGS)</div>
+<div class="rung">
+<div class="label">RUNG 1 · WORKED EXAMPLE</div>
+<p>With ε = 0.5 in 2 dimensions: what volume fraction is covered, and how many ε-boxes tile the cube?</p>
+<div class="worked">Covered fraction = 0.5² = <b>0.25</b>. Boxes needed = (1/0.5)² = 2² = <b>4</b>.<br>Rule used: per-axis shares multiply across dimensions.</div>
+</div>
+<div class="rung">
+<div class="label">RUNG 2 · COMPLETION</div>
+<p>With ε = 0.5 in 6 dimensions: enter the number of ε-boxes needed to tile the cube.</p>
+<div class="numin"><input type="number" id="l2r2in" min="1" max="1000000" step="1" aria-label="Number of half-size boxes in six dimensions"><button type="button" class="ghost" data-ladder="l2r2">Check</button><button type="button" class="ghost" data-hint="l2r2h">Hint</button></div>
+<div class="hint" id="l2r2h" hidden>2 boxes per axis, 6 axes: 2⁶.</div>
+<div class="feedback" id="l2r2fb" aria-live="polite"></div>
+</div>
+<div class="rung">
+<div class="label">RUNG 3 · INDEPENDENT</div>
+<p>With ε = 0.25 in 3 dimensions: enter the number of ε-boxes needed to tile the cube.</p>
+<div class="numin"><input type="number" id="l2r3in" min="1" max="1000000" step="1" aria-label="Number of quarter-size boxes in three dimensions"><button type="button" class="ghost" data-ladder="l2r3">Check</button><button type="button" class="ghost" data-hint="l2r3h">Hint</button></div>
+<div class="hint" id="l2r3h" hidden>1/ε = 4 boxes per axis; raise 4 to the power 3.</div>
+<div class="feedback" id="l2r3fb" aria-live="polite"></div>
+</div>
+</div>
+<div class="check" id="chk2">
+<div class="label">CHECK · UNIT 2</div>
+<p><b>1. Numeric.</b> How many boxes of side ε = 0.1 are needed to tile a 4-dimensional unit cube?</p>
+<div class="numin"><input type="number" id="c2n" min="1" max="1000000" step="1" aria-label="Number of tenth-size boxes in four dimensions"><button type="button" data-check="c2n" data-target="c2nfb">Check</button></div>
+<div class="feedback" id="c2nfb" aria-live="polite"></div>
+<p><b>2. Diagnostic choice.</b> A student reads "in high dimensions, volume grows exponentially" and concludes the unit cube's volume explodes. What is the precise truth?</p>
+<div class="option-stack">
+<label class="option-item"><input type="radio" name="c2m" value="a"><span class="option-text">Right — the unit cube's volume is 1^d, which grows without bound.</span></label>
+<label class="option-item"><input type="radio" name="c2m" value="b"><span class="option-text">The cube's volume stays 1 forever; what explodes is the number of fixed-resolution boxes needed to cover it (and what collapses is the fraction any small neighborhood covers).</span></label>
+<label class="option-item"><input type="radio" name="c2m" value="c"><span class="option-text">The cube's volume actually shrinks to zero, which is why data becomes sparse.</span></label>
+</div>
+<button type="button" data-mcq="c2m" data-target="c2mfb">Check choice</button>
+<div class="feedback" id="c2mfb" aria-live="polite"></div>
+</div>
+<div class="callout info"><strong>Where this is going:</strong> empty space is not just a storage curiosity. In Unit 3 it becomes the reason your nearest neighbors stop being near — the volume you would need to fill with data is exactly the volume where "close" lives.</div>
+<div class="label">CONNECT · WHY "CURSE" <span class="badge ml">ML LINK</span></div>
+<p>Classical algorithms — k-NN, clustering, kernel methods, grid-based density estimates — all implicitly assume that a fixed number of data points tells you something about the local geometry. The exponential arithmetic above is why that assumption fails with dimension, and why the notes call the effect a curse rather than a challenge <span class="ptag">source</span>.</p>
+</section>
+
+<section id="u3" class="unit" aria-labelledby="u3t">
+<div class="label">UNIT 3 · DISTANCE CONCENTRATION</div>
+<h2 id="u3t">In high dimensions, nearest and farthest look the same</h2>
+<p><span class="badge core">CLASS CORE</span> <b>Lede:</b> the question the notes pose — "how do distances behave in high dimensions?" — has a destabilizing answer: distances lose their discriminative power, everything ends up roughly equally far, and neighborhood-based algorithms quietly lose their footing <span class="ptag">source</span>.</p>
+<p><span class="badge foundation">FOUNDATION</span> The tool for asking the question is the <a class="term" href="#g-euclid" data-term="g-euclid">Euclidean distance</a>, the straight-line length between two points:</p>
+<div class="formula"><div class="fx">‖x − y‖ = √( Σ<sub>i</sub> (x<sub>i</sub> − y<sub>i</sub>)² )</div>
+<ul class="symkey">
+<li><b>x<sub>i</sub>, y<sub>i</sub></b> — the i-th coordinates of points x and y</li>
+<li><b>Σ<sub>i</sub></b> — the sum over all d dimensions</li>
+<li><b>√</b> — the square root converting squared length to length</li>
+<li><b>Why it makes sense:</b> per-axis differences are squared (so sign is lost and big gaps dominate), summed, and rooted.</li>
+<li><b>How to read the result:</b> a length in the same units as the coordinates; for random points in [0,1]<sup>d</sup> it grows like √(d/6).</li>
+</ul></div>
+<p><span class="badge deep">DEEP DIVE</span> <span class="ptag">constructed example</span> Here is a number we will use twice: for two <i>independent uniform</i> points in [0,1]<sup>d</sup>, each axis contributes an average squared gap of E[(X−Y)²] = 2·Var(X) = 2·(1/12) = 1/6 (the variance of a uniform [0,1] variable is 1/12; independence makes the per-axis contributions simply add). Summing d of them and taking the root:</p>
+<div class="formula"><div class="fx">E‖X − Y‖² = d/6 &nbsp;⇒&nbsp; typical ‖X − Y‖ ≈ √(d/6)</div>
+<ul class="symkey">
+<li><b>E</b> — the expected value, i.e. the long-run average over random draws</li>
+<li><b>d/6</b> — d axes, each contributing an average squared gap of 1/6</li>
+<li><b>Why it makes sense:</b> squared gaps of independent axes add (linearity of expectation).</li>
+<li><b>How to read the result:</b> at d = 1000 the typical gap is ≈ √166.7 ≈ 12.91 — right where the notes' code experiment lands (13.0006 in its recorded run). Distances grow like √d, but that is not the problem — the <i>spread</i> around that typical value is. <span class="ptag">supplemental</span></li>
+</ul></div>
+<div class="predict" id="gate2">
+<div class="label">PREDICT · BEFORE YOU PLAY</div>
+<p>Take 500 random points in the unit cube of d = 1000 dimensions and one query point. The ratio (d_farthest − d_nearest) / d_nearest — how big do you expect it to be?</p>
+<div class="option-stack">
+<label class="option-item"><input type="radio" name="g2" value="a"><span class="option-text">Much less than 1 — with 500 points, some must be close.</span></label>
+<label class="option-item"><input type="radio" name="g2" value="b"><span class="option-text">Close to 1 — nearest and farthest are nearly the same distance.</span></label>
+<label class="option-item"><input type="radio" name="g2" value="c"><span class="option-text">Much greater than 1 — the farthest point is far, the nearest is very close.</span></label>
+</div>
+<button type="button" data-gate="g2" data-target="w3">Commit answer</button>
+<div class="feedback" id="g2fb" aria-live="polite"></div>
+</div>
+<div class="widget" id="w3" data-locked="true">
+<div class="label">EXPLORE · DISTANCE LAB (MONTE-CARLO)</div>
+<p class="goal">🎯 Goal: watch nearest and farthest merge as d grows — and find where the contrast ratio drops below 10%.</p>
+<canvas class="viz" id="cv3" aria-label="Distance histogram canvas: the distribution of Euclidean distances from a query point to 500 random points in a d-dimensional unit cube, with the nearest and farthest distances marked. The x-axis rescales with dimension. A text readout below gives the same numbers." role="img"></canvas>
+<div class="legend-inline"><span class="lg-a">distance histogram</span><span class="lg-b">nearest neighbor</span><span class="lg-c">farthest neighbor</span></div>
+<div class="ctrl-grid">
+<div class="slider-control"><div class="slider-head"><span class="slider-label">d — dimension (1 → 1000, log scale)</span><output class="slider-val" id="ddVal">1</output></div><div class="slider-track"><input id="ddim" type="range" min="0" max="8" step="1" value="0" aria-label="Dimension index from 1 to 1000"></div></div>
+<div class="slider-control"><div class="slider-head"><span class="slider-label">experiment run (reseed)</span><output class="slider-val" id="drVal">1</output></div><div class="slider-track"><input id="dseed" type="range" min="1" max="20" step="1" value="1" aria-label="Random experiment run number"></div></div>
+</div>
+<div class="readout" id="r3" aria-live="polite"></div>
+</div>
+<p><span class="badge foundation">FOUNDATION</span> Why does this happen? Each axis contributes a small <i>random</i> piece to the squared distance. Adding many independent random pieces does not produce a wild total — it produces a predictable one, because fluctuations partially cancel: deviations above and below each axis's average tend to offset across dimensions. This is the mechanism behind the <a class="term" href="#g-clt" data-term="g-clt">Central Limit Theorem</a>, and the phenomenon has a name — <a class="term" href="#g-concentration" data-term="g-concentration">concentration of measure</a> — that Unit 5 defines properly and turns into a tool. Consider that a promise: the informal explanation you just read becomes quantitative there. <span class="ptag">source</span></p>
+<p><span class="badge core">CLASS CORE</span> The casualty is <a class="term" href="#g-knn" data-term="g-knn">KNN</a> (k-nearest neighbors), which classifies a point by voting among its closest training points. KNN's entire logic assumes "nearby points are meaningfully more similar than far ones." Under concentration that premise fails: the nearest neighbor is barely closer than the farthest, so "nearest" carries almost no information — classification degrades and retrieval becomes unstable <span class="ptag">source</span>. The same collapse weakens high-dimensional clustering and density estimation, where "dense region" stops being well-defined <span class="ptag">source</span>.</p>
+<div class="ladder" id="lad3">
+<div class="label">PRACTICE · LADDER 3 — TYPICAL DISTANCES (3 RUNGS)</div>
+<div class="rung">
+<div class="label">RUNG 1 · WORKED EXAMPLE</div>
+<p>Two uniform random points in [0,1]<sup>6</sup>. What is the typical Euclidean distance between them?</p>
+<div class="worked">E‖X − Y‖² = d/6 = 6/6 = 1, so typical distance = √1 = <b>1</b>.<br>Rule used: average squared gap 1/6 per axis, summed over d axes, then square root.</div>
+</div>
+<div class="rung">
+<div class="label">RUNG 2 · COMPLETION</div>
+<p>Two uniform random points in [0,1]<sup>24</sup>. Enter the typical Euclidean distance (2 decimal places).</p>
+<div class="numin"><input type="number" id="l3r2in" min="0" max="20" step="0.01" aria-label="Typical distance in 24 dimensions"><button type="button" class="ghost" data-ladder="l3r2">Check</button><button type="button" class="ghost" data-hint="l3r2h">Hint</button></div>
+<div class="hint" id="l3r2h" hidden>d/6 = 24/6 = 4. Now take the square root.</div>
+<div class="feedback" id="l3r2fb" aria-live="polite"></div>
+</div>
+<div class="rung">
+<div class="label">RUNG 3 · INDEPENDENT</div>
+<p>Two uniform random points in [0,1]<sup>54</sup>. Enter the typical Euclidean distance (2 decimal places).</p>
+<div class="numin"><input type="number" id="l3r3in" min="0" max="20" step="0.01" aria-label="Typical distance in 54 dimensions"><button type="button" class="ghost" data-ladder="l3r3">Check</button><button type="button" class="ghost" data-hint="l3r3h">Hint</button></div>
+<div class="hint" id="l3r3h" hidden>54/6 = 9 — and 9 is a perfect square.</div>
+<div class="feedback" id="l3r3fb" aria-live="polite"></div>
+</div>
+</div>
+<div class="check" id="chk3">
+<div class="label">CHECK · UNIT 3</div>
+<p><b>1. Numeric.</b> Two uniform random points in [0,1]<sup>12</sup>. Enter the typical Euclidean distance (2 decimal places).</p>
+<div class="numin"><input type="number" id="c3n" min="0" max="20" step="0.01" aria-label="Typical distance in 12 dimensions"><button type="button" data-check="c3n" data-target="c3nfb">Check</button></div>
+<div class="feedback" id="c3nfb" aria-live="polite"></div>
+<p><b>2. Diagnostic choice.</b> A classmate explains distance concentration like this: "In high dimensions, points actively push away from each other, so nothing is ever close." What is wrong with that explanation?</p>
+<div class="option-stack">
+<label class="option-item"><input type="radio" name="c3m" value="a"><span class="option-text">Nothing — repulsion is the accepted mathematical model of the effect.</span></label>
+<label class="option-item"><input type="radio" name="c3m" value="b"><span class="option-text">There is no repulsion. The squared distance is a sum of many small independent random gaps; such sums concentrate near their average, so all pairwise distances land in a narrow band — no force is needed for the effect.</span></label>
+<label class="option-item"><input type="radio" name="c3m" value="c"><span class="option-text">Points actually pull toward each other in high dimensions; the classmate has the sign backwards.</span></label>
+</div>
+<button type="button" data-mcq="c3m" data-target="c3mfb">Check choice</button>
+<div class="feedback" id="c3mfb" aria-live="polite"></div>
+<p><b>3. Explain in your own words.</b> Why do distances concentrate when you add up many small independent random contributions? Write your answer from memory, then compare with the model answer and grade yourself honestly.</p>
+<button type="button" class="ghost" data-explain="exp1">Reveal model answer</button>
+<div class="explain-reveal" id="exp1" hidden>A distance is built axis by axis: each of the d squared gaps is a small random number with its own ups and downs. When you add many independent random numbers, their fluctuations partially cancel — a gap above average on one axis is offset by a gap below average on another — so the <i>total</i> lands close to the sum of the averages and its relative spread shrinks as d grows. Every pairwise distance therefore sits in a narrow band around the same typical value, and the difference between "near" and "far" loses meaning. The relative spread of the sum shrinks roughly like 1/√d — Unit 5 makes this quantitative.</div>
+<div class="feedback" id="exp1fb" aria-live="polite"></div>
+</div>
+<div class="label">CONNECT · WHAT BREAKS <span class="badge ml">ML LINK</span></div>
+<p>KNN classifiers, nearest-neighbor retrieval, distance-based anomaly detection, and k-means-style clustering all lean on distance contrast. The notes' verdict — "distance itself becomes less meaningful" — is not a reason to give up on geometry; it is the reason the <i>choice of geometry</i> (next unit) and the <i>shape of the space</i> (Unit 5) matter so much <span class="ptag">source</span>.</p>
+</section>
+
+<section id="u4" class="unit" aria-labelledby="u4t">
+<div class="label">UNIT 4 · METRIC CHOICE: EUCLIDEAN VS COSINE</div>
+<h2 id="u4t">Cosine compares direction and ignores magnitude</h2>
+<p><span class="badge core">CLASS CORE</span> <b>Lede:</b> if distances blur together, the way out is to measure what concentration does not flatten — <i>orientation</i>. That is why the metric comparison in the notes ends with cosine as the embedding-workhorse <span class="ptag">source</span>.</p>
+<p><span class="badge foundation">FOUNDATION</span> Two ingredients. The <a class="term" href="#g-dot" data-term="g-dot">dot product</a> x·y multiplies matching coordinates and adds: it is large when the vectors point the same way. The <a class="term" href="#g-cosine" data-term="g-cosine">cosine similarity</a> normalizes that alignment by the vectors' lengths, leaving a pure measure of the angle between them (the notes' LaTeX for this formula is corrupted in the source; this is the intended equation, tagged as an artifact correction):</p>
+<div class="formula"><div class="fx">cos θ = (x · y) / (‖x‖ ‖y‖)</div>
+<ul class="symkey">
+<li><b>x · y</b> — the dot product: Σ<sub>i</sub> x<sub>i</sub>y<sub>i</sub></li>
+<li><b>‖x‖, ‖y‖</b> — the lengths of the two vectors</li>
+<li><b>θ</b> — the angle between them</li>
+<li><b>Why it makes sense:</b> dividing by the lengths strips away "how big" and keeps only "how aligned" — cos θ = 1 same direction, 0 perpendicular, −1 opposite.</li>
+<li><b>How to read the result:</b> a pure number in [−1, 1]; for embeddings, closer to 1 usually means semantically closer.</li>
+</ul></div>
+<div class="predict" id="gate3">
+<div class="label">PREDICT · BEFORE YOU PLAY</div>
+<p>Pick two vectors at random, each with 1000 coordinates drawn uniformly from [0, 1]. What is their cosine similarity likely to be?</p>
+<div class="option-stack">
+<label class="option-item"><input type="radio" name="g3" value="a"><span class="option-text">≈ 0 — random vectors should be near-perpendicular, like random arrows in 2-D.</span></label>
+<label class="option-item"><input type="radio" name="g3" value="b"><span class="option-text">≈ 0.5 — halfway: some alignment, some not.</span></label>
+<label class="option-item"><input type="radio" name="g3" value="c"><span class="option-text">≈ 0.75 — surprisingly similar in direction.</span></label>
+</div>
+<button type="button" data-gate="g3" data-target="w4">Commit answer</button>
+<div class="feedback" id="g3fb" aria-live="polite"></div>
+</div>
+<div class="widget" id="w4" data-locked="true">
+<div class="label">EXPLORE · METRIC LAB</div>
+<p class="goal">🎯 Goal: change w's length and watch which numbers move — and which don't.</p>
+<canvas class="viz" id="cv4" aria-label="Metric lab canvas: a fixed reference vector v along the x-axis and your vector w at an angle you control with a length you control, with the angle arc drawn between them. A text readout below gives the dot product, cosine, and Euclidean distance." role="img"></canvas>
+<div class="legend-inline"><span class="lg-a">v (reference)</span><span class="lg-b">w (yours)</span></div>
+<div class="ctrl-grid">
+<div class="slider-control"><div class="slider-head"><span class="slider-label">θ — direction of w (degrees)</span><output class="slider-val" id="thVal">60</output></div><div class="slider-track"><input id="theta" type="range" min="0" max="360" step="5" value="60" aria-label="Angle of w in degrees"></div></div>
+<div class="slider-control"><div class="slider-head"><span class="slider-label">L — length of w</span><output class="slider-val" id="lenVal">2</output></div><div class="slider-track"><input id="wlen" type="range" min="0.3" max="3" step="0.1" value="2" aria-label="Length of w"></div></div>
+<div class="slider-control"><div class="slider-head"><span class="slider-label">random-1000-D run (cell 11 replication)</span><output class="slider-val" id="mrVal">1</output></div><div class="slider-track"><input id="mseed" type="range" min="1" max="10" step="1" value="1" aria-label="Random 1000-dimensional experiment run"></div></div>
+</div>
+<div class="readout" id="r4" aria-live="polite"></div>
+</div>
+<p><span class="badge deep">DEEP DIVE</span> <span class="ptag">constructed example</span> The lab's surprise line: doubling L leaves cos θ untouched but changes the Euclidean distance — <a class="term" href="#g-scaleinv" data-term="g-scaleinv">scale invariance</a> is the whole trick. And the two metrics are secretly the same question once lengths are removed. Normalize both vectors to <a class="term" href="#g-unitvec" data-term="g-unitvec">unit vectors</a>:</p>
+<div class="formula"><div class="fx">x̂ = x / ‖x‖</div>
+<ul class="symkey">
+<li><b>x</b> — any nonzero vector</li>
+<li><b>‖x‖</b> — its length</li>
+<li><b>x̂</b> — the unit vector pointing the same way (length 1); this is the normalization the notes prescribe for embeddings</li>
+</ul></div>
+<div class="formula"><div class="fx">‖x̂ − ŷ‖² = 2 − 2 cos θ</div>
+<ul class="symkey">
+<li><b>x̂, ŷ</b> — the unit-vector versions of x and y</li>
+<li><b>θ</b> — the angle between them</li>
+<li><b>Why it makes sense:</b> ‖x̂ − ŷ‖² = ‖x̂‖² + ‖ŷ‖² − 2 x̂·ŷ = 1 + 1 − 2cos θ, since each unit vector has length 1 and x̂·ŷ = cos θ.</li>
+<li><b>How to read the result:</b> on normalized vectors, Euclidean distance and cosine disagreement are the <i>same measurement</i> — sorting by either gives the identical ranking. This is exactly why "normalize, then use Euclidean" and "use cosine" are interchangeable inside vector-search systems <span class="ptag">supplemental</span>.</li>
+</ul></div>
+<p><span class="badge core">CLASS CORE</span> The notes' comparison table, grounded in what you have now computed: <span class="ptag">source</span></p>
+<table class="apptable"><caption class="label">Metric behavior in high dimensions</caption><tr><th>Metric</th><th>High-d behavior</th><th>Why (mechanism)</th></tr>
+<tr><td>Euclidean</td><td>Sensitive / unstable</td><td>Sum of d squared gaps concentrates; magnitude noise is not removed</td></tr>
+<tr><td>Manhattan</td><td>Still affected</td><td>Sum of d absolute gaps — same concentration mechanism</td></tr>
+<tr><td>Cosine</td><td>More robust (for embeddings)</td><td>Normalized: magnitude drops out; orientation carries the signal</td></tr>
+<tr><td>Dot product</td><td>Scale dependent</td><td>Raw x·y mixes direction with vector length</td></tr></table>
+<p><span class="badge foundation">FOUNDATION</span> One honest caveat before you trust the lab's experiment line: two uniform [0,1] vectors have cosine ≈ 0.75 not because "high dimensions make things similar," but because all their coordinates are nonnegative — every vector lives in the <a class="term" href="#g-orthant" data-term="g-orthant">positive orthant</a>, so all arrows lean into the same corner of the space. Center the data (coordinates in [−1, 1]) and the cosine of random pairs concentrates near 0 instead. The lesson: cosine's high-d behavior depends on where the data lives — for real embeddings, which are trained so direction carries meaning, that dependence is exactly what makes cosine the right default. <span class="ptag">supplemental</span></p>
+<div class="ladder" id="lad4">
+<div class="label">PRACTICE · LADDER 4 — COSINE COMPUTATION (3 RUNGS)</div>
+<div class="rung">
+<div class="label">RUNG 1 · WORKED EXAMPLE</div>
+<p>Compute cos θ for x = (1, 2) and y = (2, 1).</p>
+<div class="worked">x·y = 1·2 + 2·1 = 4; ‖x‖ = √5, ‖y‖ = √5 → cos θ = 4/(√5·√5) = 4/5 = <b>0.8</b>.<br>Rule used: dot product over the product of lengths.</div>
+</div>
+<div class="rung">
+<div class="label">RUNG 2 · COMPLETION</div>
+<p>Compute cos θ for x = (1, 0) and y = (1, 1). Enter 3 decimal places.</p>
+<div class="numin"><input type="number" id="l4r2in" min="-1" max="1" step="0.001" aria-label="Cosine of angle between (1,0) and (1,1)"><button type="button" class="ghost" data-ladder="l4r2">Check</button><button type="button" class="ghost" data-hint="l4r2h">Hint</button></div>
+<div class="hint" id="l4r2h" hidden>x·y = 1; ‖x‖ = 1, ‖y‖ = √2 → 1/√2 ≈ 0.707.</div>
+<div class="feedback" id="l4r2fb" aria-live="polite"></div>
+</div>
+<div class="rung">
+<div class="label">RUNG 3 · INDEPENDENT</div>
+<p>Compute cos θ for x = (3, 0) and y = (0, 3). Enter 3 decimal places.</p>
+<div class="numin"><input type="number" id="l4r3in" min="-1" max="1" step="0.001" aria-label="Cosine of angle between (3,0) and (0,3)"><button type="button" class="ghost" data-ladder="l4r3">Check</button><button type="button" class="ghost" data-hint="l4r3h">Hint</button></div>
+<div class="hint" id="l4r3h" hidden>The dot product of perpendicular axes is 0 — no lengths needed.</div>
+<div class="feedback" id="l4r3fb" aria-live="polite"></div>
+</div>
+</div>
+<div class="check" id="chk4">
+<div class="label">CHECK · UNIT 4</div>
+<p><b>1. Numeric.</b> Compute cos θ for x = (2, 0) and y = (1, 1). Enter 3 decimal places.</p>
+<div class="numin"><input type="number" id="c4n" min="-1" max="1" step="0.001" aria-label="Cosine of angle between (2,0) and (1,1)"><button type="button" data-check="c4n" data-target="c4nfb">Check</button></div>
+<div class="feedback" id="c4nfb" aria-live="polite"></div>
+<p><b>2. Diagnostic choice.</b> You double every coordinate of embedding x but not y. What happens to cos(x, y) and to ‖x − y‖?</p>
+<div class="option-stack">
+<label class="option-item"><input type="radio" name="c4m" value="a"><span class="option-text">Cosine is unchanged (it divides the dot product by both lengths, which double together); Euclidean distance changes.</span></label>
+<label class="option-item"><input type="radio" name="c4m" value="b"><span class="option-text">Both are unchanged — metrics do not care about scaling.</span></label>
+<label class="option-item"><input type="radio" name="c4m" value="c"><span class="option-text">Cosine doubles and the distance doubles.</span></label>
+</div>
+<button type="button" data-mcq="c4m" data-target="c4mfb">Check choice</button>
+<div class="feedback" id="c4mfb" aria-live="polite"></div>
+</div>
+<div class="label">CONNECT · WHY EMBEDDING SYSTEMS PREFER COSINE <span class="badge ml">ML LINK</span></div>
+<p>Modern embedding systems are trained so that <i>semantic direction</i> — not raw magnitude — carries the meaning; the notes flag magnitude as the unstable part and direction as the signal <span class="ptag">source</span>. Cosine (equivalently, Euclidean distance after normalization — the identity you proved above) reads exactly that signal, which is why it dominates similarity search, recommendation, and retrieval. <span class="ptag">source</span></p>
+</section>
+
+<section id="u5" class="unit" aria-labelledby="u5t">
+<div class="label">UNIT 5 · CONCENTRATION OF MEASURE</div>
+<h2 id="u5t">Random high-dimensional vectors all have nearly the same length</h2>
+<p><span class="badge core">CLASS CORE</span> <b>Lede:</b> <a class="term" href="#g-concentration" data-term="g-concentration">concentration of measure</a> is the deep rule behind everything so far: in high dimensions, random quantities stop wandering and hug their mean <span class="ptag">source</span>.</p>
+<p><span class="badge foundation">FOUNDATION</span> The standard model for studying this is the standard Gaussian vector: x ~ N(0, I<sub>d</sub>) means each of the d coordinates is drawn independently from the bell curve with mean 0 and variance 1 — no coordinate influences another. A <a class="term" href="#g-montecarlo" data-term="g-montecarlo">Monte-Carlo simulation</a> measures such quantities by drawing many random samples and looking at the resulting distribution; that is exactly what the lab below does, live, with a seeded generator so every number is reproducible <span class="ptag">supplemental</span>.</p>
+<p><span class="badge core">CLASS CORE</span> The notes claim the vector's length is nearly constant — and give its value. The source writes ‖x‖ ≈ d, but that is a transcription typo: the correct statement (verifiable in the lab below) is <span class="ptag">source, artifact correction</span>:</p>
+<div class="formula"><div class="fx">‖x‖ ≈ √d &nbsp;&nbsp;for x ~ N(0, I<sub>d</sub>)</div>
+<ul class="symkey">
+<li><b>x</b> — a Gaussian vector with d independent standard coordinates</li>
+<li><b>N(0, I<sub>d</sub>)</b> — the standard Gaussian distribution in d dimensions</li>
+<li><b>‖x‖</b> — the <a class="term" href="#g-norm" data-term="g-norm">norm</a>: the vector's length, √(Σ x<sub>i</sub>²)</li>
+<li><b>√d</b> — the typical (root-mean-square) length: each of d coordinates contributes variance 1</li>
+<li><b>Why it makes sense:</b> ‖x‖² = Σ x<sub>i</sub>² is a sum of d unit-variance terms, so it averages to d — the length therefore orbits √d.</li>
+<li><b>How to read the result:</b> at d = 1000, essentially every random vector has length between roughly 30 and 33 (√1000 ≈ 31.62). Almost all vectors have nearly the same length <span class="ptag">source</span>.</li>
+</ul></div>
+<div class="formula"><div class="fx">σ/μ ≈ 1/√(2d)</div>
+<ul class="symkey">
+<li><b>μ</b> — the mean of ‖x‖ (approximately √d)</li>
+<li><b>σ</b> — the standard deviation of ‖x‖</li>
+<li><b>σ/μ</b> — the <i>relative</i> spread: how big the fluctuations are compared with the value itself</li>
+<li><b>Why it makes sense:</b> the sum ‖x‖² has relative spread ~√(2/d); the square root softens it slightly.</li>
+<li><b>How to read the result:</b> at d = 1000 the relative spread is ≈ 2.2%; at d = 1,000,000 it would be ≈ 0.07%. "Concentration" is this number shrinking <span class="ptag">supplemental</span>.</li>
+</ul></div>
+<div class="widget" id="w5">
+<div class="label">EXPLORE · SHELL LAB (MONTE-CARLO)</div>
+<p class="goal">🎯 Goal: watch the spread of lengths collapse as d grows — and check σ/μ against 1/√(2d).</p>
+<canvas class="viz" id="cv5" aria-label="Norm histogram canvas: the distribution of lengths of 400 random Gaussian vectors in d dimensions, with a vertical marker at the theoretical length root of d. The spread of the histogram shrinks as dimension grows. A text readout below gives the same numbers." role="img"></canvas>
+<div class="legend-inline"><span class="lg-a">sampled lengths ‖x‖</span><span class="lg-b">√d marker</span></div>
+<div class="ctrl-grid">
+<div class="slider-control"><div class="slider-head"><span class="slider-label">d — dimension (2 → 1000, log scale)</span><output class="slider-val" id="sdVal">4</output></div><div class="slider-track"><input id="sdim" type="range" min="0" max="6" step="1" value="1" aria-label="Dimension index from 2 to 1000"></div></div>
+<div class="slider-control"><div class="slider-head"><span class="slider-label">experiment run (reseed)</span><output class="slider-val" id="srVal">1</output></div><div class="slider-track"><input id="sseed" type="range" min="1" max="10" step="1" value="1" aria-label="Random experiment run number"></div></div>
+</div>
+<div class="readout" id="r5" aria-live="polite"></div>
+</div>
+<p><span class="badge core">CLASS CORE</span> Now the geometric picture the notes draw. Where does a random point of the d-ball sit? In 2-D, area spreads throughout the disk. In high dimensions, a point at radius r·R (with r &lt; 1) is missing volume in <i>every one</i> of d directions at once — and doing that in all d directions together is exponentially unlikely. The result: most of the volume of a high-dimensional sphere lies in a thin shell near its surface; the interior contributes almost nothing. High-dimensional spheres are mostly hollow <span class="ptag">source</span>. This is the <a class="term" href="#g-shell" data-term="g-shell">thin shell phenomenon</a> — and it is the <b>payoff of Unit 3's promise</b>: two random points of the ball both live in the shell at radius ≈ R, so the angle between them — not their radius — controls their distance, and typical distances land in a narrow band. Concentration explains distance concentration, neighborhood instability, and why normalization (Unit 4) is so effective: lengths were never where the information was <span class="ptag">source</span>.</p>
+<p><span class="badge deep">DEEP DIVE</span> <span class="ptag">supplemental</span> Statistically, the moral is broader than lengths: high-dimensional randomness becomes <i>structured</i>. Quantities that are sums of many weakly-dependent contributions — distances, dot products, attention scores — all concentrate. That is why the notes call this "one of the deepest ideas in high-dimensional geometry" <span class="ptag">source</span>.</p>
+<details class="ext"><summary>EXTENSION · where the 1/√(2d) comes from (optional)</summary>
+<p>‖x‖² = Σ x<sub>i</sub>² is a sum of d independent squared standard Gaussians — a Chi-square(d) variable with mean d and variance 2d. The standard deviation of ‖x‖² is √(2d), a relative spread of √(2d)/d = √2/√d around d. Since ‖x‖ = √(‖x‖²) changes slowly (square root) compared with ‖x‖², the length's relative spread works out to ≈ 1/√(2d). The lab's measured σ/μ tracks this prediction — compare them live.</p>
+</details>
+<div class="ladder" id="lad5">
+<div class="label">PRACTICE · LADDER 5 — NORM ESTIMATES (3 RUNGS)</div>
+<div class="rung">
+<div class="label">RUNG 1 · WORKED EXAMPLE</div>
+<p>A Gaussian vector in d = 100 dimensions. What length do you expect?</p>
+<div class="worked">Typical length ≈ √100 = <b>10</b>.<br>Rule used: ‖x‖ ≈ √d for N(0, I<sub>d</sub>) vectors.</div>
+</div>
+<div class="rung">
+<div class="label">RUNG 2 · COMPLETION</div>
+<p>A Gaussian vector in d = 400 dimensions. Enter the expected length.</p>
+<div class="numin"><input type="number" id="l5r2in" min="0" max="2000" step="0.5" aria-label="Expected length in 400 dimensions"><button type="button" class="ghost" data-ladder="l5r2">Check</button><button type="button" class="ghost" data-hint="l5r2h">Hint</button></div>
+<div class="hint" id="l5r2h" hidden>√400 — a perfect square again.</div>
+<div class="feedback" id="l5r2fb" aria-live="polite"></div>
+</div>
+<div class="rung">
+<div class="label">RUNG 3 · INDEPENDENT</div>
+<p>A Gaussian vector in d = 900 dimensions. Enter the expected length.</p>
+<div class="numin"><input type="number" id="l5r3in" min="0" max="2000" step="0.1" aria-label="Expected length in 900 dimensions"><button type="button" class="ghost" data-ladder="l5r3">Check</button><button type="button" class="ghost" data-hint="l5r3h">Hint</button></div>
+<div class="hint" id="l5r3h" hidden>√900 — and its relative spread 1/√(2·900) ≈ 2.4% would be the follow-up.</div>
+<div class="feedback" id="l5r3fb" aria-live="polite"></div>
+</div>
+</div>
+<div class="check" id="chk5">
+<div class="label">CHECK · UNIT 5</div>
+<p><b>1. Numeric.</b> A Gaussian vector in d = 144 dimensions. Enter its expected length.</p>
+<div class="numin"><input type="number" id="c5n" min="0" max="2000" step="0.1" aria-label="Expected length in 144 dimensions"><button type="button" data-check="c5n" data-target="c5nfb">Check</button></div>
+<div class="feedback" id="c5nfb" aria-live="polite"></div>
+<p><b>2. Diagnostic choice.</b> Why does the thin shell explain distance concentration?</p>
+<div class="option-stack">
+<label class="option-item"><input type="radio" name="c5m" value="a"><span class="option-text">Because points in the shell are squeezed together by pressure from the empty interior.</span></label>
+<label class="option-item"><input type="radio" name="c5m" value="b"><span class="option-text">Because all points sit at nearly the same radius (√d), so their pairwise distances are set almost entirely by the angle between them — which varies in a narrow, concentrated range.</span></label>
+<label class="option-item"><input type="radio" name="c5m" value="c"><span class="option-text">Because the shell is where the few data points live, so distances there are artificially similar.</span></label>
+</div>
+<button type="button" data-mcq="c5m" data-target="c5mfb">Check choice</button>
+<div class="feedback" id="c5mfb" aria-live="polite"></div>
+<p><b>3. Explain in your own words.</b> Why does the thin shell explain distance concentration? Write your answer from memory, then compare with the model answer.</p>
+<button type="button" class="ghost" data-explain="exp2">Reveal model answer</button>
+<div class="explain-reveal" id="exp2" hidden>A random point of a high-d ball is almost never deep inside it: volume concentrates near the surface, so essentially every point — and therefore every pair of points — sits at radius ≈ √d (for Gaussian vectors, literally so). When both points of a pair have (nearly) the same radius, the law of cosines says their distance is determined almost entirely by the angle between them. Angles between random directions also concentrate, so all pairwise distances fall into a narrow band: nearest ≈ farthest. The shell removes radius as a source of variation, and concentration removes the rest.</div>
+<div class="feedback" id="exp2fb" aria-live="polite"></div>
+</div>
+<div class="label">CONNECT · WHY NORMALIZATION WORKS <span class="badge ml">ML LINK</span></div>
+<p>The notes list four things the shell explains: distance concentration, unstable neighborhoods, embedding-geometry behavior, and the effectiveness of normalization <span class="ptag">source</span>. The last one is the actionable one: if all meaningful variation lives in direction, removing magnitude costs nothing and buys stability — Unit 4's x̂ = x/‖x‖, now with a reason.</p>
+</section>
+
+<section id="u6" class="unit" aria-labelledby="u6t">
+<div class="label">UNIT 6 · FROM CURSE TO CRAFT</div>
+<h2 id="u6t">Know the failure, pick the fix, and see where modern AI leans on the geometry</h2>
+<p><span class="badge core">CLASS CORE</span> <b>Lede:</b> the four effects you have now measured — exponential space, sparsity, equalized distances, concentrated lengths — arrive together, and every practical rule in this unit is a response to one of them <span class="ptag">source</span>.</p>
+<p><span class="badge core">CLASS CORE</span> The notes' summary of what simultaneously happens as dimension increases: (1) space expands exponentially — volume explodes; (2) data becomes sparse — points occupy a negligible fraction of the space; (3) distances become similar — nearest ≈ farthest; (4) values concentrate — norms stabilize around their mean. The final result: everything becomes statistically uniform, and the classical assumptions (nearby points are meaningful, local neighborhoods are informative, distances discriminate) break <span class="ptag">source</span>.</p>
+<p><span class="badge core">CLASS CORE</span> The failure list, with the mechanism attached to each entry:</p>
+<table class="apptable"><caption class="label">Implications and their mechanisms</caption><tr><th>Implication</th><th>What goes wrong</th><th>Mechanism (from Units 2–5)</th></tr>
+<tr><td>KNN problems</td><td>Poor classification, unstable retrieval</td><td>Distance concentration removes contrast between neighbors (U3)</td></tr>
+<tr><td>Clustering challenges</td><td>Clusters overlap; density estimation weakens</td><td>Sparsity + equalized distances make "dense region" ill-defined (U2, U3)</td></tr>
+<tr><td>Feature explosion</td><td>Noise, redundancy, instability</td><td>Every added axis multiplies the space data must cover (U2)</td></tr>
+<tr><td>Overfitting</td><td>Memorization instead of learning</td><td>Enormous flexibility of high-d models; combated by regularization, dropout, normalization, massive data (U2)</td></tr></table>
+<p><span class="badge core">CLASS CORE</span> The fixes, in the order the notes give them:</p>
+<p><b>1. Feature selection.</b> Remove irrelevant features, noisy dimensions, and redundant variables; the notes promise better generalization, interpretability, and computational efficiency <span class="ptag">source</span>. This attacks the curse at its root — fewer axes, less exponential space to cover.</p>
+<p><b>2. Dimensionality reduction.</b> Compress information, preserve structure, remove redundancy <span class="ptag">source</span>. You know the flagship tool from Class 2: <a class="term" href="#g-pca" data-term="g-pca">PCA</a> projects onto maximum-variance directions — the notes' demo reduces 100 points living in 1000 dimensions to 10 components <span class="ptag">source</span>. What the notes do not say, and what you can now ask: <i>how much</i> of the data survives such a projection? That is a variance budget:</p>
+<div class="formula"><div class="fx">R(k) = Σ<sub>i≤k</sub> λ<sub>i</sub> / Σ<sub>i</sub> λ<sub>i</sub></div>
+<ul class="symkey">
+<li><b>λ<sub>i</sub></b> — the variance carried by the i-th principal direction (its eigenvalue, from Class 2)</li>
+<li><b>k</b> — how many directions you keep</li>
+<li><b>R(k)</b> — the retained fraction of total variance</li>
+<li><b>Why it makes sense:</b> PCA's directions are sorted by variance, so R(k) is the share of the data's spread your k directions explain.</li>
+<li><b>How to read the result:</b> R(10) = 0.9 means "ten numbers per point carry 90% of what varied" — that is compression with a price tag you can read. <span class="ptag">supplemental</span></li>
+</ul></div>
+<div class="widget" id="w6">
+<div class="label">EXPLORE · VARIANCE BUDGET</div>
+<p class="goal">🎯 Goal: buy variance with components — how few do you need for 90%?</p>
+<div class="ctrl-grid">
+<div class="slider-control"><div class="slider-head"><span class="slider-label">λ₁ (variance of PC1)</span><output class="slider-val" id="v1Val">6.0</output></div><div class="slider-track"><input id="lam1" type="range" min="0.1" max="10" step="0.1" value="6" aria-label="Variance of first component"></div></div>
+<div class="slider-control"><div class="slider-head"><span class="slider-label">λ₂ (variance of PC2)</span><output class="slider-val" id="v2Val">2.5</output></div><div class="slider-track"><input id="lam2" type="range" min="0.1" max="10" step="0.1" value="2.5" aria-label="Variance of second component"></div></div>
+<div class="slider-control"><div class="slider-head"><span class="slider-label">λ₃ (variance of PC3)</span><output class="slider-val" id="v3Val">1.0</output></div><div class="slider-track"><input id="lam3" type="range" min="0.1" max="10" step="0.1" value="1" aria-label="Variance of third component"></div></div>
+<div class="slider-control"><div class="slider-head"><span class="slider-label">λ₄ (variance of PC4)</span><output class="slider-val" id="v4Val">0.5</output></div><div class="slider-track"><input id="lam4" type="range" min="0.1" max="10" step="0.1" value="0.5" aria-label="Variance of fourth component"></div></div>
+<div class="slider-control"><div class="slider-head"><span class="slider-label">k — components kept</span><output class="slider-val" id="kVal">2</output></div><div class="slider-track"><input id="kk" type="range" min="1" max="4" step="1" value="2" aria-label="Components kept"></div></div>
+</div>
+<div class="readout" id="r6" aria-live="polite"></div>
+</div>
+<p><b>3. Visualization projections — with a scope warning.</b> <a class="term" href="#g-tsne" data-term="g-tsne">t-SNE</a> preserves local neighborhoods and is used for visualization and embedding inspection; <a class="term" href="#g-umap" data-term="g-umap">UMAP</a> is faster and preserves more global structure <span class="ptag">source</span>. Neither is a distance-preserving map of the original space — cluster sizes and inter-cluster gaps in a t-SNE plot are artifacts of the projection, not measurements <span class="ptag">supplemental</span>.</p>
+<p><b>4. Regularization.</b> The notes' methods table, with each method's target named:</p>
+<table class="apptable"><caption class="label">Regularization methods (source cell 21)</caption><tr><th>Method</th><th>Purpose</th><th>Intuition</th></tr>
+<tr><td>L1</td><td>Sparsity</td><td>Pushes weak weights to exactly zero — automatic feature selection</td></tr>
+<tr><td>L2</td><td>Weight control</td><td>Keeps weights small so no single axis dominates</td></tr>
+<tr><td>Dropout</td><td>Robustness</td><td>Randomly disable units in training so no co-dependence forms</td></tr>
+<tr><td>Early stopping</td><td>Prevent memorization</td><td>Halt before the model starts fitting noise</td></tr></table>
+<p><b>5. Metric selection + embedding normalization.</b> Prefer cosine similarity and normalized embeddings over raw Euclidean distance; normalize x̂ = x/‖x‖ to remove magnitude instability while preserving semantic direction (Unit 4's formula, now also Unit 5's payoff) <span class="ptag">source</span>. (The notes' normalization LaTeX is corrupted in the source; the formula above is the intended one, tagged as an artifact correction.)</p>
+<div class="ladder" id="lad6">
+<div class="label">PRACTICE · LADDER 6 — RETAINED VARIANCE (3 RUNGS)</div>
+<div class="rung">
+<div class="label">RUNG 1 · WORKED EXAMPLE</div>
+<p>PCA gives variances λ = (5, 3, 2). You keep k = 1 component. What fraction of the variance is retained?</p>
+<div class="worked">R(1) = 5/(5+3+2) = 5/10 = <b>50%</b>.<br>Rule used: kept variances over total variance.</div>
+</div>
+<div class="rung">
+<div class="label">RUNG 2 · COMPLETION</div>
+<p>λ = (8, 1, 1), keep k = 1. Enter the retained percentage (0–100).</p>
+<div class="numin"><input type="number" id="l6r2in" min="0" max="100" step="1" aria-label="Retained variance percentage"><button type="button" class="ghost" data-ladder="l6r2">Check</button><button type="button" class="ghost" data-hint="l6r2h">Hint</button></div>
+<div class="hint" id="l6r2h" hidden>Total variance = 10; the first component carries 8 of it.</div>
+<div class="feedback" id="l6r2fb" aria-live="polite"></div>
+</div>
+<div class="rung">
+<div class="label">RUNG 3 · INDEPENDENT</div>
+<p>λ = (2, 2, 2, 2), keep k = 2. Enter the retained percentage (0–100).</p>
+<div class="numin"><input type="number" id="l6r3in" min="0" max="100" step="1" aria-label="Retained variance percentage"><button type="button" class="ghost" data-ladder="l6r3">Check</button><button type="button" class="ghost" data-hint="l6r3h">Hint</button></div>
+<div class="hint" id="l6r3h" hidden>When variances are equal, keeping half the components keeps half the variance — no "free" compression.</div>
+<div class="feedback" id="l6r3fb" aria-live="polite"></div>
+</div>
+</div>
+<div class="check" id="chk6">
+<div class="label">CHECK · UNIT 6</div>
+<p><b>1. Numeric.</b> PCA gives variances λ = (4, 3, 2, 1) and you keep k = 2 components. Enter the retained percentage (0–100).</p>
+<div class="numin"><input type="number" id="c6n" min="0" max="100" step="1" aria-label="Retained variance percentage"><button type="button" data-check="c6n" data-target="c6nfb">Check</button></div>
+<div class="feedback" id="c6nfb" aria-live="polite"></div>
+<p><b>2. Diagnostic choice.</b> A teammate says: "Our 1000-dimensional data will not overfit — with so many dimensions there is plenty of room, so we can skip regularization." What is wrong?</p>
+<div class="option-stack">
+<label class="option-item"><input type="radio" name="c6m" value="a"><span class="option-text">Nothing — more dimensions genuinely reduce overfitting risk.</span></label>
+<label class="option-item"><input type="radio" name="c6m" value="b"><span class="option-text">It is backwards: high-dimensional models have enormous flexibility and can memorize training data easily; that is exactly why the notes prescribe regularization, dropout, normalization, and lots of data.</span></label>
+<label class="option-item"><input type="radio" name="c6m" value="c"><span class="option-text">Overfitting is impossible in high dimensions because data is too sparse to memorize.</span></label>
+</div>
+<button type="button" data-mcq="c6m" data-target="c6mfb">Check choice</button>
+<div class="feedback" id="c6mfb" aria-live="polite"></div>
+</div>
+<div class="callout good"><strong>Payoff of Unit 1's promise:</strong> the vectors whose dimensionality you computed in Unit 1 are the vectors this machinery runs on — semantic search, recommendations, and retrieval all compare embeddings in exactly the spaces you can now reason about.</div>
+<div class="label">CONNECT · WHERE MODERN AI LEANS ON THIS GEOMETRY <span class="badge ml">ML LINK</span></div>
+<p><b>Semantic embeddings.</b> Transformer models learn a geometry where meaning maps to direction: words with similar meanings cluster nearby, and relationships become vector arithmetic — the notes' example is King − Man + Woman ≈ Queen. Embeddings encode geometry, semantics, and relationships inside high-dimensional spaces <span class="ptag">source</span>.</p>
+<p><b>Attention.</b> Transformers compute token-to-token similarity with dot products and normalized attention scores: a softmax — a squashing step that turns a list of scores into weights summing to 1 — decides how much each token attends to the others. High-dimensional geometry directly affects attention stability and how tokens interact <span class="ptag">source</span>. The concentration you measured in Unit 5 is one reason attention scores need careful scaling at large dimension <span class="ptag">supplemental</span>.</p>
+<p><b>Latent spaces.</b> Generative models — VAEs, diffusion models, GANs — learn compressed latent manifolds: complex high-dimensional data represented inside lower-dimensional meaningful structure <span class="ptag">source</span>.</p>
+<p><b>Retrieval-augmented generation (RAG).</b> The pipeline Query → Embedding → Vector Search → Retrieved Context runs entirely on the geometry of this lesson: an embedding of the question, a similarity search over stored embeddings, and the retrieved context handed to the generator <span class="ptag">source</span>.</p>
+<p><b>Vector databases.</b> Pinecone, Weaviate, FAISS, and Milvus operate entirely on high-dimensional geometry — storing embeddings and retrieving by similarity, often with approximate nearest-neighbor indexes that trade a little accuracy for enormous speed <span class="ptag">source</span>. Note what they do <i>not</i> do: they do not compress documents to 2-D — the 2-D projections you saw are for human eyes, not for retrieval <span class="ptag">supplemental</span>.</p>
+</section>
+
+<section id="synthesis" aria-labelledby="synt">
+<div class="label">SYNTHESIS · THE WHOLE PICTURE</div>
+<h2 id="synt">Four effects, one exponential arithmetic</h2>
+<p>Covering a fixed slice of every axis costs ε<sup>d</sup> — so space explodes (Unit 2), data becomes sparse, and sample demands grow exponentially. Sums of many small random gaps concentrate — so distances equalize (Unit 3), lengths pin to √d, and the sphere hollows into a shell (Unit 5). Cosine survives by measuring the one thing concentration leaves alone: direction (Unit 4). And the craft — feature selection, PCA's variance budget, regularization, normalization — is the set of moves that either shrinks d or chooses metrics that respect the geometry (Unit 6) <span class="ptag">source</span>.</p>
+<p>The map from the start, revisited — every arrow should now feel earned:</p>
+<div class="map"><svg viewBox="0 0 560 300" role="img" aria-label="The same concept map as the orientation unit: dimensionality to volume, sparsity, sample cost; sparsity and the sum-of-many-random-parts mechanism to distance concentration; thin shell to the mechanism and to normalization; distance concentration and normalization to metric choice; metric choice to vector search; distance concentration to ML failures and fixes.">
+<defs><marker id="arrow2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#66727f"/></marker></defs>
+<path class="edge" style="marker-end:url(#arrow2)" d="M95,54 L95,88"/><path class="edge" style="marker-end:url(#arrow2)" d="M95,124 L95,158"/><path class="edge" style="marker-end:url(#arrow2)" d="M95,194 L95,228"/>
+<path class="edge" style="marker-end:url(#arrow2)" d="M275,54 L275,88"/><path class="edge" style="marker-end:url(#arrow2)" d="M275,124 L275,158"/><path class="edge" style="marker-end:url(#arrow2)" d="M275,194 L275,228"/>
+<path class="edge" style="marker-end:url(#arrow2)" d="M455,54 L455,88"/><path class="edge" style="marker-end:url(#arrow2)" d="M455,124 L455,158"/>
+<path class="edge" style="marker-end:url(#arrow2)" d="M150,177 L218,177"/>
+<path class="edge" style="marker-end:url(#arrow2)" d="M330,37 L398,37"/>
+<path class="edge" style="marker-end:url(#arrow2)" d="M330,168 L398,102"/>
+<path class="edge" style="marker-end:url(#arrow2)" d="M330,247 L398,247"/>
+<path class="edge" style="marker-end:url(#arrow2)" d="M150,37 L185,37 L185,247 L218,247"/>
+<path class="edge" style="marker-end:url(#arrow2)" d="M510,44 L545,44 L545,177 L512,177"/>
+<path class="edge" style="marker-end:url(#arrow2)" d="M510,107 L528,107 L528,247 L512,247"/>
+<rect class="node" x="40" y="20" width="110" height="34" rx="6"/><text x="95" y="41" text-anchor="middle">dimensionality</text>
+<rect class="node" x="40" y="90" width="110" height="34" rx="6"/><text x="95" y="111" text-anchor="middle">volume ε^d</text>
+<rect class="node" x="40" y="160" width="110" height="34" rx="6"/><text x="95" y="181" text-anchor="middle">sparsity</text>
+<rect class="nodef" x="40" y="230" width="110" height="34" rx="6"/><text x="95" y="251" text-anchor="middle">sample cost</text>
+<rect class="nodef" x="220" y="20" width="110" height="34" rx="6"/><text x="275" y="41" text-anchor="middle">thin shell</text>
+<rect class="nodef" x="220" y="90" width="110" height="34" rx="6"/><text x="275" y="106" text-anchor="middle">sum of many</text><text x="275" y="118" text-anchor="middle">random parts</text>
+<rect class="node" x="220" y="160" width="110" height="34" rx="6"/><text x="275" y="181" text-anchor="middle">distances equalize</text>
+<rect class="node2" x="220" y="230" width="110" height="34" rx="6"/><text x="275" y="251" text-anchor="middle">KNN / clustering fail</text>
+<rect class="nodef" x="400" y="20" width="110" height="34" rx="6"/><text x="455" y="41" text-anchor="middle">normalization</text>
+<rect class="node" x="400" y="90" width="110" height="34" rx="6"/><text x="455" y="106" text-anchor="middle">metric choice:</text><text x="455" y="118" text-anchor="middle">Euclidean vs cosine</text>
+<rect class="node2" x="400" y="160" width="110" height="34" rx="6"/><text x="455" y="181" text-anchor="middle">vector search / RAG</text>
+<rect class="node2" x="400" y="230" width="110" height="34" rx="6"/><text x="455" y="251" text-anchor="middle">fixes &amp; regularization</text>
+</svg></div>
+</section>
+
+<section id="mastery" aria-labelledby="mast">
+<div class="label">MASTERY · INTERLEAVED ASSESSMENT</div>
+<h2 id="mast">Mixed check across all units</h2>
+<p>These eight items mix all units — no worked numbers from the lesson are reused. Tag your confidence honestly (sure / think so / guessing): confident misses go straight to your review list.</p>
+<div class="mastery">
+<div class="mitem">
+<p><b>M1 · Transfer (U1).</b> A scanning microscope outputs 512×512 frames with c = 1 (grayscale). Enter the dimension of one frame.</p>
+<div class="numin"><input type="number" id="m1in" min="0" max="2000000" step="1" aria-label="M1 numeric answer"><button type="button" data-masteryn="m1" data-target="m1fb">Check</button></div>
+<div class="conf"><label><input type="radio" name="m1c" value="sure"> sure</label><label><input type="radio" name="m1c" value="mid"> think so</label><label><input type="radio" name="m1c" value="guess"> guessing</label></div>
+<div class="feedback" id="m1fb" aria-live="polite"></div>
+</div>
+<div class="mitem">
+<p><b>M2 · Transfer (U2).</b> A coarse grid covers 50% of every axis of a 10-dimensional unit cube. Roughly what fraction of the cube's volume does it cover?</p>
+<div class="option-stack">
+<label class="option-item"><input type="radio" name="m2" value="a"><span class="option-text">About 10% — half the axes contribute.</span></label>
+<label class="option-item"><input type="radio" name="m2" value="b"><span class="option-text">About 0.1% — 0.5¹⁰ = 1/1024.</span></label>
+<label class="option-item"><input type="radio" name="m2" value="c"><span class="option-text">About 50% — coverage is set by the per-axis fraction alone.</span></label>
+</div>
+<button type="button" data-mastery="m2" data-target="m2fb">Check</button>
+<div class="conf"><label><input type="radio" name="m2c" value="sure"> sure</label><label><input type="radio" name="m2c" value="mid"> think so</label><label><input type="radio" name="m2c" value="guess"> guessing</label></div>
+<div class="feedback" id="m2fb" aria-live="polite"></div>
+</div>
+<div class="mitem">
+<p><b>M3 · Reasoning (U3).</b> The best one-sentence explanation of distance concentration is:</p>
+<div class="option-stack">
+<label class="option-item"><input type="radio" name="m3" value="a"><span class="option-text">Pairwise distances are sums of many small independent random gaps; such sums concentrate near their average, so all distances land in a narrow band.</span></label>
+<label class="option-item"><input type="radio" name="m3" value="b"><span class="option-text">Points drift apart over time as dimensions accumulate.</span></label>
+<label class="option-item"><input type="radio" name="m3" value="c"><span class="option-text">Floating-point precision degrades in high dimensions, making distances noisy.</span></label>
+</div>
+<button type="button" data-mastery="m3" data-target="m3fb">Check</button>
+<div class="conf"><label><input type="radio" name="m3c" value="sure"> sure</label><label><input type="radio" name="m3c" value="mid"> think so</label><label><input type="radio" name="m3c" value="guess"> guessing</label></div>
+<div class="feedback" id="m3fb" aria-live="polite"></div>
+</div>
+<div class="mitem">
+<p><b>M4 · Transfer (U4).</b> A music service embeds songs in 100 dimensions. The same recording appears twice: once mastered louder (every coordinate roughly doubled). Which retrieval metric will still rank the two versions as identical, and why?</p>
+<div class="option-stack">
+<label class="option-item"><input type="radio" name="m4" value="a"><span class="option-text">Cosine — it divides by the lengths, so uniform scaling cancels; Euclidean distance grows.</span></label>
+<label class="option-item"><input type="radio" name="m4" value="b"><span class="option-text">Euclidean — it measures raw overlap, which doubling preserves.</span></label>
+<label class="option-item"><input type="radio" name="m4" value="c"><span class="option-text">Neither — scaling always changes both metrics.</span></label>
+</div>
+<button type="button" data-mastery="m4" data-target="m4fb">Check</button>
+<div class="conf"><label><input type="radio" name="m4c" value="sure"> sure</label><label><input type="radio" name="m4c" value="mid"> think so</label><label><input type="radio" name="m4c" value="guess"> guessing</label></div>
+<div class="feedback" id="m4fb" aria-live="polite"></div>
+</div>
+<div class="mitem">
+<p><b>M5 · Numeric (U5).</b> A Gaussian vector in d = 40,000 dimensions. Enter its expected length.</p>
+<div class="numin"><input type="number" id="m5in" min="0" max="10000" step="0.5" aria-label="M5 numeric answer"><button type="button" data-masteryn="m5" data-target="m5fb">Check</button></div>
+<div class="conf"><label><input type="radio" name="m5c" value="sure"> sure</label><label><input type="radio" name="m5c" value="mid"> think so</label><label><input type="radio" name="m5c" value="guess"> guessing</label></div>
+<div class="feedback" id="m5fb" aria-live="polite"></div>
+</div>
+<div class="mitem">
+<p><b>M6 · Error identification (U6).</b> A proposal: "Keep all 10,000 features, run Euclidean k-NN on unnormalized embeddings with no regularization. It is robust because more dimensions and more neighbors always mean more robustness." Which single option names the deepest flaw?</p>
+<div class="option-stack">
+<label class="option-item"><input type="radio" name="m6" value="a"><span class="option-text">k-NN is too old an algorithm to use in production.</span></label>
+<label class="option-item"><input type="radio" name="m6" value="b"><span class="option-text">It stacks three failure modes at once: irrelevant features multiply the space (curse), unnormalized Euclidean distances concentrate and mix in magnitude noise, and the no-regularization claim inverts the real overfitting risk of high-d models.</span></label>
+<label class="option-item"><input type="radio" name="m6" value="c"><span class="option-text">The only flaw is computational cost — the statistics are fine.</span></label>
+</div>
+<button type="button" data-mastery="m6" data-target="m6fb">Check</button>
+<div class="conf"><label><input type="radio" name="m6c" value="sure"> sure</label><label><input type="radio" name="m6c" value="mid"> think so</label><label><input type="radio" name="m6c" value="guess"> guessing</label></div>
+<div class="feedback" id="m6fb" aria-live="polite"></div>
+</div>
+<div class="mitem">
+<p><b>M7 · Reasoning (U4/U5).</b> After every embedding in a database is normalized to unit length, ranking by Euclidean distance and ranking by cosine similarity give the identical ordering. Why?</p>
+<div class="option-stack">
+<label class="option-item"><input type="radio" name="m7" value="a"><span class="option-text">Because ‖x̂ − ŷ‖² = 2 − 2cos θ — for unit vectors the squared distance is a strictly decreasing function of cosine alone.</span></label>
+<label class="option-item"><input type="radio" name="m7" value="b"><span class="option-text">Because normalization makes all vectors parallel.</span></label>
+<label class="option-item"><input type="radio" name="m7" value="c"><span class="option-text">Because Euclidean distance is undefined for unit vectors.</span></label>
+</div>
+<button type="button" data-mastery="m7" data-target="m7fb">Check</button>
+<div class="conf"><label><input type="radio" name="m7c" value="sure"> sure</label><label><input type="radio" name="m7c" value="mid"> think so</label><label><input type="radio" name="m7c" value="guess"> guessing</label></div>
+<div class="feedback" id="m7fb" aria-live="polite"></div>
+</div>
+<div class="mitem">
+<p><b>M8 · Transfer (U2/U6).</b> A team stores 1,000,000 song embeddings in 100 dimensions. An engineer warns: "Our space is almost entirely empty — we are running out of room." What is the correct reading of sparsity here?</p>
+<div class="option-stack">
+<label class="option-item"><input type="radio" name="m8" value="a"><span class="option-text">Sparsity is a statistical statement — a million points cover a vanishing fraction of the space, so distance-based methods lose contrast; storage is fine, and the responses are more data, dimensionality reduction, or metric choice.</span></label>
+<label class="option-item"><input type="radio" name="m8" value="b"><span class="option-text">The disk really is running out — each empty dimension consumes storage.</span></label>
+<label class="option-item"><input type="radio" name="m8" value="c"><span class="option-text">Sparsity means the embeddings should be stored as 2-D projections.</span></label>
+</div>
+<button type="button" data-mastery="m8" data-target="m8fb">Check</button>
+<div class="conf"><label><input type="radio" name="m8c" value="sure"> sure</label><label><input type="radio" name="m8c" value="mid"> think so</label><label><input type="radio" name="m8c" value="guess"> guessing</label></div>
+<div class="feedback" id="m8fb" aria-live="polite"></div>
+</div>
+<div class="msum" id="msum" aria-live="polite"></div>
+</div>
+</section>
+<section id="review" aria-labelledby="revt">
+<div class="label">REVIEW · YOUR PERSONAL QUEUE</div>
+<h2 id="revt">What to revisit next time</h2>
+<div class="reviewbox">
+<div id="reviewList"></div>
+<p class="storagenote" id="storageNote">Progress is saved only in this browser (localStorage) — nothing leaves your device. <button type="button" class="ghost" id="resetProgress">Reset progress</button></p>
+</div>
+</section>
+
+<section id="glossary" aria-labelledby="glost">
+<div class="label">GLOSSARY · EVERY TERM, SIX FIELDS</div>
+<h2 id="glost">Terms used in this lesson</h2>
+<dl class="gloss-list">
+<div class="gitem"><dt id="g-dim">dimension</dt><dd><b>Simple:</b> one measurable coordinate of a data point. <b>Precise:</b> an axis of the vector space a data point lives in; the count of axes is d. <b>Intuition:</b> the length of a point's address. <b>Example:</b> a 256×256 RGB image has 196,608 dimensions. <b>Related:</b> feature, embedding. <b>In practice/ML:</b> "dimensionality" of models and embeddings is a core design choice.</dd></div>
+<div class="gitem"><dt id="g-feature">feature</dt><dd><b>Simple:</b> one input quantity a model can read. <b>Precise:</b> a single measurable attribute represented as one coordinate of the input vector. <b>Intuition:</b> one question about the item ("how bright is this pixel?"). <b>Example:</b> pixel intensity, word count, sensor reading. <b>Related:</b> dimension, feature selection. <b>In practice/ML:</b> feature engineering and feature explosion both live here.</dd></div>
+<div class="gitem"><dt id="g-embedding">embedding</dt><dd><b>Simple:</b> a learned vector that represents an item's meaning. <b>Precise:</b> a point in a learned latent space where geometric closeness encodes semantic similarity. <b>Intuition:</b> meaning as a location. <b>Example:</b> BERT's 768-dim sentence vectors; OpenAI's 1536-dim embeddings. <b>Related:</b> latent space, semantic similarity. <b>In practice/ML:</b> search, recommendation, RAG.</dd></div>
+<div class="gitem"><dt id="g-recsys">recommender system</dt><dd><b>Simple:</b> predicts which items a user will want. <b>Precise:</b> a model representing users and items as latent vectors whose alignment predicts preference. <b>Intuition:</b> "people like you liked this." <b>Example:</b> Netflix/Spotify suggestions. <b>Related:</b> embedding, dot product. <b>In practice/ML:</b> industrial-scale high-d similarity.</dd></div>
+<div class="gitem"><dt id="g-curse">curse of dimensionality</dt><dd><b>Simple:</b> the set of things that go wrong as dimension grows. <b>Precise:</b> the family of phenomena — vanishing coverage (ε^d), sparsity, exponential sample complexity, distance concentration — arising from exponential scaling of volume with d. <b>Intuition:</b> data can never fill a space that grows by multiplication. <b>Example:</b> a 1% neighborhood covers 0.0001 of a 2-D cube but ~10⁻²⁰ of a 10-D one. <b>Related:</b> sparsity, distance concentration. <b>In practice/ML:</b> motivates dimensionality reduction and metric choice.</dd></div>
+<div class="gitem"><dt id="g-hypercube">unit hypercube</dt><dd><b>Simple:</b> the d-dimensional box with all coordinates between 0 and 1. <b>Precise:</b> [0,1]<sup>d</sup>; volume 1<sup>d</sup> = 1 in every dimension. <b>Intuition:</b> the standard "room" that data is placed in. <b>Example:</b> random uniform data lives there. <b>Related:</b> coverage, curse of dimensionality. <b>In practice/ML:</b> normalized feature ranges often map to it.</dd></div>
+<div class="gitem"><dt id="g-sparsity">sparsity</dt><dd><b>Simple:</b> fixed data occupies almost none of the available space. <b>Precise:</b> for fixed N, the fraction of [0,1]<sup>d</sup> within any fixed distance of the data shrinks toward 0 as d grows. <b>Intuition:</b> mostly empty space. <b>Example:</b> a million points in 1000-D cover essentially zero of the cube. <b>Related:</b> curse of dimensionality, sample complexity. <b>In practice/ML:</b> why high-d density estimates and clustering weaken.</dd></div>
+<div class="gitem"><dt id="g-sample">sample complexity</dt><dd><b>Simple:</b> how much data a task needs. <b>Precise:</b> the number of samples required to achieve a fixed statistical quality; here it grows exponentially with d. <b>Intuition:</b> every new axis multiplies the homework. <b>Example:</b> the 10 → 10² → 10¹⁰ per-axis sketch. <b>Related:</b> sparsity, curse of dimensionality. <b>In practice/ML:</b> why more features demand exponentially more data.</dd></div>
+<div class="gitem"><dt id="g-euclid">Euclidean distance</dt><dd><b>Simple:</b> straight-line distance between two points. <b>Precise:</b> ‖x − y‖ = √(Σᵢ (xᵢ − yᵢ)²). <b>Intuition:</b> how far you would fly, ignoring walls. <b>Example:</b> ‖(3,4) − (0,0)‖ = 5. <b>Related:</b> Manhattan distance, cosine similarity. <b>In practice/ML:</b> default metric of k-means and k-NN; unstable in high d.</dd></div>
+<div class="gitem"><dt id="g-manhattan">Manhattan distance</dt><dd><b>Simple:</b> city-block distance — add up per-axis gaps. <b>Precise:</b> ‖x − y‖₁ = Σᵢ |xᵢ − yᵢ|. <b>Intuition:</b> walking a grid, not flying. <b>Example:</b> |3−0| + |4−0| = 7. <b>Related:</b> Euclidean distance. <b>In practice/ML:</b> still concentration-affected in high d (source's table).</dd></div>
+<div class="gitem"><dt id="g-montecarlo">Monte-Carlo simulation</dt><dd><b>Simple:</b> measure something by simulating it many times at random. <b>Precise:</b> estimating a distribution or expectation by repeated random sampling. <b>Intuition:</b> poll the randomness instead of solving the integral. <b>Example:</b> this lesson's distance and norm histograms. <b>Related:</b> expectation, Gaussian distribution. <b>In practice/ML:</b> evaluation, A/B analysis, Bayesian methods.</dd></div>
+<div class="gitem"><dt id="g-knn">KNN (k-nearest neighbors)</dt><dd><b>Simple:</b> classify a point by voting among its closest training points. <b>Precise:</b> a non-parametric method predicting from the labels of the k training points with smallest distance to the query. <b>Intuition:</b> "tell me who your neighbors are." <b>Example:</b> k = 5 vote among five closest images. <b>Related:</b> Euclidean distance, distance concentration. <b>In practice/ML:</b> fails as distance contrast collapses (Unit 3).</dd></div>
+<div class="gitem"><dt id="g-clt">Central Limit Theorem (CLT)</dt><dd><b>Simple:</b> sums of many small random things behave predictably. <b>Precise:</b> the normalized sum of many independent random variables converges to a Gaussian; its spread grows like √n while its mean grows like n. <b>Intuition:</b> fluctuations cancel across many contributions. <b>Example:</b> 1000 per-axis squared gaps summing to a tight band near d/6. <b>Related:</b> concentration of measure. <b>In practice/ML:</b> the mechanism behind distance concentration.</dd></div>
+<div class="gitem"><dt id="g-concentration">concentration of measure</dt><dd><b>Simple:</b> in high dimensions, random quantities hug their mean. <b>Precise:</b> the phenomenon that functions of many weakly-dependent random inputs have relative fluctuations shrinking as dimension grows (e.g., σ/μ ≈ 1/√(2d) for Gaussian norms). <b>Intuition:</b> high-dimensional randomness is surprisingly stable. <b>Example:</b> nearly all Gaussian vectors in 1000-D have length 30–33. <b>Related:</b> thin shell, CLT. <b>In practice/ML:</b> explains distance concentration and normalization's effectiveness.</dd></div>
+<div class="gitem"><dt id="g-dot">dot product</dt><dd><b>Simple:</b> multiply matching coordinates and add. <b>Precise:</b> x·y = Σᵢ xᵢyᵢ = ‖x‖‖y‖cos θ. <b>Intuition:</b> an alignment meter — big when vectors point the same way. <b>Example:</b> (1,2)·(2,1) = 4. <b>Related:</b> cosine similarity, attention. <b>In practice/ML:</b> the core operation of similarity search and attention.</dd></div>
+<div class="gitem"><dt id="g-cosine">cosine similarity</dt><dd><b>Simple:</b> how aligned two vectors are, ignoring their lengths. <b>Precise:</b> cos θ = (x·y)/(‖x‖‖y‖) ∈ [−1, 1]. <b>Intuition:</b> compare directions, not sizes. <b>Example:</b> random [0,1]¹⁰⁰⁰ pairs score ≈ 0.75 (positive orthant). <b>Related:</b> dot product, unit vector, scale invariance. <b>In practice/ML:</b> the default metric for embedding retrieval.</dd></div>
+<div class="gitem"><dt id="g-scaleinv">scale invariance</dt><dd><b>Simple:</b> unchanged when a vector is stretched. <b>Precise:</b> cos(αx, y) = cos(x, y) for any α &gt; 0. <b>Intuition:</b> the angle does not care how long the arrow is. <b>Example:</b> doubling every coordinate of x leaves cos(x, y) fixed. <b>Related:</b> cosine similarity, unit vector. <b>In practice/ML:</b> why cosine removes magnitude instability.</dd></div>
+<div class="gitem"><dt id="g-unitvec">unit vector / normalization</dt><dd><b>Simple:</b> a vector scaled to length 1. <b>Precise:</b> x̂ = x/‖x‖ with ‖x̂‖ = 1 (x ≠ 0). <b>Intuition:</b> keep the direction, drop the size. <b>Example:</b> (3,4) normalizes to (0.6, 0.8). <b>Related:</b> scale invariance, ‖x̂ − ŷ‖² = 2 − 2cos θ. <b>In practice/ML:</b> standard preprocessing before vector search.</dd></div>
+<div class="gitem"><dt id="g-orthant">positive orthant</dt><dd><b>Simple:</b> the region where every coordinate is ≥ 0. <b>Precise:</b> {x : xᵢ ≥ 0 for all i}. <b>Intuition:</b> one corner of the space that all nonnegative data shares. <b>Example:</b> pixel intensities, counts, the notes' random experiment. <b>Related:</b> cosine similarity. <b>In practice/ML:</b> explains why random nonnegative vectors have high cosine (≈ 0.75).</dd></div>
+<div class="gitem"><dt id="g-norm">norm</dt><dd><b>Simple:</b> a vector's length. <b>Precise:</b> ‖x‖ = √(Σᵢ xᵢ²) (the Euclidean norm). <b>Intuition:</b> distance from the origin. <b>Example:</b> ‖(3,4)‖ = 5; Gaussian vectors in d dims have ‖x‖ ≈ √d. <b>Related:</b> unit vector, concentration of measure. <b>In practice/ML:</b> weight norms in regularization; embedding norms in normalization.</dd></div>
+<div class="gitem"><dt id="g-shell">thin shell</dt><dd><b>Simple:</b> most of a high-d sphere's volume sits just under its surface. <b>Precise:</b> the volume of the d-ball concentrates in a shell of relative thickness shrinking as d grows; interior radii carry exponentially little volume. <b>Intuition:</b> high-dimensional spheres are mostly hollow. <b>Example:</b> random Gaussian points sit at radius ≈ √d, never deep inside. <b>Related:</b> concentration of measure. <b>In practice/ML:</b> explains distance concentration and why normalization is safe.</dd></div>
+<div class="gitem"><dt id="g-pca">PCA (principal component analysis)</dt><dd><b>Simple:</b> compress data onto its most variable directions. <b>Precise:</b> orthogonal projection onto the top-k eigenvectors of the covariance matrix (equivalently top-k right singular vectors of centered data). <b>Intuition:</b> keep the directions the data actually spreads along. <b>Example:</b> the notes' demo: 100 points in 1000 dims → 10 components. <b>Related:</b> variance budget, SVD (Class 2). <b>In practice/ML:</b> standard first-line dimensionality reduction.</dd></div>
+<div class="gitem"><dt id="g-tsne">t-SNE</dt><dd><b>Simple:</b> a 2-D picture of high-d data that keeps neighbors together. <b>Precise:</b> a nonlinear projection minimizing the divergence between local neighborhood distributions. <b>Intuition:</b> a map for your eyes, not for measurement. <b>Example:</b> plotting BERT embeddings of sentences. <b>Related:</b> UMAP, dimensionality reduction. <b>In practice/ML:</b> embedding inspection; cluster sizes/gaps in the plot are artifacts.</dd></div>
+<div class="gitem"><dt id="g-umap">UMAP</dt><dd><b>Simple:</b> a faster neighbor-preserving projection that keeps more global shape. <b>Precise:</b> manifold-learning projection based on a fuzzy topological graph. <b>Intuition:</b> t-SNE's faster cousin with more global structure. <b>Example:</b> large embedding visualizations. <b>Related:</b> t-SNE. <b>In practice/ML:</b> modern embedding visualization (source cell 21).</dd></div>
+<div class="gitem"><dt id="g-overfit">overfitting</dt><dd><b>Simple:</b> memorizing the training data instead of learning the pattern. <b>Precise:</b> low training error with high generalization error, enabled by excess model flexibility. <b>Intuition:</b> acing the practice test, failing the real one. <b>Example:</b> a high-d model fitting noise perfectly. <b>Related:</b> regularization, feature explosion. <b>In practice/ML:</b> a central risk the notes attach to high dimensionality.</dd></div>
+<div class="gitem"><dt id="g-featsel">feature selection</dt><dd><b>Simple:</b> keep only the useful inputs. <b>Precise:</b> choosing a subset of features to remove irrelevant, noisy, or redundant dimensions. <b>Intuition:</b> fewer axes, less exponential space. <b>Example:</b> dropping 9,900 dead pixels' worth of features. <b>Related:</b> curse of dimensionality, L1 regularization. <b>In practice/ML:</b> improves generalization, interpretability, cost.</dd></div>
+<div class="gitem"><dt id="g-reg">regularization</dt><dd><b>Simple:</b> penalties and training tricks that prevent memorization. <b>Precise:</b> constraints or penalties (L1, L2), stochastic methods (dropout), and stopping rules added to training to control effective model complexity. <b>Intuition:</b> guardrails for a model with too much room. <b>Example:</b> the notes' table: L1 sparsity, L2 weight control, dropout robustness, early stopping. <b>Related:</b> overfitting, feature selection. <b>In practice/ML:</b> mandatory in high-d training regimes.</dd></div>
+<div class="gitem"><dt id="g-vectordb">vector database</dt><dd><b>Simple:</b> a store that finds items by embedding similarity. <b>Precise:</b> a system (e.g., Pinecone, Weaviate, FAISS, Milvus) indexing high-d vectors for approximate nearest-neighbor retrieval. <b>Intuition:</b> search by meaning, not keywords. <b>Example:</b> retrieving documents for RAG. <b>Related:</b> embedding, cosine similarity, RAG. <b>In practice/ML:</b> infrastructure of semantic search.</dd></div>
+<div class="gitem"><dt id="g-attention">attention</dt><dd><b>Simple:</b> each token looks at every other token and weighs how relevant it is. <b>Precise:</b> transformer mechanism computing softmax-normalized similarity (scaled dot products) between token representations. <b>Intuition:</b> a similarity-weighted average across the sequence. <b>Example:</b> the T in GPT. <b>Related:</b> dot product, semantic similarity. <b>In practice/ML:</b> high-d geometry affects its stability (source cell 23).</dd></div>
+<div class="gitem"><dt id="g-latent">latent space</dt><dd><b>Simple:</b> the learned compressed coordinate system behind a model's outputs. <b>Precise:</b> a lower-dimensional manifold where generative models (VAEs, diffusion, GANs) represent complex data. <b>Intuition:</b> the backstage where the real structure lives. <b>Example:</b> decoding a point of a VAE's space into an image. <b>Related:</b> embedding, representation learning. <b>In practice/ML:</b> generative AI operates here.</dd></div>
+<div class="gitem"><dt id="g-rag">RAG (retrieval-augmented generation)</dt><dd><b>Simple:</b> look up relevant context, then generate with it. <b>Precise:</b> pipeline: query → embedding → vector search over an index → retrieved context injected into the generator. <b>Intuition:</b> an open-book exam for an LLM. <b>Example:</b> chatbots grounded in company docs. <b>Related:</b> vector database, embedding. <b>In practice/ML:</b> dominant pattern for grounded generation.</dd></div>
+<div class="gitem"><dt id="g-semsim">semantic similarity</dt><dd><b>Simple:</b> closeness in meaning. <b>Precise:</b> operationalized as geometric closeness (cosine or normalized Euclidean) of learned embeddings. <b>Intuition:</b> meaning measured as distance. <b>Example:</b> "dog" nearer "puppy" than "spreadsheet". <b>Related:</b> embedding, cosine similarity. <b>In practice/ML:</b> the quantity retrieval systems optimize.</dd></div>
+</dl>
+</section>
+</main>
+<footer class="colophon">Built with <span class="heart">♥</span> using Interactive Notes<br>AI-generated, so mistakes can sneak in — double-check what matters.</footer>
+<script>
+"use strict";
+/* ===== math core (live computation only — nothing hard-coded) ===== */
+function mulberry32(seed){
+  var t = seed >>> 0;
+  return function(){
+    t += 0x6D2B79F5;
+    var r = Math.imul(t ^ (t >>> 15), 1 | t);
+    r ^= r + Math.imul(r ^ (r >>> 7), 61 | r);
+    return ((r ^ (r >>> 14)) >>> 0) / 4294967296;
+  };
+}
+function fmt(x,d){ if(d===undefined){ d=2; } return (+x).toFixed(d).replace(/\.?0+$/,""); }
+function sci(x){ if(x===0){ return "0"; } var e=Math.floor(Math.log10(Math.abs(x))); var m=x/Math.pow(10,e); return fmt(m,2)+"e"+e; }
+/* ===== responsive viewport (ADR-0013 makeView) ===== */
+function makeView(canvasId,xMin,xMax,yMin,yMax){
+  var cv=document.getElementById(canvasId); if(!cv){ return null; }
+  function fresh(){
+    var dpr=window.devicePixelRatio||1;
+    var cw=cv.clientWidth||640;
+    var ch=Math.round(cw*(yMax-yMin)/(xMax-xMin));
+    if(cv.width!==Math.round(cw*dpr)){ cv.width=Math.round(cw*dpr); cv.height=Math.round(ch*dpr); cv.style.height=ch+"px"; }
+    var ctx=cv.getContext("2d");
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+    return {ctx:ctx,cw:cw,ch:ch};
+  }
+  var X=function(x){ return (x-xMin)/(xMax-xMin); };
+  var Y=function(y){ return 1-(y-yMin)/(yMax-yMin); };
+  return {cv:cv,fresh:fresh,X:X,Y:Y};
+}
+function px(view,nx){ return nx*view.cv.clientWidth; }
+function py(view,ny){ return ny*view.cv.clientHeight; }
+function arrow(view,ctx,x1,y1,x2,y2,color,label){
+  var ax=px(view,view.X(x1)), ay=py(view,view.Y(y1));
+  var bx=px(view,view.X(x2)), by=py(view,view.Y(y2));
+  ctx.strokeStyle=color; ctx.fillStyle=color; ctx.lineWidth=2.2;
+  ctx.beginPath(); ctx.moveTo(ax,ay); ctx.lineTo(bx,by); ctx.stroke();
+  var ang=Math.atan2(by-ay,bx-ax), hl=9;
+  ctx.beginPath();
+  ctx.moveTo(bx,by);
+  ctx.lineTo(bx-hl*Math.cos(ang-0.42),by-hl*Math.sin(ang-0.42));
+  ctx.lineTo(bx-hl*Math.cos(ang+0.42),by-hl*Math.sin(ang+0.42));
+  ctx.closePath(); ctx.fill();
+  if(label){ ctx.font="12px sans-serif"; ctx.fillText(label,bx+6,by-6); }
+}
+function gridLines(view,ctx,step,color){
+  var cw=view.cv.clientWidth, chh=view.cv.clientHeight;
+  ctx.strokeStyle=color; ctx.lineWidth=1; ctx.font="10px monospace"; ctx.fillStyle="#66727f";
+  for(var gx=-20;gx<=20;gx+=step){
+    var v=view.X(gx)*cw;
+    if(v<-2||v>cw+2){ continue; }
+    ctx.beginPath(); ctx.moveTo(v,0); ctx.lineTo(v,chh); ctx.stroke();
+    ctx.fillText(String(gx),v+2,chh-4);
+  }
+  for(var gy=-20;gy<=20;gy+=step){
+    var w=view.Y(gy)*chh;
+    if(w<-2||w>chh+2){ continue; }
+    ctx.beginPath(); ctx.moveTo(0,w); ctx.lineTo(cw,w); ctx.stroke();
+    ctx.fillText(String(gy),3,w-3);
+  }
+}
+/* ===== storage with graceful fallback ===== */
+var STORAGE_OK=(function(){ try{ var t="__hdg1t"; localStorage.setItem(t,"1"); localStorage.removeItem(t); return true; }catch(e){ return false; } })();
+function loadJSON(key,fb){ if(!STORAGE_OK){ return fb; } try{ var raw=localStorage.getItem(key); if(raw===null){ return fb; } var v=JSON.parse(raw); return (v&&typeof v==="object")?v:fb; }catch(e){ return fb; } }
+function saveJSON(key,val){ if(!STORAGE_OK){ return; } try{ localStorage.setItem(key,JSON.stringify(val)); }catch(e){} }
+var dots=loadJSON("hdg1-dots",{});
+var review=loadJSON("hdg1-review",[]);
+function addReview(id,label){ for(var i=0;i<review.length;i++){ if(review[i].id===id){ return; } } review.push({id:id,label:label}); saveJSON("hdg1-review",review); renderReview(); }
+function renderReview(){
+  var el=document.getElementById("reviewList");
+  if(!el){ return; }
+  if(!review.length){ el.innerHTML="<p style='color:var(--ink-faint)'>Nothing queued — clear the checks above and see.</p>"; return; }
+  var html="<ul style='margin:.3rem 0;padding-left:1.2rem'>";
+  for(var i=0;i<review.length;i++){ html+="<li>"+review[i].label+" — <a href='#"+review[i].id+"'>go back</a></li>"; }
+  html+="</ul><p style='font-size:.82rem;color:var(--ink-soft)'>"+review.length+" item(s) queued. Come back after a break — spacing helps it stick.</p>";
+  el.innerHTML=html;
+}
+function setDot(unit,done){
+  var link=document.querySelector('.topnav a[href="#'+unit+'"] .dot');
+  if(link){ link.classList.toggle("done",!!done); }
+}
+function markCheck(unit,part,ok,label){
+  dots[unit]=dots[unit]||{};
+  dots[unit][part]=!!ok;
+  saveJSON("hdg1-dots",dots);
+  if(!ok){ addReview("chk"+unit.slice(1),label); }
+  if(dots[unit].n&&dots[unit].m){ setDot(unit,true); }
+}
+/* ===== nav dots + active state (IntersectionObserver) ===== */
+(function(){
+  var links=document.querySelectorAll(".topnav a");
+  var units=["u1","u2","u3","u4","u5","u6"];
+  for(var i=0;i<links.length;i++){
+    var href=links[i].getAttribute("href").slice(1);
+    if(units.indexOf(href)>=0){
+      var d=document.createElement("span");
+      d.className="dot"+(dots[href]&&dots[href].n&&dots[href].m?" done":"");
+      links[i].appendChild(d);
+    }
+  }
+  if("IntersectionObserver" in window){
+    var obs=new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if(en.isIntersecting){
+          for(var j=0;j<links.length;j++){ links[j].removeAttribute("aria-current"); }
+          var a=document.querySelector('.topnav a[href="#'+en.target.id+'"]');
+          if(a){ a.setAttribute("aria-current","true"); }
+        }
+      });
+    },{rootMargin:"-25% 0px -60% 0px"});
+    ["u0","u1","u2","u3","u4","u5","u6","synthesis","mastery","glossary"].forEach(function(id){
+      var s=document.getElementById(id); if(s){ obs.observe(s); }
+    });
+  }
+})();
+/* ===== prediction gates: unlock by commitment, differentiated feedback ===== */
+var GATES={
+  g1:{fb:"g1fb",target:"w2",rule:"Rule: coverage multiplies — a neighborhood spanning ε of every axis covers ε^d of the volume.",
+    opts:{
+      a:"Not quite: per-axis shares don't add up. The box is 0.1 wide in all six directions at once, so the shares multiply: 0.1⁶ = 10⁻⁶ = 0.0001%. Explorer unlocked — confirm it live.",
+      b:"Tempting, but still addition. The six 10% shares multiply, not add: 0.1⁶ = 0.0001%. Explorer unlocked — watch the bar fall.",
+      c:"Right: 0.1⁶ = 10⁻⁶ of the volume — a millionth of a percent. Coverage multiplies across dimensions. Explorer unlocked; find the dimension where it gets hopeless."}},
+  g2:{fb:"g2fb",target:"w3",rule:"Rule: summed random per-axis gaps concentrate, so near and far converge.",
+    opts:{
+      a:"Understandable — but no. In 1000-D the 'closest' of 500 points is barely closer than the 'farthest': the ratio lands near 1. Explorer unlocked — measure it yourself.",
+      b:"Right: distances concentrate into a narrow band, so nearest ≈ farthest. Explorer unlocked — sweep d and watch the histogram tighten.",
+      c:"Backwards in high dimensions. That answer is right in 2-D — slide d up in the explorer and watch the 2-D intuition die."}},
+  g3:{fb:"g3fb",target:"w4",rule:"Rule: nonnegative coordinates all lean into the same orthant, so random pairs are directionally similar.",
+    opts:{
+      a:"The 2-D intuition strikes again. With all coordinates ≥ 0, every vector leans into the same corner: cos ≈ 0.75. Explorer unlocked — run the 1000-D experiment.",
+      b:"Closer, but still low. The positive-orthant bias pushes it higher: ≈ 0.75. Explorer unlocked — resample and see.",
+      c:"Right: ≈ 0.75 — every vector in the positive orthant leans the same way. Where the data lives matters, not dimension alone. Explorer unlocked."}}
+};
+function gAnswer(key){ return {g1:"c",g2:"b",g3:"c"}[key]; }
+function bindGates(){
+  var btns=document.querySelectorAll("[data-gate]");
+  for(var i=0;i<btns.length;i++){
+    btns[i].addEventListener("click",function(){
+      var key=this.getAttribute("data-gate");
+      var G=GATES[key];
+      var fb=document.getElementById(G.fb);
+      var choice=document.querySelector('input[name="'+key+'"]:checked');
+      if(!choice){ fb.className="feedback no"; fb.textContent="Commit to an answer first — that commitment is what makes the reveal worth it."; return; }
+      fb.className="feedback "+(choice.value===gAnswer(key)?"ok":"no");
+      fb.innerHTML=G.opts[choice.value]+"<br><b>"+G.rule+"</b>";
+      var w=document.getElementById(G.target);
+      if(w){ w.style.display=""; w.removeAttribute("data-locked"); }
+      if(typeof window["draw_"+G.target]==="function"){ window["draw_"+G.target](); }
+    });
+  }
+}
+/* ===== W1: dimensionality calculator (numeric) ===== */
+function drawW1(){
+  var w=+document.getElementById("dimw").value;
+  var h=+document.getElementById("dimh").value;
+  var c=+document.getElementById("dimc").value;
+  document.getElementById("wVal").textContent=w;
+  document.getElementById("hVal").textContent=h;
+  document.getElementById("cVal").textContent=c;
+  var d=w*h*c;
+  document.getElementById("r1").innerHTML=
+    "d = "+w+" · "+h+" · "+c+" = <b>"+d.toLocaleString("en-US")+"</b> dimensions<br>"+
+    "Source reference: 256 · 256 · 3 = <b>196,608</b> — your sensor is "+(d>=196608?"at or above":"below")+" that ("+(d/196608).toFixed(2)+"×)<br>"+
+    "Even a 2-value grid on every axis would hold 2<sup>"+d+"</sup> points — a number with about "+Math.round(d*Math.log10(2)).toLocaleString("en-US")+" digits. No dataset covers that space.";
+}
+/* ===== W2: volume collapse ===== */
+var LOG_SPAN=26;
+function draw_w2(){ drawW2(); }
+function drawW2(){
+  var view=makeView("cv2",0,1.05,0,1.05); if(!view){ return; }
+  var f=view.fresh(), ctx=f.ctx;
+  ctx.clearRect(0,0,f.cw,f.ch);
+  gridLines(view,ctx,0.25,"#eeece5");
+  var eps=+document.getElementById("eps").value;
+  var d=+document.getElementById("dimd").value;
+  document.getElementById("epsVal").textContent=fmt(eps,2);
+  document.getElementById("dvVal").textContent=d;
+  var s=0.95, ox=0.05, oy=0.05;
+  /* unit square */
+  ctx.strokeStyle="#2f5fd0"; ctx.lineWidth=2;
+  ctx.strokeRect(px(view,view.X(ox)),py(view,view.Y(oy+s)),px(view,view.X(ox+s))-px(view,view.X(ox)),py(view,view.Y(oy))-py(view,view.Y(oy+s)));
+  /* inner eps box */
+  var e=s*eps;
+  ctx.fillStyle="rgba(179,56,46,0.55)";
+  ctx.fillRect(px(view,view.X(ox)),py(view,view.Y(oy+e)),px(view,view.X(ox+e))-px(view,view.X(ox)),py(view,view.Y(oy))-py(view,view.Y(oy+e)));
+  /* log bar for covered fraction */
+  var frac=Math.pow(eps,d);
+  var t=Math.max(0,Math.min(1,1+Math.log10(Math.max(frac,1e-300))/LOG_SPAN));
+  var by0=0.90,by1=0.97;
+  ctx.fillStyle="#eeece5";
+  ctx.fillRect(px(view,view.X(0.05)),py(view,view.Y(by1)),px(view,view.X(1.0))-px(view,view.X(0.05)),py(view,view.Y(by0))-py(view,view.Y(by1)));
+  ctx.fillStyle="#1e7a46";
+  ctx.fillRect(px(view,view.X(0.05)),py(view,view.Y(by1)),(px(view,view.X(1.0))-px(view,view.X(0.05)))*t,py(view,view.Y(by0))-py(view,view.Y(by1)));
+  ctx.fillStyle="#66727f"; ctx.font="10px monospace";
+  ctx.fillText("log₁₀ scale: full bar = 1 (no collapse)",px(view,view.X(0.05)),py(view,view.Y(by0-0.055)));
+  var boxes=Math.pow(1/eps,d);
+  var frac100=Math.pow(eps,100);
+  document.getElementById("r2").innerHTML=
+    "Covered fraction V(ε,d) = ε<sup>d</sup> = "+fmt(eps,2)+"<sup>"+d+"</sup> = <b>"+sci(frac)+"</b><br>"+
+    "Boxes to tile the cube: (1/ε)<sup>d</sup> = "+sci(boxes)+" &nbsp;·&nbsp; extrapolated to d = 100: <b>"+sci(frac100)+"</b> — effectively zero<br>"+
+    "Reading: the same cube, the same ε — only d moved, and the covered space fell by a factor of "+fmt(1/eps,2)+" per added dimension.";
+}
+/* ===== W3: distance lab (Monte-Carlo) ===== */
+var D_LIST=[1,2,3,5,10,30,100,300,1000];
+var N_PTS=500;
+function draw_w3(){ drawW3(); }
+function drawW3(){
+  var di=+document.getElementById("ddim").value;
+  var seed=+document.getElementById("dseed").value;
+  var d=D_LIST[di];
+  document.getElementById("ddVal").textContent=d;
+  document.getElementById("drVal").textContent=seed;
+  var xMax=Math.sqrt(d);
+  var view=makeView("cv3",0,xMax,0,1.12); if(!view){ return; }
+  var f=view.fresh(), ctx=f.ctx;
+  ctx.clearRect(0,0,f.cw,f.ch);
+  /* Monte-Carlo: 500 points uniform in [0,1]^d, distances to a fixed seeded query */
+  var rnd=mulberry32(seed*7919+13);
+  var qx=[],i;
+  for(i=0;i<d;i++){ qx.push(rnd()); }
+  var B=20, bins=[], dists=[];
+  for(i=0;i<B;i++){ bins.push(0); }
+  var dmin=Infinity, dmax=-1;
+  for(var p=0;p<N_PTS;p++){
+    var s2=0;
+    for(i=0;i<d;i++){ var diff=rnd()-qx[i]; s2+=diff*diff; }
+    var dist=Math.sqrt(s2);
+    dists.push(dist);
+    if(dist<dmin){ dmin=dist; }
+    if(dist>dmax){ dmax=dist; }
+    var b=Math.min(B-1,Math.floor(dist/xMax*B));
+    bins[b]++;
+  }
+  var maxc=1;
+  for(i=0;i<B;i++){ if(bins[i]>maxc){ maxc=bins[i]; } }
+  /* histogram bars */
+  ctx.fillStyle="#2f5fd0";
+  for(i=0;i<B;i++){
+    var x0=i/B*xMax, x1=(i+1)/B*xMax, hgt=bins[i]/maxc;
+    ctx.fillRect(px(view,view.X(x0)),py(view,view.Y(hgt)),px(view,view.X(x1))-px(view,view.X(x0))-1,py(view,view.Y(0))-py(view,view.Y(hgt)));
+  }
+  /* nearest / farthest markers */
+  ctx.strokeStyle="#b3382e"; ctx.lineWidth=2;
+  ctx.beginPath(); ctx.moveTo(px(view,view.X(dmin)),0); ctx.lineTo(px(view,view.X(dmin)),f.ch); ctx.stroke();
+  ctx.strokeStyle="#1e7a46";
+  ctx.beginPath(); ctx.moveTo(px(view,view.X(dmax)),0); ctx.lineTo(px(view,view.X(dmax)),f.ch); ctx.stroke();
+  ctx.font="11px monospace"; ctx.fillStyle="#b3382e";
+  ctx.fillText("near "+fmt(dmin,2),Math.min(px(view,view.X(dmin))+3,f.cw-70),12);
+  ctx.fillStyle="#1e7a46";
+  ctx.fillText("far "+fmt(dmax,2),Math.min(px(view,view.X(dmax))+3,f.cw-70),f.ch-6);
+  var contrast=(dmax-dmin)/dmin;
+  document.getElementById("r3").innerHTML=
+    "d = <b>"+d+"</b>, N = 500 uniform points, distances to one query point (seeded run "+seed+")<br>"+
+    "d_min = <b>"+fmt(dmin,3)+"</b> &nbsp;·&nbsp; d_max = <b>"+fmt(dmax,3)+"</b> &nbsp;·&nbsp; typical ≈ √(d/6) = "+fmt(Math.sqrt(d/6),3)+"<br>"+
+    "Contrast (d_max − d_min)/d_min = <b>"+fmt(contrast,3)+"</b>"+(contrast<0.1?" — below 10%: 'nearest' no longer means much. ✓ concentration":d<10?" — still wide: 2-D intuition alive here.":" — narrowing with d.")+"<br>"+
+    "Unit 5 explains why: every distance is a sum of d small random gaps — such sums concentrate.";
+}
+/* ===== W4: metric lab ===== */
+function draw_w4(){ drawW4(); }
+function drawW4(){
+  var th=+document.getElementById("theta").value;
+  var L=+document.getElementById("wlen").value;
+  var seed=+document.getElementById("mseed").value;
+  document.getElementById("thVal").textContent=th;
+  document.getElementById("lenVal").textContent=fmt(L,1);
+  document.getElementById("mrVal").textContent=seed;
+  var view=makeView("cv4",-3.2,3.2,-3.2,3.2); if(!view){ return; }
+  var f=view.fresh(), ctx=f.ctx;
+  ctx.clearRect(0,0,f.cw,f.ch);
+  gridLines(view,ctx,1,"#eeece5");
+  /* axes through origin */
+  ctx.strokeStyle="#e3e0d8"; ctx.lineWidth=1;
+  ctx.beginPath(); ctx.moveTo(px(view,view.X(-3)),py(view,view.Y(0))); ctx.lineTo(px(view,view.X(3)),py(view,view.Y(0))); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(px(view,view.X(0)),py(view,view.Y(-3))); ctx.lineTo(px(view,view.X(0)),py(view,view.Y(3))); ctx.stroke();
+  var rad=th*Math.PI/180;
+  var vx=2, vy=0, wx=L*Math.cos(rad), wy=L*Math.sin(rad);
+  arrow(view,ctx,0,0,vx,vy,"#2f5fd0","v");
+  arrow(view,ctx,0,0,wx,wy,"#b3382e","w");
+  /* angle arc: signed difference with wrapping (ADR-0013 §5) */
+  var a1=0, a2=rad;
+  var dd=(a2-a1)%(2*Math.PI);
+  if(dd>Math.PI){ dd-=2*Math.PI; }
+  if(dd<-Math.PI){ dd+=2*Math.PI; }
+  ctx.strokeStyle="#8a6116"; ctx.lineWidth=1.6;
+  ctx.beginPath();
+  ctx.arc(px(view,view.X(0)),py(view,view.Y(0)),34,-a1,-(a1+dd),dd>0);
+  ctx.stroke();
+  ctx.fillStyle="#8a6116"; ctx.font="11px monospace";
+  ctx.fillText(fmt(th,0)+"°",px(view,view.X(0))+42,py(view,view.Y(0))-8);
+  var dot=vx*wx+vy*wy;
+  var nv=Math.hypot(vx,vy), nw=Math.hypot(wx,wy);
+  var cosv=dot/(nv*nw);
+  var euc=Math.hypot(vx-wx,vy-wy);
+  var vhx=vx/nv, vhy=vy/nv, whx=wx/nw, why=wy/nw;
+  var dn=Math.hypot(vhx-whx,vhy-why);
+  var ident=2-2*cosv;
+  /* 1000-dim replication of source cell 11 */
+  var rnd=mulberry32(seed*104729+7);
+  var sxy=0, sx2=0, sy2=0, sdiff=0, i;
+  for(i=0;i<1000;i++){
+    var a=rnd(), b=rnd();
+    sxy+=a*b; sx2+=a*a; sy2+=b*b; sdiff+=(a-b)*(a-b);
+  }
+  var cos1k=sxy/Math.sqrt(sx2*sy2);
+  var euc1k=Math.sqrt(sdiff);
+  document.getElementById("r4").innerHTML=
+    "v = (2, 0), w = "+fmt(L,1)+"·(cos "+th+"°, sin "+th+"°)<br>"+
+    "Dot product v·w = <b>"+fmt(dot,3)+"</b> &nbsp;·&nbsp; cos θ = <b>"+fmt(cosv,3)+"</b> &nbsp;·&nbsp; ‖v − w‖ = <b>"+fmt(euc,3)+"</b><br>"+
+    "Scale test: cos stays put when you drag L; ‖v − w‖ moves. Normalized identity: ‖v̂ − ŵ‖² = "+fmt(dn,4)+" vs 2 − 2cos θ = "+fmt(ident,4)+" — <b>equal</b> ✓ (same measurement)<br>"+
+    "Cell-11 replication (two uniform [0,1]¹⁰⁰⁰ vectors, seeded run "+seed+"): Euclidean = <b>"+fmt(euc1k,3)+"</b> (expected ≈ 12.91), cosine = <b>"+fmt(cos1k,3)+"</b> (expected ≈ 0.75 — positive-orthant bias)";
+}
+/* ===== W5: shell lab (Monte-Carlo Gaussian norms) ===== */
+var SD_LIST=[2,4,10,30,100,300,1000];
+var N_G=400;
+function draw_w5(){ drawW5(); }
+function drawW5(){
+  var di=+document.getElementById("sdim").value;
+  var seed=+document.getElementById("sseed").value;
+  var d=SD_LIST[di];
+  document.getElementById("sdVal").textContent=d;
+  document.getElementById("srVal").textContent=seed;
+  var xMax=Math.sqrt(3*d);
+  var view=makeView("cv5",0,xMax,0,1.12); if(!view){ return; }
+  var f=view.fresh(), ctx=f.ctx;
+  ctx.clearRect(0,0,f.cw,f.ch);
+  /* Box-Muller Gaussian norms from a seeded stream */
+  var rnd=mulberry32(seed*15485863+29);
+  function gauss(){ var u=0,v=0; while(u===0){ u=rnd(); } while(v===0){ v=rnd(); } return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v); }
+  var B=24, bins=[], i;
+  for(i=0;i<B;i++){ bins.push(0); }
+  var sum=0, sum2=0;
+  for(var p=0;p<N_G;p++){
+    var s2=0;
+    for(i=0;i<d;i++){ var g=gauss(); s2+=g*g; }
+    var nrm=Math.sqrt(s2);
+    sum+=nrm; sum2+=nrm*nrm;
+    var b=Math.min(B-1,Math.floor(nrm/xMax*B));
+    bins[b]++;
+  }
+  var mean=sum/N_G, vari=sum2/N_G-mean*mean, std=Math.sqrt(Math.max(vari,0));
+  var maxc=1;
+  for(i=0;i<B;i++){ if(bins[i]>maxc){ maxc=bins[i]; } }
+  ctx.fillStyle="#2f5fd0";
+  for(i=0;i<B;i++){
+    var x0=i/B*xMax, x1=(i+1)/B*xMax, hgt=bins[i]/maxc;
+    ctx.fillRect(px(view,view.X(x0)),py(view,view.Y(hgt)),px(view,view.X(x1))-px(view,view.X(x0))-1,py(view,view.Y(0))-py(view,view.Y(hgt)));
+  }
+  /* √d marker */
+  var sq=Math.sqrt(d);
+  ctx.strokeStyle="#1e7a46"; ctx.lineWidth=2;
+  ctx.beginPath(); ctx.moveTo(px(view,view.X(sq)),0); ctx.lineTo(px(view,view.X(sq)),f.ch); ctx.stroke();
+  ctx.font="11px monospace"; ctx.fillStyle="#1e7a46";
+  ctx.fillText("√d = "+fmt(sq,2),Math.min(px(view,view.X(sq))+4,f.cw-80),14);
+  var rel=std/mean, theory=1/Math.sqrt(2*d);
+  var within=0;
+  for(i=0;i<B;i++){
+    var mid=(i+0.5)/B*xMax;
+    if(Math.abs(mid-mean)<=2*std){ within+=bins[i]; }
+  }
+  document.getElementById("r5").innerHTML=
+    "d = <b>"+d+"</b>, "+N_G+" Gaussian vectors N(0, I<sub>d</sub>) (seeded run "+seed+")<br>"+
+    "mean ‖x‖ = <b>"+fmt(mean,3)+"</b> (≈ √d = "+fmt(sq,3)+") &nbsp;·&nbsp; std = "+fmt(std,3)+" &nbsp;·&nbsp; σ/μ = <b>"+fmt(rel*100,2)+"%</b> vs theory 1/√(2d) = "+fmt(theory*100,2)+"%<br>"+
+    "Within mean ± 2·std: <b>"+fmt(within/N_G*100,1)+"%</b> of samples — almost all vectors have nearly the same length<br>"+
+    "Shell reading: the ±2·std band spans only ["+fmt(mean-2*std,2)+", "+fmt(mean+2*std,2)+"] around a radius of "+fmt(mean,2)+" — the sphere's interior is nearly empty.";
+}
+/* ===== W6: variance budget (numeric) ===== */
+function drawW6(){
+  var l1=+document.getElementById("lam1").value;
+  var l2=+document.getElementById("lam2").value;
+  var l3=+document.getElementById("lam3").value;
+  var l4=+document.getElementById("lam4").value;
+  var k=+document.getElementById("kk").value;
+  document.getElementById("v1Val").textContent=fmt(l1,1);
+  document.getElementById("v2Val").textContent=fmt(l2,1);
+  document.getElementById("v3Val").textContent=fmt(l3,1);
+  document.getElementById("v4Val").textContent=fmt(l4,1);
+  document.getElementById("kVal").textContent=k;
+  var lam=[l1,l2,l3,l4];
+  var tot=l1+l2+l3+l4, kept=0, i;
+  for(i=0;i<k;i++){ kept+=lam[i]; }
+  var parts="";
+  for(i=0;i<4;i++){
+    parts+="λ"+(i+1)+" = "+fmt(lam[i],1)+" ("+fmt(lam[i]/tot*100,1)+"%)"+(i<k?" <span class='ok'>kept ✓</span>":" dropped")+(i<3?" &nbsp;·&nbsp;":"");
+  }
+  document.getElementById("r6").innerHTML=
+    parts+"<br>R(k) = R("+k+") = <b>"+fmt(kept/tot*100,1)+"%</b> of the variance retained — the price tag of compressing 1000 dims to a few";
+}
+/* ===== ladders ===== */
+var LAD={
+  l1r2:{ans:65536,tol:0.5,ok:"Right: 128·128·4 = 65,536.",no:"Recompute: 128 · 128 = 16,384 positions × 4 channels."},
+  l1r3:{ans:9216,tol:0.5,ok:"Right: 96·96·1 = 9,216.",no:"Recompute: 96 · 96 with c = 1."},
+  l2r2:{ans:64,tol:0.01,ok:"Right: 2⁶ = 64 — and each added dimension doubles it again.",no:"Each axis needs 2 boxes; multiply across 6 axes."},
+  l2r3:{ans:64,tol:0.01,ok:"Right: 4³ = 64.",no:"1/ε = 4 per axis, cubed for 3 dimensions."},
+  l3r2:{ans:2,tol:0.02,ok:"Right: 24/6 = 4, √4 = 2.",no:"Compute E‖X−Y‖² = d/6 = 4, then take the square root."},
+  l3r3:{ans:3,tol:0.02,ok:"Right: 54/6 = 9, √9 = 3.",no:"d/6 = 9 — a perfect square."},
+  l4r2:{ans:0.707,tol:0.005,ok:"Right: 1/√2 ≈ 0.707 — 45°.",no:"x·y = 1, ‖x‖ = 1, ‖y‖ = √2."},
+  l4r3:{ans:0,tol:0.005,ok:"Right: perpendicular axes — cosine 0 regardless of lengths.",no:"The dot product of (3,0)·(0,3) is 0."},
+  l5r2:{ans:20,tol:0.2,ok:"Right: √400 = 20.",no:"‖x‖ ≈ √d = √400."},
+  l5r3:{ans:30,tol:0.2,ok:"Right: √900 = 30 (relative spread ≈ 2.4%).",no:"‖x‖ ≈ √d = √900."},
+  l6r2:{ans:80,tol:0.7,ok:"Right: 8/10 = 80%.",no:"Kept λ over total λ: 8/(8+1+1)."},
+  l6r3:{ans:50,tol:0.7,ok:"Right: 4/8 = 50% — equal variances mean no free compression.",no:"Keep 2 of 4 equal components: 4/8."}
+};
+function bindLadders(){
+  var bs=document.querySelectorAll("[data-ladder]");
+  for(var i=0;i<bs.length;i++){
+    bs[i].addEventListener("click",function(){
+      var key=this.getAttribute("data-ladder");
+      var L=LAD[key];
+      var inp=document.getElementById(key+"in");
+      var fb=document.getElementById(key+"fb");
+      var v=parseFloat(inp.value);
+      if(isNaN(v)){ fb.className="feedback no"; fb.textContent="Enter a number first."; return; }
+      var ok=Math.abs(v-L.ans)<=L.tol;
+      fb.className="feedback "+(ok?"ok":"no");
+      fb.textContent=ok?L.ok:L.no;
+    });
+  }
+  var hs=document.querySelectorAll("[data-hint]");
+  for(i=0;i<hs.length;i++){
+    hs[i].addEventListener("click",function(){
+      var h=document.getElementById(this.getAttribute("data-hint"));
+      if(h){ h.hidden=!h.hidden; }
+    });
+  }
+  var exs=document.querySelectorAll("[data-explain]");
+  for(i=0;i<exs.length;i++){
+    exs[i].addEventListener("click",function(){
+      var key=this.getAttribute("data-explain");
+      var box=document.getElementById(key);
+      var fb=document.getElementById(key+"fb");
+      if(box){ box.hidden=!box.hidden; }
+      if(fb){ fb.className="feedback ok"; fb.textContent="Compare your answer with the model: did you name the mechanism (concentration of independent contributions / same-radius shell + angle)? Grade yourself honestly — overclaiming helps nobody."; }
+    });
+  }
+}
+/* ===== unit checks ===== */
+var CHECKS={
+  c1n:{ans:1228800,tol:1,ok:"Right: 640·480·4 = 1,228,800.",no:"d = w·h·c = 640 · 480 · 4."},
+  c2n:{ans:10000,tol:0.5,ok:"Right: (1/0.1)⁴ = 10⁴ = 10,000.",no:"(1/ε)^d = 10⁴."},
+  c3n:{ans:1.414,tol:0.05,ok:"Right: E‖X−Y‖² = 12/6 = 2, √2 ≈ 1.414.",no:"d/6 = 2; typical distance = √2 ≈ 1.414."},
+  c4n:{ans:0.707,tol:0.005,ok:"Right: v·w = 2, ‖v‖ = 2, ‖w‖ = √2 → cos = 2/(2√2) = 1/√2.",no:"cos θ = (x·y)/(‖x‖‖y‖) with x·y = 2, ‖x‖ = 2, ‖y‖ = √2."},
+  c5n:{ans:12,tol:0.2,ok:"Right: √144 = 12.",no:"‖x‖ ≈ √d = √144."},
+  c6n:{ans:70,tol:0.7,ok:"Right: (4+3)/(4+3+2+1) = 7/10 = 70%.",no:"Kept λ sum (4+3) over total (10)."}
+};
+var MCS={
+  c1m:{ans:"b",rule:"extra dimensions must earn their place with signal",fb:{
+    a:"That is the trap — room in the space is not information in the data.",
+    b:"Right: signal is what pays for a dimension, and every axis multiplies the space the data must cover.",
+    c:"The dimension change is irrelevant to the flaw — the flaw is statistical, not arithmetic."}},
+  c2m:{ans:"b",rule:"the cube stays volume 1; the grid and the neighborhood fraction do the moving",fb:{
+    a:"1^d = 1 forever — the cube itself never grows.",
+    b:"Right: the grid explodes and the neighborhood fraction collapses; the cube's volume stays 1.",
+    c:"The cube's volume is 1 in every dimension — sparsity is about coverage, not the cube shrinking."}},
+  c3m:{ans:"b",rule:"sums of many independent random gaps concentrate — no forces involved",fb:{
+    a:"No repulsion exists in the model — nothing pushes.",
+    b:"Right: concentration of sums — no forces, just many small independent gaps averaging out.",
+    c:"Attractive forces are not part of the model either — the effect is statistical."}},
+  c4m:{ans:"a",rule:"cosine divides out both lengths; Euclidean does not",fb:{
+    a:"Right: cos(2x, y) = 2(x·y)/(2‖x‖‖y‖) = cos(x, y), while ‖2x − y‖ changes.",
+    b:"Euclidean distance is not scale invariant — doubling x moves every pairwise gap.",
+    c:"Cosine is exactly the metric designed to be scale-blind."}},
+  c5m:{ans:"b",rule:"same radius + concentrated angles ⇒ narrow distance band",fb:{
+    a:"No pressure exists — this is volume geometry, not mechanics.",
+    b:"Right: with radius fixed at ≈ √d, the angle is the only remaining variable, and it concentrates too.",
+    c:"The shell is a property of volume, not of where data happens to sit."}},
+  c6m:{ans:"b",rule:"flexibility without penalty memorizes",fb:{
+    a:"More dimensions increase flexibility — the risk goes up, not down.",
+    b:"Right: three named failure modes, each with its mechanism from Units 2–4.",
+    c:"Sparsity does not prevent memorization — the model can still overfit the training points it sees."}}
+};
+function bindChecks(){
+  var bs=document.querySelectorAll("[data-check]");
+  for(var i=0;i<bs.length;i++){
+    bs[i].addEventListener("click",function(){
+      var key=this.getAttribute("data-check");
+      var C=CHECKS[key];
+      var inp=document.getElementById(key);
+      var fb=document.getElementById(this.getAttribute("data-target"));
+      var v=parseFloat(inp.value);
+      if(isNaN(v)){ fb.className="feedback no"; fb.textContent="Enter a number first."; return; }
+      var ok=Math.abs(v-C.ans)<=C.tol;
+      fb.className="feedback "+(ok?"ok":"no");
+      fb.textContent=ok?C.ok:C.no;
+      markCheck("chk"+key.charAt(1),"n",ok,"Unit "+key.charAt(1)+" numeric miss");
+    });
+  }
+  var ms=document.querySelectorAll("[data-mcq]");
+  for(i=0;i<ms.length;i++){
+    ms[i].addEventListener("click",function(){
+      var key=this.getAttribute("data-mcq");
+      var M=MCS[key];
+      var fb=document.getElementById(this.getAttribute("data-target"));
+      var choice=document.querySelector('input[name="'+key+'"]:checked');
+      if(!choice){ fb.className="feedback no"; fb.textContent="Pick an option first."; return; }
+      var ok=choice.value===M.ans;
+      fb.className="feedback "+(ok?"ok":"no");
+      fb.innerHTML=M.fb[choice.value]+"<br><b>Governing rule: "+M.rule+".</b>";
+      markCheck("chk"+key.charAt(1),"m",ok,"Unit "+key.charAt(1)+" choice miss");
+    });
+  }
+}
+/* ===== mastery ===== */
+var MASTN={
+  m1:{ans:262144,tol:1,ok:"Right: 512·512·1 = 262,144.",no:"512 · 512 with c = 1."},
+  m5:{ans:200,tol:0.5,ok:"Right: √40,000 = 200.",no:"‖x‖ ≈ √d = √40,000."}
+};
+var MASTM={
+  m2:{ans:"b",label:"M2 coverage fraction",fb:{
+    a:"Addition again — shares multiply across all ten axes.",
+    b:"Right: 0.5¹⁰ = 1/1024 ≈ 0.098%.",
+    c:"Per-axis coverage alone never fixes total coverage — it multiplies down."}},
+  m3:{ans:"a",label:"M3 concentration mechanism",fb:{
+    a:"Right: sums of independent random gaps concentrate — that is the whole mechanism.",
+    b:"Nothing drifts; the effect is about sums, not time.",
+    c:"Floating-point noise is irrelevant at these magnitudes."}},
+  m4:{ans:"a",label:"M4 scale invariance",fb:{
+    a:"Right: cosine divides out the doubling; Euclidean distance grows with it.",
+    b:"Euclidean sees the magnitude change — that is its weakness here.",
+    c:"Cosine is unchanged by uniform scaling — by construction."}},
+  m6:{ans:"b",label:"M6 error identification",fb:{
+    a:"Algorithm age is not a mathematical flaw.",
+    b:"Right — it stacks the curse, distance concentration, and inverted overfitting logic.",
+    c:"The statistics are exactly what is wrong; compute cost is secondary."}},
+  m7:{ans:"a",label:"M7 normalized identity",fb:{
+    a:"Right: ‖x̂ − ŷ‖² = 2 − 2cos θ — distance is a decreasing function of cosine alone.",
+    b:"Normalization changes lengths, not directions — vectors stay spread.",
+    c:"Euclidean distance is defined for any vectors, unit or not."}},
+  m8:{ans:"a",label:"M8 sparsity reading",fb:{
+    a:"Right: sparsity is statistical — coverage of the space, not bytes on disk.",
+    b:"Empty dimensions cost nothing to store — the warning misreads sparsity.",
+    c:"2-D projections are for inspection; retrieval runs in the full 100-D space."}}
+};
+function confOf(key){
+  var c=document.querySelector('input[name="'+key+'c"]:checked');
+  return c?c.value:null;
+}
+var mastState={};
+function renderMSummary(){
+  var el=document.getElementById("msum");
+  var keys=Object.keys(mastState);
+  if(!keys.length){ el.innerHTML="Answer items and tag confidence — a summary appears here."; return; }
+  var okc=0;
+  for(var i=0;i<keys.length;i++){ if(mastState[keys[i]].ok){ okc++; } }
+  el.innerHTML="Answered "+keys.length+"/8 — "+okc+" correct so far."+(keys.length===8?" Interleaved retrieval complete: revisit your review list tomorrow for the spacing effect.":"");
+}
+function bindMastery(){
+  var mb=document.querySelectorAll("[data-mastery]");
+  for(var i=0;i<mb.length;i++){
+    mb[i].addEventListener("click",function(){
+      var key=this.getAttribute("data-mastery");
+      var M=MASTM[key];
+      var fb=document.getElementById(this.getAttribute("data-target"));
+      var choice=document.querySelector('input[name="'+key+'"]:checked');
+      var conf=confOf(key);
+      if(!choice){ fb.className="feedback no"; fb.textContent="Pick an option first."; return; }
+      if(!conf){ fb.className="feedback no"; fb.textContent="Also tag your confidence (sure / think so / guessing) — that is what routes misses to your review list."; return; }
+      var ok=choice.value===M.ans;
+      fb.className="feedback "+(ok?"ok":"no");
+      fb.innerHTML=M.fb[choice.value];
+      mastState[key]={ok:ok,conf:conf};
+      if(!ok&&conf==="sure"){ addReview("mastery","Confident miss: "+M.label); fb.innerHTML+="<br><span class='no'>You were sure — this one goes to your review list.</span>"; }
+      renderMSummary();
+    });
+  }
+  var nb=document.querySelectorAll("[data-masteryn]");
+  for(i=0;i<nb.length;i++){
+    nb[i].addEventListener("click",function(){
+      var key=this.getAttribute("data-masteryn");
+      var M=MASTN[key];
+      var inp=document.getElementById(key+"in");
+      var fb=document.getElementById(this.getAttribute("data-target"));
+      var conf=confOf(key);
+      var v=parseFloat(inp.value);
+      if(isNaN(v)){ fb.className="feedback no"; fb.textContent="Enter a number first."; return; }
+      if(!conf){ fb.className="feedback no"; fb.textContent="Also tag your confidence (sure / think so / guessing)."; return; }
+      var ok=Math.abs(v-M.ans)<=M.tol;
+      fb.className="feedback "+(ok?"ok":"no");
+      fb.textContent=ok?M.ok:M.no;
+      mastState[key]={ok:ok,conf:conf};
+      if(!ok&&conf==="sure"){ addReview("mastery","Confident miss: "+key.toUpperCase()); fb.innerHTML+="<br><span class='no'>You were sure — this one goes to your review list.</span>"; }
+      renderMSummary();
+    });
+  }
+}
+/* ===== reset + init ===== */
+function bindReset(){
+  var b=document.getElementById("resetProgress");
+  if(!b){ return; }
+  b.addEventListener("click",function(){
+    if(STORAGE_OK){ try{ localStorage.removeItem("hdg1-dots"); localStorage.removeItem("hdg1-review"); }catch(e){} }
+    dots={}; review=[]; renderReview();
+    var ds=document.querySelectorAll(".topnav .dot");
+    for(var i=0;i<ds.length;i++){ ds[i].classList.remove("done"); }
+    window.scrollTo(0,0);
+  });
+}
+document.addEventListener("DOMContentLoaded",function(){
+  /* hide gated widgets via JS only (no-JS readers still see them) */
+  var locked=document.querySelectorAll('.widget[data-locked="true"]');
+  for(var i=0;i<locked.length;i++){ locked[i].style.display="none"; }
+  window.draw_w2=drawW2; window.draw_w3=drawW3; window.draw_w4=drawW4; window.draw_w5=drawW5;
+  bindGates(); bindLadders(); bindChecks(); bindMastery(); bindReset();
+  if(!STORAGE_OK){ var sn=document.getElementById("storageNote"); if(sn){ sn.textContent="Storage is unavailable in this browser — progress lasts only for this visit. "; } }
+  renderReview();
+  /* always-visible widgets draw now; gated ones draw on unlock */
+  drawW1(); drawW6();
+  document.getElementById("dimw").addEventListener("input",drawW1);
+  document.getElementById("dimh").addEventListener("input",drawW1);
+  document.getElementById("dimc").addEventListener("input",drawW1);
+  document.getElementById("eps").addEventListener("input",drawW2);
+  document.getElementById("dimd").addEventListener("input",drawW2);
+  document.getElementById("ddim").addEventListener("input",drawW3);
+  document.getElementById("dseed").addEventListener("input",drawW3);
+  document.getElementById("theta").addEventListener("input",drawW4);
+  document.getElementById("wlen").addEventListener("input",drawW4);
+  document.getElementById("mseed").addEventListener("input",drawW4);
+  document.getElementById("sdim").addEventListener("input",drawW5);
+  document.getElementById("sseed").addEventListener("input",drawW5);
+  document.getElementById("lam1").addEventListener("input",drawW6);
+  document.getElementById("lam2").addEventListener("input",drawW6);
+  document.getElementById("lam3").addEventListener("input",drawW6);
+  document.getElementById("lam4").addEventListener("input",drawW6);
+  document.getElementById("kk").addEventListener("input",drawW6);
+  window.addEventListener("resize",drawW2);
+  window.addEventListener("resize",drawW3);
+  window.addEventListener("resize",drawW4);
+  window.addEventListener("resize",drawW5);
+});
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
