@@ -27,7 +27,8 @@ Learning OS/
 │   ├── 09-operations/                # Repeatable playbooks and operating cadence
 │   ├── 10-governance/                # Documentation, naming, versioning, review, releases
 │   ├── 11-roadmap/                   # Stages, risks, open questions, implementation gates
-│   └── adr/                          # Immutable architecture decision records and index
+│   ├── adr/                          # Immutable architecture decision records and index
+│   └── audit/                        # Cross-cutting diagnostic audits spanning multiple governance surfaces
 ├── templates/                        # Reusable human-readable record templates; no runtime templates
 │   ├── adr/                          # Decision record starter
 │   ├── documentation/                # Architecture and policy document starter
@@ -70,6 +71,7 @@ Learning OS/
 | --- | --- | --- |
 | `docs/00–11` | Version-controlled architecture | Review against documentation standard |
 | `docs/adr` | Architecture decisions | Never rewrite accepted history; supersede |
+| `docs/audit` | Diagnostic audits | Observational records, not binding standards; observe and classify evidence without prescribing changes |
 | `templates` | Record structure | Change with an ADR if traceability semantics change |
 | `records` | Evidence | Append only; correct by linked supersession |
 | `library` | Curated reusable knowledge | Cite origin, scope, and confidence |

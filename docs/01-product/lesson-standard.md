@@ -1,4 +1,4 @@
-# Lesson Standard (Creative Interactive Notes)
+# Lesson Standard (Creative Interactive Lessons)
 
 **Status:** Experimental<br>
 **Owner:** Repository maintainer<br>
@@ -29,7 +29,7 @@ Two levels are distinguished throughout: **principles** are permanent rules (cha
 - **A concept map** (dependency graph) visible early and revisited at the end.
 - **Accessibility baseline:** semantic landmarks, logical heading order, keyboard-operable native controls, no drag-only or hover-only interaction, text equivalents for every canvas carrying the same numbers, color never the sole encoder, `prefers-reduced-motion` honored, measured WCAG AA contrast, print fallback for every interactive.
 - **Technical baseline:** single file, zero external requests, fully functional offline, graceful behavior with storage unavailable, no-console-error load.
-- **Governed provenance:** an HTML header comment records candidate, run, source, model, and prompt identities; lineage lives in the run ledger, and the artifact makes no public-release, benchmark, or efficacy claims anywhere. The learner-facing page carries no governance banner or provenance footer — its only closing element is the standard **colophon**: two muted lines — "Built with ♥ using Interactive Notes" and "AI-generated, so mistakes can sneak in — double-check what matters." — subtle, reduced-motion-safe, printing as plain text, and carrying no status, release, benchmark, or efficacy claims. (Amended 2026-08-13 by owner decision: visible governance banners/footers replaced by the header comment plus the standard colophon.)
+- **Governed provenance:** an HTML header comment records candidate, run, source, model, and prompt identities; lineage lives in the run ledger, and the artifact makes no public-release, benchmark, or efficacy claims anywhere. The learner-facing page carries no governance banner or provenance footer — its only closing element is the standard **colophon**: two muted lines — "Built with ♥ using Interactive Lessons" and "AI-generated, so mistakes can sneak in — double-check what matters." — subtle, reduced-motion-safe, printing as plain text, and carrying no status, release, benchmark, or efficacy claims. (Amended 2026-08-13 by owner decision: visible governance banners/footers replaced by the header comment plus the standard colophon. Amended 2026-09-11 per [ADR-0014](../adr/0014-artifact-brand-rename-interactive-lessons.md): colophon brand renamed Interactive Notes → Interactive Lessons, applying to newly generated artifacts; pre-2026-09-11 artifacts retain their original colophon bytes and recorded identities.)
 
 ### 1.2 Recommended — include unless there is a reason not to
 
@@ -242,3 +242,4 @@ To protect cognitive momentum and prevent visual fatigue from alert banner overl
 | 2026-08-14 | Pointed reference implementation to BMK-2026-0001 benchmark record (ADR-0011); added depth-calibration contract cross-reference |
 | 2026-08-15 | Added §10.1 pinned design tokens, §10.2 navigation design contract, §10.3 header design contract, §10.4 widget control labels, §10.5 canvas engineering cross-reference (ADR-0013); codified from EVAL-2026-0007 audit findings |
 | 2026-09-03 | Added §10.6 slider & input control contract, §10.7 option stack contract, §10.8 callout discipline contract; prohibited unconstrained `<textarea>` assessments and deferred jargon |
+| 2026-09-11 | Renamed the artifact brand to Interactive Lessons: document title and §1.1 colophon definition (ADR-0014); historical artifacts, records, and the `<note-slug>-v<N>` filename convention unchanged |

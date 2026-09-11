@@ -19,6 +19,7 @@ This directory is the canonical immutable log of major architectural decisions. 
 | ADR-0011 | Define unified benchmark representation and controlled artifact-change protocol | Accepted | 2026-08-14 | — |
 | ADR-0012 | Authorize bounded autonomous pipeline orchestration | Accepted | 2026-08-14 | — |
 | ADR-0013 | Adopt the canvas engineering standard | Accepted | 2026-08-15 | — |
+| ADR-0014 | Rename the learner-artifact brand from Interactive Notes to Interactive Lessons | Accepted | 2026-09-11 | — |
 
 ## Lifecycle
 

@@ -1,4 +1,4 @@
-# Lesson Generation Workflow (Creative Interactive Notes)
+# Lesson Generation Workflow (Creative Interactive Lessons)
 
 **Status:** Experimental<br>
 **Owner:** Repository maintainer<br>

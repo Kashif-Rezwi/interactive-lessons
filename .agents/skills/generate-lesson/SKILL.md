@@ -5,8 +5,10 @@ description: >
   Executes the full P0–P6 lesson-generation workflow with self-correction,
   browser verification, record authoring, and knowledge-system updates. User
   provides only the source file and an optional trigger prompt. Trigger on
-  mentions of: 'create the interactive notes', 'lets create', 'lets go',
-  'interactive notes', 'create notes from this', 'generate notes', 'build lesson',
+  mentions of: 'create the interactive lessons', 'create the interactive notes',
+  'lets create', 'lets go', 'interactive lessons', 'interactive notes',
+  'create lessons from this', 'create notes from this', 'generate lessons',
+  'generate notes', 'build lesson',
   or whenever a document/notebook is attached with a request to make it interactive.
 ---
 
@@ -18,7 +20,7 @@ This skill guides an AI agent to execute the governed **P0–P6 lesson-generatio
 
 ## Operating Invariants & Constraints
 
-1. **Zero-Touch Execution:** The user provides a source note (any format: `.ipynb`, `.md`, `.txt`, `.pdf`, etc.) and an optional trigger prompt with or without custom context (e.g. "create interactive notes for this", or "lets create, focus on beginner intuition and emphasize visual proofs"). The agent proceeds through P0 to P6 without requesting intermediate user approvals while faithfully incorporating all user-specified context, audience definitions, scope bounds, or pedagogical preferences.
+1. **Zero-Touch Execution:** The user provides a source note (any format: `.ipynb`, `.md`, `.txt`, `.pdf`, etc.) and an optional trigger prompt with or without custom context (e.g. "create interactive lessons for this", or "lets create, focus on beginner intuition and emphasize visual proofs"). The agent proceeds through P0 to P6 without requesting intermediate user approvals while faithfully incorporating all user-specified context, audience definitions, scope bounds, or pedagogical preferences.
 2. **Private Pilot Output:** All autonomous outputs are designated `private-pilot-complete` under Stage 1/2 non-independent review rules ([ADR-0003](../../../docs/adr/0003-stage-1-pilot-evidence-and-gate-semantics.md)).
 3. **Budget-Bounded Self-Correction:** The self-correction loop during P5 (six audits + adversarial gate) is capped at a maximum of **2 revision cycles** (`revision_cycles <= 2`). If defects persist after 2 cycles, halt and escalate with a clear diagnostic.
 4. **No Silent Drops:** Any concept, widget, or technique specified in the Learning Plan (LP) or Experience Specification (XS) must appear in the candidate at full depth. If something cannot be built, mark it explicitly as an intentional omission with rationale in the records.
