@@ -1,6 +1,6 @@
 # Learning OS
 
-> A documentation-first, agent-governed operating system that turns technical source material into rigorously evaluated, interactive learning notes.
+> A documentation-first, agent-governed operating system that turns technical source material into rigorously evaluated, interactive lessons.
 
 **Learning OS** is the operating system; **Interactive Lessons** are the learner-facing artifacts it produces. This repository hosts both: the governance and knowledge system (`docs/`, `library/`, `templates/`, `records/`, `scripts/`, `.agents/`) and the generated interactive lessons (`content/`).
 
