@@ -20,5 +20,6 @@
 11. `10-governance` — standards, versioning, reviews, and ADR policy.
 12. `11-roadmap` — maturity stages, risks, decisions still open, and implementation gates.
 13. `adr` — immutable major decisions.
+14. `audit` — cross-cutting diagnostic audits that span multiple governance surfaces; observational records, not binding standards.
 
 Read the [repository entry point](../README.md) first. Do not treat a document as authoritative merely because it is under `docs/`: status, owner, and linked decision determine its operational authority.
