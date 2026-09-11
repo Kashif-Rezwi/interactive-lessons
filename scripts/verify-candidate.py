@@ -117,9 +117,13 @@ def check_provenance_header(content: str) -> None:
 def check_standard_colophon(content: str) -> None:
     """Verify standard colophon closes the artifact without external banners."""
     colophon_match = re.search(r'<footer[^>]*class=["\'][^"\']*colophon[^"\']*["\']', content, re.IGNORECASE)
+    # Brand phrases: "Interactive Lessons" is the current artifact brand
+    # (ADR-0014, 2026-09-11); "Interactive Notes" remains accepted because
+    # pre-rename artifacts are preserved byte-for-byte with recorded hashes.
     has_honesty_text = any(phrase in content for phrase in [
         "AI-generated, so mistakes can sneak in",
         "AI-assisted",
+        "Interactive Lessons",
         "Interactive Notes",
         "Learning OS"
     ])

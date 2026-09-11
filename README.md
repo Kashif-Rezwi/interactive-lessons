@@ -2,11 +2,13 @@
 
 > A documentation-first, agent-governed operating system that turns technical source material into rigorously evaluated, interactive learning notes.
 
-**Learning OS** is the operating system; **Interactive Notes** are the learner-facing artifacts it produces. This repository hosts both: the governance and knowledge system (`docs/`, `library/`, `templates/`, `records/`, `scripts/`, `.agents/`) and the generated interactive lessons (`content/`).
+**Learning OS** is the operating system; **Interactive Lessons** are the learner-facing artifacts it produces. This repository hosts both: the governance and knowledge system (`docs/`, `library/`, `templates/`, `records/`, `scripts/`, `.agents/`) and the generated interactive lessons (`content/`).
 
 Learning OS is the documentation-first operating system for a future AI-native platform that turns technical source material into rigorous, beautiful, interactive learning experiences.
 
 This repository is deliberately **not the application**. It is the durable source of truth that tells humans and AI coding agents what to build, why it matters, how work is performed, how quality is measured, and how lessons learned become reusable knowledge. No production implementation belongs here until the foundation documents explicitly authorize it.
+
+The project began as the maintainer's personal pipeline for turning course notes into interactive study lessons, and is evolving toward a reusable agent skill and, eventually, a web application (roadmap Stages 3–4).
 
 ## Repository status
 
@@ -38,7 +40,7 @@ What exists and works today:
 
 ## The lesson pipeline
 
-Every interactive note is produced by a governed transformation pipeline, not a single generation call:
+Every interactive lesson is produced by a governed transformation pipeline, not a single generation call:
 
 ```text
 Source notebook (SHA-256 identity, SRC record)
@@ -50,7 +52,7 @@ Source notebook (SHA-256 identity, SRC record)
 
 A stage may not consume an unapproved upstream artifact, and generation cannot self-certify release.
 
-## Viewing the interactive notes
+## Viewing the interactive lessons
 
 Generated lessons are self-contained HTML files with no build step and no external dependencies. Open them directly in a browser — on macOS:
 
