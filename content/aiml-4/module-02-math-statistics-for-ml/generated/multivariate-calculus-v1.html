@@ -37,7 +37,7 @@ section{margin:1.7rem 0}
 .badge.ext{background:#efe9f6;color:var(--ext)}
 .ptag{display:inline-block;font-size:.66rem;border:1px solid var(--line);border-radius:4px;padding:.05rem .4rem;color:var(--ink-faint);margin-left:.35rem;vertical-align:1px}
 .term{border-bottom:1px dotted var(--accent);text-decoration:none;color:inherit}
-.map{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:1rem;box-shadow:var(--shadow)}
+.map{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:1rem;box-shadow:var(--shadow);overflow-x:auto}
 .map svg{width:100%;height:auto;display:block}
 .map .node{fill:var(--accent-soft);stroke:var(--accent);stroke-width:1.2}
 .map .node2{fill:var(--good-soft);stroke:var(--ml)}
@@ -115,7 +115,7 @@ table.apptable th,table.looptable th{background:var(--accent-soft);color:var(--a
 .storage-note{font-size:.78rem;color:var(--ink-faint)}
 footer.colophon{text-align:center;color:var(--ink-faint);font-size:.78rem;margin-top:2.4rem;border-top:1px solid var(--line-soft);padding:1rem 0 .2rem}
 footer.colophon .heart{color:var(--bad)}
-@media (max-width:640px){h1{font-size:1.5rem}h2{font-size:1.22rem}.wrap{padding:0 .75rem 2.5rem}}
+@media (max-width:640px){h1{font-size:1.5rem}h2{font-size:1.22rem}.wrap{padding:0 .75rem 2.5rem}.map svg{min-width:560px}}
 @media print{.topnav,.ctrl-grid,.numin,button,canvas.viz,.slider-track{display:none!important}.hint,.modelanswer{display:block!important}body{background:#fff;font-size:12px}.wrap{max-width:none}section{page-break-inside:avoid}}
 @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}*,*::before,*::after{transition:none!important;animation:none!important}}
 .callout.good{border-color:var(--good);background:var(--good-soft)}
@@ -148,36 +148,41 @@ footer.colophon .heart{color:var(--bad)}
 <p class="storage-note" id="storageNote">Progress (dots and review list) is saved in this browser only. </p>
 <h3>The map of this lesson</h3>
 
-<div class="map"><svg viewBox="0 0 560 300" role="img" aria-label="Concept map: ML-as-optimization leads to the loss surface; the loss surface needs partial derivatives, which build the gradient; the gradient enables gradient descent, the Jacobian, and the Hessian; the directional derivative explains why the gradient is the steepest direction (a dashed payoff edge); the loss surface and the chain rule lead to backpropagation, with the Jacobian feeding it; the Hessian leads to saddles and Newton's method; the chain rule, saddles, and gradient descent all converge on deep-net training.">
+<div class="map"><svg viewBox="0 0 720 340" role="img" aria-label="Concept map with 16 directed relationships: optimization leads to the loss surface; the loss surface leads to partial derivatives and the chain rule; partial derivatives build the gradient; the gradient leads to gradient descent, the directional derivative, the Jacobian, and the Hessian; the dashed directional-derivative edge returns to the gradient as the steepest-direction payoff; the chain rule and Jacobian lead to backpropagation; the chain rule, saddle points, and gradient descent lead to deep-net training; and the Hessian leads to saddle points and Newton's method.">
 <defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#66727f"/></marker></defs>
-<rect class="node" x="40" y="30" width="90" height="26" rx="7"/><text x="85" y="47" text-anchor="middle">ML = optimization</text>
-<rect class="node" x="40" y="100" width="90" height="26" rx="7"/><text x="85" y="117" text-anchor="middle">loss surface</text>
-<rect class="node" x="40" y="170" width="90" height="26" rx="7"/><text x="85" y="187" text-anchor="middle">partials</text>
-<rect class="node" x="40" y="240" width="90" height="26" rx="7"/><text x="85" y="257" text-anchor="middle">gradient</text>
-<rect class="node2" x="190" y="240" width="90" height="26" rx="7"/><text x="235" y="257" text-anchor="middle">gradient descent</text>
-<rect class="node" x="190" y="170" width="90" height="26" rx="7"/><text x="235" y="187" text-anchor="middle">directional deriv.</text>
-<rect class="node" x="190" y="100" width="90" height="26" rx="7"/><text x="235" y="117" text-anchor="middle">chain rule</text>
-<rect class="node2" x="190" y="30" width="90" height="26" rx="7"/><text x="235" y="47" text-anchor="middle">backpropagation</text>
-<rect class="noded" x="340" y="100" width="90" height="26" rx="7"/><text x="385" y="117" text-anchor="middle">Jacobian</text>
-<rect class="node" x="340" y="240" width="90" height="26" rx="7"/><text x="385" y="257" text-anchor="middle">Hessian</text>
-<rect class="noded" x="460" y="170" width="90" height="26" rx="7"/><text x="505" y="187" text-anchor="middle">saddles</text>
-<rect class="node2" x="460" y="240" width="90" height="26" rx="7"/><text x="505" y="257" text-anchor="middle">Newton's method</text>
-<rect class="node2" x="340" y="30" width="90" height="26" rx="7"/><text x="385" y="47" text-anchor="middle">deep-net training</text>
-<path class="edge" d="M85,56 L85,94"/>
-<path class="edge" d="M85,126 L85,164"/>
-<path class="edge" d="M85,196 L85,234"/>
-<path class="edge" d="M130,253 L186,253"/>
-<path class="edge" d="M130,247 L186,187"/>
-<path class="edge promise" d="M186,196 L130,232"/>
-<path class="edge" d="M130,113 L186,113"/>
-<path class="edge" d="M235,96 L235,60"/>
-<path class="edge" d="M340,183 L286,50"/>
-<path class="edge" d="M430,183 L456,183"/>
-<path class="edge" d="M430,253 L456,253"/>
-<path class="edge" d="M235,96 L336,50"/>
-<path class="edge" d="M480,164 L428,60"/>
-<path class="edge" d="M280,247 L370,60"/>
-<path class="edge" d="M130,259 C200,292 280,292 340,259"/>
+<g class="nodes">
+<rect id="node-opt" class="node" x="30" y="24" width="130" height="32" rx="7"/><text x="95" y="45" text-anchor="middle">ML = optimization</text>
+<rect id="node-loss" class="node" x="30" y="92" width="130" height="32" rx="7"/><text x="95" y="113" text-anchor="middle">loss surface</text>
+<rect id="node-pd" class="node" x="30" y="160" width="130" height="32" rx="7"/><text x="95" y="181" text-anchor="middle">partials</text>
+<rect id="node-grad" class="node" x="30" y="228" width="130" height="32" rx="7"/><text x="95" y="249" text-anchor="middle">gradient</text>
+<rect id="node-gd" class="node2" x="220" y="228" width="130" height="32" rx="7"/><text x="285" y="249" text-anchor="middle">gradient descent</text>
+<rect id="node-dd" class="node" x="220" y="160" width="140" height="32" rx="7"/><text x="290" y="181" text-anchor="middle">directional derivative</text>
+<rect id="node-cr" class="node" x="220" y="92" width="130" height="32" rx="7"/><text x="285" y="113" text-anchor="middle">chain rule</text>
+<rect id="node-bp" class="node2" x="220" y="24" width="145" height="32" rx="7"/><text x="292.5" y="45" text-anchor="middle">backpropagation</text>
+<rect id="node-jac" class="noded" x="420" y="92" width="125" height="32" rx="7"/><text x="482.5" y="113" text-anchor="middle">Jacobian</text>
+<rect id="node-hes" class="node" x="420" y="228" width="125" height="32" rx="7"/><text x="482.5" y="249" text-anchor="middle">Hessian</text>
+<rect id="node-saddle" class="noded" x="590" y="160" width="115" height="32" rx="7"/><text x="647.5" y="181" text-anchor="middle">saddles</text>
+<rect id="node-newton" class="node2" x="570" y="228" width="135" height="32" rx="7"/><text x="637.5" y="249" text-anchor="middle">Newton's method</text>
+<rect id="node-deep" class="node2" x="420" y="24" width="145" height="32" rx="7"/><text x="492.5" y="45" text-anchor="middle">deep-net training</text>
+</g>
+<g class="edges">
+<path data-edge="OPT-LOSS" class="edge" d="M95,56 L95,92"/>
+<path data-edge="LOSS-PD" class="edge" d="M95,124 L95,160"/>
+<path data-edge="PD-GRAD" class="edge" d="M95,192 L95,228"/>
+<path data-edge="GRAD-GD" class="edge" d="M160,244 L220,244"/>
+<path data-edge="GRAD-DD" class="edge" d="M160,236 C185,218 197,190 220,176"/>
+<path data-edge="DD-GRAD" class="edge promise" d="M220,184 C198,203 185,232 160,252"/>
+<path data-edge="GRAD-JAC" class="edge" d="M160,236 C250,198 325,132 420,108"/>
+<path data-edge="LOSS-CR" class="edge" d="M160,108 L220,108"/>
+<path data-edge="CR-BP" class="edge" d="M285,92 L285,56"/>
+<path data-edge="JAC-BP" class="edge" d="M420,108 C390,84 377,56 365,40"/>
+<path data-edge="CR-DEEP" class="edge" d="M350,102 C375,85 395,58 420,40"/>
+<path data-edge="GRAD-HES" class="edge" d="M160,256 C250,315 350,315 420,256"/>
+<path data-edge="HES-SADDLE" class="edge" d="M545,244 C570,224 580,195 590,176"/>
+<path data-edge="HES-NEWT" class="edge" d="M545,244 L570,244"/>
+<path data-edge="SADDLE-DEEP" class="edge" d="M640,160 C620,112 590,70 565,56"/>
+<path data-edge="GD-DEEP" class="edge" d="M350,236 C380,180 400,92 420,56"/>
+</g>
 </svg></div>
 <p>The dashed edge is this lesson's one big promise: Unit 2 <i>asserts</i> that the gradient is the steepest direction; Unit 3 <i>proves</i> it with the directional derivative. Everything in the right column is where this calculus actually runs in modern ML.</p>
 </section>
@@ -198,7 +203,7 @@ footer.colophon .heart{color:var(--bad)}
 <div class="widget" id="w1">
 <div class="label">EXPLORE · LOSS EXPLORER (LIVE MSE)</div>
 <p class="goal">🎯 Goal: tune the two dials <b>w</b> and <b>b</b> by hand — get the average shaded square as small as you can.</p>
-<canvas class="viz" id="cv1" aria-label="Linear regression canvas: five fixed data points, the line y-hat = w x + b controlled by two sliders, and a shaded square on each point's vertical error segment showing its squared error. A text readout below gives the same numbers." role="img"></canvas>
+<canvas class="viz" id="cv1" aria-label="Linear regression canvas: five fixed data points, the line y-hat = w x + b controlled by two sliders, and a shaded square on each point's vertical error segment showing its squared error. A text readout below gives the same numbers." aria-describedby="r1" role="img"></canvas>
 <div class="legend-inline"><span class="lg-a">data points</span><span class="lg-b">model line</span><span class="lg-d">error squares</span></div>
 <div class="ctrl-grid">
 <div class="slider-control"><div class="slider-head"><span class="slider-label">w — slope dial</span><output class="slider-val" id="lsWVal">0.5</output></div><div class="slider-track"><input id="lsW" type="range" min="-2" max="4" step="0.1" value="0.5" aria-label="Slope w of the fitted line"></div></div>
@@ -300,7 +305,7 @@ footer.colophon .heart{color:var(--bad)}
 <div class="widget" id="w2" data-locked="true">
 <div class="label">EXPLORE · PARTIAL LAB (CONTOURS + GRADIENT ARROW)</div>
 <p class="goal">🎯 Goal: move the point and watch each axis's slope change — the arrow stacks them into one direction.</p>
-<canvas class="viz" id="cv2" aria-label="Contour map of the elliptical bowl f = x squared plus 2 y squared, with ellipses at heights 0.5, 2, 4.5 and 8. A point P is controlled by two sliders, dashed lines show the frozen-axis cross-sections, and a gradient arrow shows the steepest-ascent direction with a length scaled to its magnitude. A text readout below gives the same numbers." role="img"></canvas>
+<canvas class="viz" id="cv2" aria-label="Contour map of the elliptical bowl f = x squared plus 2 y squared, with ellipses at heights 0.5, 2, 4.5 and 8. A point P is controlled by two sliders, dashed lines show the frozen-axis cross-sections, and a gradient arrow shows the steepest-ascent direction with a length scaled to its magnitude. A text readout below gives the same numbers." aria-describedby="r2" role="img"></canvas>
 <div class="legend-inline"><span class="lg-a">contours (equal height)</span><span class="lg-b">point P</span><span class="lg-c">gradient arrow (scaled)</span><span class="lg-d">frozen-axis guides</span></div>
 <div class="ctrl-grid">
 <div class="slider-control"><div class="slider-head"><span class="slider-label">x₀ — east-west position</span><output class="slider-val" id="pxVal">1.2</output></div><div class="slider-track"><input id="px" type="range" min="-2.5" max="2.5" step="0.1" value="1.2" aria-label="Point x coordinate"></div></div>
@@ -321,7 +326,7 @@ footer.colophon .heart{color:var(--bad)}
 <div class="widget" id="w3">
 <div class="label">EXPLORE · DESCENT LAB (GRADIENT DESCENT, LIVE)</div>
 <p class="goal">🎯 Goal: find a learning rate that converges fast — then push η past 0.5 and watch the walk explode.</p>
-<canvas class="viz" id="cv3" aria-label="Contour map of the same elliptical bowl with a 14-step gradient descent path drawn from a starting point controlled by sliders. A text readout below gives the same numbers including per-axis update factors and a stability verdict." role="img"></canvas>
+<canvas class="viz" id="cv3" aria-label="Contour map of the same elliptical bowl with a 14-step gradient descent path drawn from a starting point controlled by sliders. A text readout below gives the same numbers including per-axis update factors and a stability verdict." aria-describedby="r3" role="img"></canvas>
 <div class="legend-inline"><span class="lg-a">contours</span><span class="lg-b">descent path</span><span class="lg-c">start point</span></div>
 <div class="ctrl-grid">
 <div class="slider-control"><div class="slider-head"><span class="slider-label">η — learning rate</span><output class="slider-val" id="etaVal">0.15</output></div><div class="slider-track"><input id="eta" type="range" min="0.05" max="0.95" step="0.01" value="0.15" aria-label="Learning rate eta"></div></div>
@@ -407,7 +412,7 @@ footer.colophon .heart{color:var(--bad)}
 <div class="widget" id="w4" data-locked="true">
 <div class="label">EXPLORE · DIRECTION LAB (PROJECTION, LIVE)</div>
 <p class="goal">🎯 Goal: sweep the dial — find the angle where climbing is fastest, and the angle where it is flat.</p>
-<canvas class="viz" id="cv4" aria-label="Contour map of the bowl f = x squared plus 2y squared with the point P at (1.2, 0.8), the fixed gradient arrow, a unit direction arrow controlled by an angle dial, and a horizontal projection bar comparing the directional derivative against the gradient magnitude of 4. A text readout below gives the same numbers." role="img"></canvas>
+<canvas class="viz" id="cv4" aria-label="Contour map of the bowl f = x squared plus 2y squared with the point P at (1.2, 0.8), the fixed gradient arrow, a unit direction arrow controlled by an angle dial, and a horizontal projection bar comparing the directional derivative against the gradient magnitude of 4. A text readout below gives the same numbers." aria-describedby="r4" role="img"></canvas>
 <div class="legend-inline"><span class="lg-c">gradient ∇f + projection bar</span><span class="lg-b">your direction u (unit)</span></div>
 <div class="ctrl-grid">
 <div class="slider-control"><div class="slider-head"><span class="slider-label">θ — direction dial (degrees)</span><output class="slider-val" id="thVal">60</output></div><div class="slider-track"><input id="dth" type="range" min="0" max="360" step="5" value="60" aria-label="Direction angle in degrees"></div></div>
@@ -481,7 +486,7 @@ footer.colophon .heart{color:var(--bad)}
 <div class="widget" id="w5">
 <div class="label">EXPLORE · GRAPH LAB (FORWARD VALUES, BACKWARD DERIVATIVES)</div>
 <p class="goal">🎯 Goal: move x and watch forward values (green) and backward local derivatives (red) move together — the product is the chain rule.</p>
-<canvas class="viz" id="cv5" aria-label="Computational graph with three nodes x, g equals x squared, and y equals g plus one. Forward pass values are drawn in green inside each node and backward local derivatives in red below each edge. A text readout below gives the same numbers." role="img"></canvas>
+<canvas class="viz" id="cv5" aria-label="Computational graph with three nodes x, g equals x squared, and y equals g plus one. Forward pass values are drawn in green inside each node and backward local derivatives in red below each edge. A text readout below gives the same numbers." aria-describedby="r5" role="img"></canvas>
 <div class="legend-inline"><span class="lg-c">forward values</span><span class="lg-b">backward local derivatives</span></div>
 <div class="ctrl-grid">
 <div class="slider-control"><div class="slider-head"><span class="slider-label">x — the input dial</span><output class="slider-val" id="gxVal">2</output></div><div class="slider-track"><input id="gx" type="range" min="-3" max="3" step="0.1" value="2" aria-label="Input value x"></div></div>
@@ -574,7 +579,7 @@ footer.colophon .heart{color:var(--bad)}
 <div class="widget" id="w6" data-locked="true">
 <div class="label">EXPLORE · CURVATURE LAB (TWO LIVE CROSS-SECTIONS)</div>
 <p class="goal">🎯 Goal: give the two directions opposite curvatures — and meet the saddle; make both negative — and stand inside a dome.</p>
-<canvas class="viz" id="cv6" aria-label="Two side-by-side parabola panels: the left shows the cross-section of the loss along the x-axis with curvature a, the right shows the cross-section along the y-axis with curvature c, each opening up, flat, or down according to the sign of its slider. A text readout below gives the Hessian matrix, its eigenvalues, the classification, and the Newton step." role="img"></canvas>
+<canvas class="viz" id="cv6" aria-label="Two side-by-side parabola panels: the left shows the cross-section of the loss along the x-axis with curvature a, the right shows the cross-section along the y-axis with curvature c, each opening up, flat, or down according to the sign of its slider. A text readout below gives the Hessian matrix, its eigenvalues, the classification, and the Newton step." aria-describedby="r6" role="img"></canvas>
 <div class="legend-inline"><span class="lg-c">curving up (positive)</span><span class="lg-b">curving down (negative)</span><span style="color:var(--ink-faint)">flat: gray line</span></div>
 <div class="ctrl-grid">
 <div class="slider-control"><div class="slider-head"><span class="slider-label">a — curvature along x</span><output class="slider-val" id="caVal">3</output></div><div class="slider-track"><input id="ca" type="range" min="-3" max="6" step="0.1" value="3" aria-label="Curvature coefficient a along the x axis"></div></div>
@@ -882,8 +887,10 @@ var STORAGE_OK=(function(){ try{ var t="__mvc1t"; localStorage.setItem(t,"1"); l
 function loadJSON(key,fb){ if(!STORAGE_OK){ return fb; } try{ var raw=localStorage.getItem(key); if(raw===null){ return fb; } var v=JSON.parse(raw); return (v&&typeof v==="object")?v:fb; }catch(e){ return fb; } }
 function saveJSON(key,val){ if(!STORAGE_OK){ return; } try{ localStorage.setItem(key,JSON.stringify(val)); }catch(e){} }
 var dots=loadJSON("mvc1-dots",{});
-var review=loadJSON("mvc1-review",[]);
+var storedReview=loadJSON("mvc1-review",[]);
+var review=Array.isArray(storedReview)?storedReview.filter(function(item){ return item&&typeof item.id==="string"&&(/^(chk[1-6](-(n|m))?)$/.test(item.id)||/^mastery(-m[1-8])?$/.test(item.id)); }):[];
 function addReview(id,label){ for(var i=0;i<review.length;i++){ if(review[i].id===id){ return; } } review.push({id:id,label:label}); saveJSON("mvc1-review",review); renderReview(); }
+function removeReview(id){ var next=[]; for(var i=0;i<review.length;i++){ if(review[i].id!==id){ next.push(review[i]); } } if(next.length!==review.length){ review=next; saveJSON("mvc1-review",review); renderReview(); } }
 function renderReview(){
   var el=document.getElementById("reviewList");
   if(!el){ return; }
@@ -901,7 +908,8 @@ function markCheck(unit,part,ok,label){
   dots[unit]=dots[unit]||{};
   dots[unit][part]=!!ok;
   saveJSON("mvc1-dots",dots);
-  if(!ok){ addReview("chk"+unit.slice(1),label); }
+  var reviewId="chk"+unit.slice(1)+"-"+part;
+  if(!ok){ addReview(reviewId,label); } else { removeReview(reviewId); removeReview("chk"+unit.slice(1)); }
   if(dots[unit].n&&dots[unit].m){ setDot(unit,true); }
 }
 /* ===== nav dots + active state (IntersectionObserver) ===== */
@@ -1018,7 +1026,7 @@ function drawW1(){
     "Current dials: ŷ = "+fmt(w,1)+"·x + "+fmt(b,1)+" → MSE = <b>"+fmt(mse,3)+"</b><br>"+
     "Per-point squared errors: "+se.map(function(v){return fmt(v,2);}).join(" · ")+"<br>"+
     "Best by <a class='term' href='#g-lsq' data-term='g-lsq'>least squares</a> (computed live from the dataset): w* = <b>"+fmt(ws,2)+"</b>, b* = <b>"+fmt(bs,2)+"</b>, MSE* = <b>"+fmt(mses,3)+"</b> — you are "+fmt(Math.sqrt((w-ws)*(w-ws)+(b-bs)*(b-bs)),2)+" dial-units away<br>"+
-    "Reading: each shaded square is one point's squared error; the loss is the average square. Gradient descent on this surface walks straight to (w*, b*) — Unit 2 shows the walk on a bowl you can see.";
+    "Reading: each shaded square is one point's squared error; the loss is the average square. Gradient descent converges toward (w*, b*) — on an anisotropic quadratic, its path can zig-zag as it approaches the optimum. Unit 2 shows the walk on a bowl you can see.";
 }
 /* ===== W2: partial lab (contours + gradient arrow), gated by G1 ===== */
 var LEVELS=[0.5,2,4.5,8];
@@ -1427,7 +1435,8 @@ function bindMastery(){
       fb.className="feedback "+(ok?"ok":"no");
       fb.innerHTML=M.fb[choice.value];
       mastState[key]={ok:ok,conf:conf};
-      if(!ok&&conf==="sure"){ addReview("mastery","Confident miss: "+M.label); fb.innerHTML+="<br><span class='no'>You were sure — this one goes to your review list.</span>"; }
+      var reviewId="mastery-"+key;
+      if(!ok&&conf==="sure"){ addReview(reviewId,"Confident miss: "+M.label); fb.innerHTML+="<br><span class='no'>You were sure — this one goes to your review list.</span>"; } else if(ok){ removeReview(reviewId); removeReview("mastery"); }
       renderMSummary();
     });
   }
@@ -1446,7 +1455,8 @@ function bindMastery(){
       fb.className="feedback "+(ok?"ok":"no");
       fb.textContent=ok?M.ok:M.no;
       mastState[key]={ok:ok,conf:conf};
-      if(!ok&&conf==="sure"){ addReview("mastery","Confident miss: "+key.toUpperCase()+" (mastery)"); fb.innerHTML+="<br><span class='no'>You were sure — this one goes to your review list.</span>"; }
+      var reviewId="mastery-"+key;
+      if(!ok&&conf==="sure"){ addReview(reviewId,"Confident miss: "+key.toUpperCase()+" (mastery)"); fb.innerHTML+="<br><span class='no'>You were sure — this one goes to your review list.</span>"; } else if(ok){ removeReview(reviewId); removeReview("mastery"); }
       renderMSummary();
     });
   }

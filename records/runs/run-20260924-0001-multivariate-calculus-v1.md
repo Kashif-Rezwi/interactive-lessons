@@ -5,7 +5,7 @@
 **Owner:** Repository maintainer (solo Stage 1 operator)  
 **Objective:** Governed first generation of the Class 4 interactive lesson (multivariate calculus for machine learning) from the source notebook, at benchmark-band depth: full 31-cell source pass, six-unit experience with six ladders, three prediction gates, two explain-in-own-words items, 8-item confidence-calibrated mastery, six live widgets (five canvases plus one numeric lab with a stated reason), honest dispositions for the source's transcription artifacts (including its mathematically wrong chain-rule formula and two opaque base64 figures).  
 **Budget:** One generation; maximum two revision cycles  
-**Iteration counts:** generation = 1; in-generation corrections = 16 (itemized below; all pre-evaluation repairs and refinements, no shift in design intent); revision cycles = 0 (no post-evaluation material change)  
+**Iteration counts:** generation = 1; in-generation corrections = 16 (itemized below; all pre-evaluation repairs and refinements, no shift in design intent); revision cycles = 1 targeted post-evaluation remediation
 **Classification:** production  
 **Operating scope:** Stage 1 private pilot  
 **Review-independence summary:** non-independent  
@@ -51,9 +51,11 @@
 ## Reflection and root-cause hypothesis
 
 The generation itself went as designed (single session, no design-level rework, no revision cycles), but the session surfaced a **tooling-hazard defect class**: assembling a ~150 KB single-file artifact by issuing `insert_line` appends with *estimated* offsets into a growing file. Whenever an estimate fell short of the true end of file, the insert landed *inside* the previous chunk, displacing that chunk's tail below the new content; twelve such events cascaded (six JS functions, four function tails, the glossary's four-entry boundary, and two CSS rules), plus one undefined-variable typo inside a restored function, and one `<script>` region that looked contiguous while missing its predecessors' tails. Static analysis caught the syntax imbalance (`node --check` reported unclosed braces) but the runtime `ReferenceError` was only visible in a real browser — direct evidence for ADR-0010's rendered-verification requirement. Root cause: estimation-based editing rather than deterministic assembly. Remedy adopted here and recommended as a reusable rule: build long artifacts as independent chunk files and concatenate them with one shell command; when appending is unavoidable, probe the true EOF so the tool reports the exact boundary instead of computing it. Promoted to memory as MEM-2026-0007.
-## Revision history and regression checks
+### Revision history and regression checks
 
-No post-evaluation revisions (revision cycles = 0). In-generation corrections, each with its regression check:
+Post-evaluation remediation cycle 1 addressed the specialist review findings: corrected the gradient-descent path wording, made unit/mastery review entries clear on a later correct answer with per-assessment keys, added `aria-describedby` links from all six canvases to their live readouts, guarded non-array review storage, preserved legacy `chkN`/`mastery` review entries through migration, and rebuilt the concept map from the authoritative 16-edge dependency list with bounded labels and a narrow-screen internal scroll surface. Regression checks: strict candidate verification passed with 0 failures; `node --check` passed; a wrong Unit 1 numeric answer queued and a correct retry removed the item; a confident M2 mastery miss queued and a correct retry removed the item; legacy review entries survived migration and the related Unit 1 correction removed only its legacy item; all six canvas description targets resolved; every map edge was present exactly once and every label fit its node; the 320px map remained internally scrollable without page overflow; corrupted review/dot storage loaded with 0 page errors; and the browser trace reported 0 page errors and 0 console errors/warnings. Remediated candidate SHA-256: `2edbbbbe6203d43093e2d2bd7c0b25185a30ee6795bca3435684c423cca072b5`.
+
+In-generation corrections, each with their regression check:
 
 | # | Correction (pre-evaluation) | Regression check |
 | --- | --- | --- |
@@ -69,7 +71,7 @@ No post-evaluation revisions (revision cycles = 0). In-generation corrections, e
 
 ## Decision and approvers
 
-**Final candidate identity at closure:** `CAN-2026-0013`, `multivariate-calculus-v1.html`, SHA-256 `5363d7d535bba16ea7401a035b0d8b7666833a2600515fe1cc0286416e449f81`, 157,620 bytes  
+**Final candidate identity at closure:** `CAN-2026-0013`, `multivariate-calculus-v1.html`, SHA-256 `2edbbbbe6203d43093e2d2bd7c0b25185a30ee6795bca3435684c423cca072b5`, 159,387 bytes
 **Disposition:** private-pilot-complete  
 **Decision scope:** private pilot  
 **Approvers and limitations:** repository maintainer (solo Stage 1 operator); non-independent review; ineligible for public release
