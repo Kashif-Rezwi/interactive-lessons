@@ -1,0 +1,1499 @@
+<!-- candidate: CAN-2026-0013 | model: Cline (Claude Sonnet 4.6) | date: 2026-09-24 | run: RUN-20260924-0001 | source: SRC-2026-0004 | prompt card: prm-generator-lesson-standard@0.6.0 digest 532febec136b | inputs: CM-2026-0011 / LP-2026-0012 / XS-2026-0012 -->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Multivariate Calculus for Machine Learning · Interactive Lessons v1</title>
+<style>
+:root{--ink:#1c2430;--ink-soft:#3d4a5a;--ink-faint:#66727f;--paper:#f7f6f2;--card:#fff;--line:#e3e0d8;--line-soft:#eeece5;--accent:#2f5fd0;--accent-soft:#e8eefa;--accent-deep:#1e3f8f;--good:#1e7a46;--good-soft:#e4f3ea;--bad:#b3382e;--bad-soft:#fae9e7;--warn:#8a6116;--warn-soft:#faf3e2;--core:#2f5fd0;--foundation:#8a6116;--deep:#0f6f6a;--ml:#1e7a46;--ext:#6d4fa3;--mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;--sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;--radius:10px;--maxw:48rem;--space:1rem;--shadow:0 1px 2px rgba(28,36,48,.08);--focus:0 0 0 3px rgba(47,95,208,.25)}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:16.5px;line-height:1.65;-webkit-font-smoothing:antialiased}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 1.1rem 3rem}
+h1{font-size:1.9rem;line-height:1.25;margin:.3rem 0 .4rem}
+h2{font-size:1.42rem;line-height:1.3;margin:1.6rem 0 .5rem}
+h3{font-size:1.12rem;margin:1.2rem 0 .35rem}
+p{margin:.55rem 0}
+a{color:var(--accent-deep)}
+.topnav{position:sticky;top:0;z-index:40;background:rgba(247,246,242,.94);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border-bottom:1px solid var(--line)}
+.navin{max-width:var(--maxw);margin:0 auto;padding:.45rem 1.1rem;overflow-x:auto;scrollbar-width:thin;white-space:nowrap}
+.topnav a{display:inline-flex;align-items:center;gap:.32rem;border-radius:999px;border:1px solid transparent;padding:.32rem .6rem;margin-right:.25rem;text-decoration:none;color:var(--ink-soft);font-size:.82rem}
+.topnav a:hover{border-color:var(--line)}
+.topnav a[aria-current="true"]{background:var(--accent-soft);color:var(--accent-deep);border-color:var(--accent-soft);font-weight:600}
+.dot{width:.5rem;height:.5rem;border-radius:50%;background:var(--line);display:inline-block;flex-shrink:0}
+.dot.done{background:var(--good)}
+header.pagehead{padding:1.6rem 0 .4rem}
+.kicker{text-transform:uppercase;letter-spacing:.12em;font-size:.74rem;font-weight:700;color:var(--accent)}
+.sub{color:var(--ink-soft);font-size:1.02rem}
+.head-meta{display:flex;flex-wrap:wrap;gap:.45rem;margin:.7rem 0 .2rem}
+.chip{font-size:.74rem;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:.22rem .65rem;color:var(--ink-soft)}
+section{margin:1.7rem 0}
+.label{font-size:.7rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-faint);margin:.1rem 0 .25rem}
+.badge{display:inline-block;font-size:.68rem;font-weight:700;letter-spacing:.09em;border-radius:5px;padding:.14rem .5rem;margin-bottom:.3rem}
+.badge.core{background:var(--accent-soft);color:var(--core)}
+.badge.foundation{background:var(--warn-soft);color:var(--foundation)}
+.badge.deep{background:#e2f2f0;color:var(--deep)}
+.badge.ml{background:var(--good-soft);color:var(--ml)}
+.badge.ext{background:#efe9f6;color:var(--ext)}
+.ptag{display:inline-block;font-size:.66rem;border:1px solid var(--line);border-radius:4px;padding:.05rem .4rem;color:var(--ink-faint);margin-left:.35rem;vertical-align:1px}
+.term{border-bottom:1px dotted var(--accent);text-decoration:none;color:inherit}
+.map{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:1rem;box-shadow:var(--shadow)}
+.map svg{width:100%;height:auto;display:block}
+.map .node{fill:var(--accent-soft);stroke:var(--accent);stroke-width:1.2}
+.map .node2{fill:var(--good-soft);stroke:var(--ml)}
+.map .nodef{fill:var(--warn-soft);stroke:var(--foundation)}
+.map .noded{fill:#e2f2f0;stroke:var(--deep)}
+.map text{font-size:11px;fill:var(--ink-soft);font-family:var(--sans)}
+.map .edge{stroke:var(--ink-faint);stroke-width:1.1;fill:none;marker-end:url(#arrow)}
+.map .edge.promise{stroke-dasharray:4 3}
+
+.formula{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:8px;padding:.7rem .9rem;margin:.8rem 0;font-family:var(--mono);font-size:1.02rem;overflow-x:auto}
+.formula .fx{white-space:nowrap}
+.symkey{margin:.45rem 0 0;font-family:var(--sans);font-size:.82rem;color:var(--ink-soft);line-height:1.5;list-style:none;padding-left:0}
+.symkey li{margin:.12rem 0;padding-left:1rem;position:relative}
+.symkey li::before{content:"–";position:absolute;left:0;color:var(--ink-faint)}
+.widget{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:.95rem 1rem;margin:.9rem 0;box-shadow:var(--shadow)}
+.widget .label{color:var(--accent)}
+.goal{background:var(--accent-soft);border-radius:6px;padding:.4rem .7rem;font-size:.9rem;margin:.3rem 0 .6rem}
+.ctrl-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:.85rem 1.25rem;width:100%;margin:.55rem 0}
+.slider-control{display:flex;flex-direction:column;gap:.35rem;min-width:0}
+.slider-head{display:flex;justify-content:space-between;align-items:baseline;gap:.5rem}
+.slider-label{font-size:.84rem;color:var(--ink-soft)}
+.slider-val{font-family:var(--mono);font-variant-numeric:tabular-nums;min-width:4.5ch;text-align:right;font-size:.88rem;color:var(--ink)}
+.slider-track{display:block}
+.slider-track input[type=range]{width:100%;margin:0}
+.readout{font-family:var(--mono);font-size:.86rem;background:var(--paper);border:1px solid var(--line-soft);border-radius:8px;padding:.6rem .75rem;margin:.6rem 0;line-height:1.6;overflow-x:auto}
+.readout b{color:var(--accent-deep)}
+.readout .ok{color:var(--good);font-weight:700}
+.readout .no{color:var(--bad);font-weight:700}
+canvas.viz{width:100%;height:auto;border:1px solid var(--line);border-radius:8px;background:#fff;display:block;margin:.4rem 0}
+.legend-inline{font-size:.78rem;color:var(--ink-soft);display:flex;flex-wrap:wrap;gap:.9rem;margin:.2rem 0 .4rem}
+.legend-inline span::before{content:"";display:inline-block;width:.7rem;height:.7rem;border-radius:2px;margin-right:.3rem;vertical-align:-1px}
+.lg-a::before{background:var(--accent)}
+.lg-b::before{background:var(--bad)}
+.lg-c::before{background:var(--good)}
+.lg-d::before{background:var(--warn)}
+.lg-e::before{background:var(--ext)}
+.predict{border:1.5px dashed var(--accent);border-radius:var(--radius);padding:.85rem 1rem;margin:1rem 0;background:rgba(232,238,250,.4)}
+.option-stack{display:flex;flex-direction:column;gap:.55rem;width:100%;margin:.75rem 0}
+.option-item{display:flex;align-items:flex-start;gap:.75rem;padding:.65rem .9rem;border:1.5px solid var(--line);border-radius:8px;background:var(--card);cursor:pointer}
+.option-item:hover{border-color:var(--accent)}
+.option-item input{margin-top:.2rem;flex-shrink:0}
+.option-text{font-size:.92rem;line-height:1.45}
+button{font-family:var(--sans);font-size:.88rem;background:var(--accent);color:#fff;border:none;border-radius:7px;padding:.5rem .95rem;cursor:pointer}
+button:hover{background:var(--accent-deep)}
+button.ghost{background:var(--card);color:var(--ink-soft);border:1px solid var(--line)}
+button.ghost:hover{border-color:var(--accent);color:var(--accent-deep);background:var(--card)}
+:focus-visible{outline:none;box-shadow:var(--focus);border-radius:4px}
+.feedback{border-radius:8px;padding:.6rem .8rem;margin:.55rem 0;font-size:.9rem;line-height:1.5}
+.ladder{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:.85rem 1rem;margin:1rem 0}
+.rung{border-top:1px dashed var(--line-soft);padding:.75rem 0 .35rem}
+.rung:first-of-type{border-top:none}
+.rung .label{color:var(--deep)}
+.rung p{font-size:.92rem}
+.hint{background:var(--warn-soft);border:1px solid var(--warn);border-radius:7px;padding:.5rem .75rem;margin:.4rem 0;font-size:.86rem}
+.modelanswer{background:var(--good-soft);border:1px solid var(--good);border-radius:7px;padding:.55rem .8rem;margin:.4rem 0;font-size:.88rem;line-height:1.55}
+.modelanswer b{color:var(--good)}
+.worked{background:var(--paper);border:1px solid var(--line-soft);border-radius:7px;padding:.55rem .8rem;margin:.4rem 0;font-family:var(--mono);font-size:.88rem;overflow-x:auto}
+.numin{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;margin:.45rem 0}
+.numin input[type=number]{font-family:var(--mono);font-variant-numeric:tabular-nums;font-size:.95rem;padding:.4rem .55rem;border:1.5px solid var(--line);border-radius:7px;width:11ch;background:var(--card);color:var(--ink)}
+.check{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:.85rem 1rem;margin:1rem 0}
+.check .label{color:var(--ml)}
+.mastery{background:var(--card);border:1.5px solid var(--ml);border-radius:var(--radius);padding:.95rem 1.05rem;margin:1.1rem 0}
+.mitem{border-top:1px dashed var(--line-soft);padding:.8rem 0 .3rem}
+.mitem:first-of-type{border-top:none}
+.conf{display:flex;flex-wrap:wrap;gap:.8rem;font-size:.84rem;color:var(--ink-soft);margin:.3rem 0}
+.msum{background:var(--good-soft);border:1px solid var(--good);border-radius:8px;padding:.6rem .85rem;margin:.6rem 0;font-size:.92rem}
+table.apptable,table.looptable{border-collapse:collapse;width:100%;font-size:.88rem;margin:.7rem 0;display:block;overflow-x:auto}
+table.apptable th,table.apptable td,table.looptable th,table.looptable td{border:1px solid var(--line);padding:.45rem .6rem;text-align:left;vertical-align:top}
+table.apptable th,table.looptable th{background:var(--accent-soft);color:var(--accent-deep)}
+.matblock{display:inline-block;font-family:var(--mono);font-size:.9rem;border:1px solid var(--line);border-radius:6px;padding:.4rem .55rem;margin:.3rem .45rem .3rem 0;background:var(--card);vertical-align:middle}
+.gitem{border-top:1px solid var(--line-soft);padding:.6rem 0}
+.gitem dt{font-weight:700;color:var(--accent-deep);font-size:.95rem}
+.gitem dd{margin:.15rem 0 0;font-size:.86rem;line-height:1.55}
+.gitem dd b{color:var(--ink-soft);font-weight:600}
+.storage-note{font-size:.78rem;color:var(--ink-faint)}
+footer.colophon{text-align:center;color:var(--ink-faint);font-size:.78rem;margin-top:2.4rem;border-top:1px solid var(--line-soft);padding:1rem 0 .2rem}
+footer.colophon .heart{color:var(--bad)}
+@media (max-width:640px){h1{font-size:1.5rem}h2{font-size:1.22rem}.wrap{padding:0 .75rem 2.5rem}}
+@media print{.topnav,.ctrl-grid,.numin,button,canvas.viz,.slider-track{display:none!important}.hint,.modelanswer{display:block!important}body{background:#fff;font-size:12px}.wrap{max-width:none}section{page-break-inside:avoid}}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}*,*::before,*::after{transition:none!important;animation:none!important}}
+.callout.good{border-color:var(--good);background:var(--good-soft)}
+.callout.info{border-color:var(--accent);background:var(--accent-soft)}
+</style>
+</head>
+<body>
+<nav class="topnav" aria-label="Lesson units"><div class="navin"><a href="#u0" aria-current="true">00 Start</a><a href="#u1">01 Optimization</a><a href="#u2">02 Partials</a><a href="#u3">03 Directions</a><a href="#u4">04 Chain rule</a><a href="#u5">05 Curvature</a><a href="#u6">06 Deep nets</a><a href="#synthesis">Synthesis</a><a href="#mastery">Mastery</a><a href="#glossary">Glossary</a></div></nav>
+<main id="main" class="wrap">
+<header class="pagehead">
+<div class="kicker">AIML-4 · Class 4 · Multivariate calculus</div>
+<h1>The calculus that trains machines</h1>
+<p class="sub">A hands-on route from "a model learns by minimizing error" to gradients, backpropagation, curvature, and the optimizer inside every neural network — every number you see is computed live in your browser.</p>
+<div class="head-meta"><span class="chip">⏱ 60–80 minutes</span><span class="chip">6 units + mastery</span><span class="chip">Works offline</span><span class="chip">Progress saved locally</span></div>
+</header>
+
+<section id="u0" aria-labelledby="u0t">
+<div class="label">UNIT 0 · ORIENTATION</div>
+<h2 id="u0t">How to learn with this page</h2>
+<p>Each unit follows the same loop: build intuition, <b>commit to a prediction</b> before the reveal, explore a live model, practice with fading help, then check yourself. Checks fill the dots in the top navigation; misses go to your personal review list at the end.</p>
+<table class="looptable"><caption class="label">The learning loop</caption><tr><th>Step</th><th>What you do</th><th>Why it works</th></tr>
+<tr><td>Learn</td><td>Read a short explanation with a worked number first.</td><td>Intuition before notation.</td></tr>
+<tr><td>Predict</td><td>Commit to an answer <i>before</i> the model reveals it.</td><td>Predictions make errors correctable.</td></tr>
+<tr><td>Explore</td><td>Move a slider, watch the geometry respond.</td><td>Causal feedback beats passive reading.</td></tr>
+<tr><td>Practice</td><td>Three-rung ladders: worked → completion → independent.</td><td>Support fades as you gain skill.</td></tr>
+<tr><td>Check</td><td>Auto-graded numeric + diagnostic choice questions.</td><td>Retrieval strengthens memory.</td></tr>
+<tr><td>Connect</td><td>See where each idea runs inside real ML systems.</td><td>Transfer, not trivia.</td></tr></table>
+<p>Content is labeled so you always know where you are: <span class="badge core">CLASS CORE</span> from the source notes · <span class="badge foundation">FOUNDATION</span> a prerequisite the notes assumed · <span class="badge deep">DEEP DIVE</span> added intuition · <span class="badge ml">ML LINK</span> application · <span class="badge ext">EXTENSION</span> optional, beyond the source. A small tag like <span class="ptag">constructed example</span> marks material invented for this lesson; <span class="ptag">source</span> marks the notes' own claims; <span class="ptag">supplemental</span> marks verified additions. Dotted-underlined terms link to the glossary without leaving your place.</p>
+<p><b>Prerequisites:</b> vectors, <a class="term" href="#g-dot" data-term="g-dot">dot products</a>, norms, and the slope of a line from <a href="linear-algebra-foundations-v10.html">Class 1</a>; the eigenvalue word from <a href="matrix-decompositions-applications-v2.html">Class 2</a> (reused here, never re-derived); the idea of high-dimensional space from <a href="high-dimensional-geometry-v1.html">Class 3</a>. No prior calculus beyond "slope" is assumed — derivatives of x² and friends are built as needed.</p>
+<p class="storage-note" id="storageNote">Progress (dots and review list) is saved in this browser only. </p>
+<h3>The map of this lesson</h3>
+
+<div class="map"><svg viewBox="0 0 560 300" role="img" aria-label="Concept map: ML-as-optimization leads to the loss surface; the loss surface needs partial derivatives, which build the gradient; the gradient enables gradient descent, the Jacobian, and the Hessian; the directional derivative explains why the gradient is the steepest direction (a dashed payoff edge); the loss surface and the chain rule lead to backpropagation, with the Jacobian feeding it; the Hessian leads to saddles and Newton's method; the chain rule, saddles, and gradient descent all converge on deep-net training.">
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#66727f"/></marker></defs>
+<rect class="node" x="40" y="30" width="90" height="26" rx="7"/><text x="85" y="47" text-anchor="middle">ML = optimization</text>
+<rect class="node" x="40" y="100" width="90" height="26" rx="7"/><text x="85" y="117" text-anchor="middle">loss surface</text>
+<rect class="node" x="40" y="170" width="90" height="26" rx="7"/><text x="85" y="187" text-anchor="middle">partials</text>
+<rect class="node" x="40" y="240" width="90" height="26" rx="7"/><text x="85" y="257" text-anchor="middle">gradient</text>
+<rect class="node2" x="190" y="240" width="90" height="26" rx="7"/><text x="235" y="257" text-anchor="middle">gradient descent</text>
+<rect class="node" x="190" y="170" width="90" height="26" rx="7"/><text x="235" y="187" text-anchor="middle">directional deriv.</text>
+<rect class="node" x="190" y="100" width="90" height="26" rx="7"/><text x="235" y="117" text-anchor="middle">chain rule</text>
+<rect class="node2" x="190" y="30" width="90" height="26" rx="7"/><text x="235" y="47" text-anchor="middle">backpropagation</text>
+<rect class="noded" x="340" y="100" width="90" height="26" rx="7"/><text x="385" y="117" text-anchor="middle">Jacobian</text>
+<rect class="node" x="340" y="240" width="90" height="26" rx="7"/><text x="385" y="257" text-anchor="middle">Hessian</text>
+<rect class="noded" x="460" y="170" width="90" height="26" rx="7"/><text x="505" y="187" text-anchor="middle">saddles</text>
+<rect class="node2" x="460" y="240" width="90" height="26" rx="7"/><text x="505" y="257" text-anchor="middle">Newton's method</text>
+<rect class="node2" x="340" y="30" width="90" height="26" rx="7"/><text x="385" y="47" text-anchor="middle">deep-net training</text>
+<path class="edge" d="M85,56 L85,94"/>
+<path class="edge" d="M85,126 L85,164"/>
+<path class="edge" d="M85,196 L85,234"/>
+<path class="edge" d="M130,253 L186,253"/>
+<path class="edge" d="M130,247 L186,187"/>
+<path class="edge promise" d="M186,196 L130,232"/>
+<path class="edge" d="M130,113 L186,113"/>
+<path class="edge" d="M235,96 L235,60"/>
+<path class="edge" d="M340,183 L286,50"/>
+<path class="edge" d="M430,183 L456,183"/>
+<path class="edge" d="M430,253 L456,253"/>
+<path class="edge" d="M235,96 L336,50"/>
+<path class="edge" d="M480,164 L428,60"/>
+<path class="edge" d="M280,247 L370,60"/>
+<path class="edge" d="M130,259 C200,292 280,292 340,259"/>
+</svg></div>
+<p>The dashed edge is this lesson's one big promise: Unit 2 <i>asserts</i> that the gradient is the steepest direction; Unit 3 <i>proves</i> it with the directional derivative. Everything in the right column is where this calculus actually runs in modern ML.</p>
+</section>
+<section id="u1" class="unit" aria-labelledby="u1t">
+<div class="label">UNIT 1 · WHY CALCULUS IN ML</div>
+<h2 id="u1t">Every model is a machine with dials</h2>
+<p><span class="badge core">CLASS CORE</span> Machine learning fundamentally solves <a class="term" href="#g-opt" data-term="g-opt">optimization</a> problems: <b>a model learns by minimizing error.</b> Whatever the system — a classifier, a regressor, a generator — training means repeatedly adjusting the model's <a class="term" href="#g-param" data-term="g-param">parameters</a> (its dials: weights and biases) until a number that measures wrongness, the <a class="term" href="#g-loss" data-term="g-loss">loss function</a>, is as small as we can make it. The source names the usual loss families: classification loss, regression loss, cross-entropy loss (for comparing probability distributions), reconstruction loss (how badly an autoencoder rebuilds its input). <span class="ptag">source</span></p>
+<p><span class="badge foundation">FOUNDATION</span> To make "minimizing error" concrete, this lesson uses the simplest regression loss, <a class="term" href="#g-mse" data-term="g-mse">mean squared error</a> (MSE) — the one the source's linear-regression example assumes but never writes down:</p>
+<div class="formula"><div class="fx">L(w, b) = (1/n) · Σᵢ (ŷᵢ − yᵢ)² &nbsp; where ŷᵢ = w·xᵢ + b</div>
+<ul class="symkey">
+<li><b>w, b</b> — the two parameters (dials): slope and intercept of the line we fit</li>
+<li><b>xᵢ, yᵢ</b> — the i-th data point: input and true answer</li>
+<li><b>ŷᵢ</b> — the model's prediction for xᵢ</li>
+<li><b>n</b> — how many data points we average over</li>
+<li><b>Why it makes sense:</b> each point contributes the square of its miss; the loss is the average miss-squared, so big misses are punished disproportionately and misses above and below the line don't cancel. <b>How to read the result:</b> 0 means a perfect line; smaller is always better.</li>
+</ul></div>
+<p>Worked by hand before any buttons: one point (x, y) = (1, 3), model ŷ = 2x. The prediction is ŷ = 2, the error is 2 − 3 = −1, the squared error is 1, and with n = 1 the MSE is <b>1</b>. One dial (w = 2), one number that says how wrong it is. <span class="ptag">constructed example</span></p>
+<div class="widget" id="w1">
+<div class="label">EXPLORE · LOSS EXPLORER (LIVE MSE)</div>
+<p class="goal">🎯 Goal: tune the two dials <b>w</b> and <b>b</b> by hand — get the average shaded square as small as you can.</p>
+<canvas class="viz" id="cv1" aria-label="Linear regression canvas: five fixed data points, the line y-hat = w x + b controlled by two sliders, and a shaded square on each point's vertical error segment showing its squared error. A text readout below gives the same numbers." role="img"></canvas>
+<div class="legend-inline"><span class="lg-a">data points</span><span class="lg-b">model line</span><span class="lg-d">error squares</span></div>
+<div class="ctrl-grid">
+<div class="slider-control"><div class="slider-head"><span class="slider-label">w — slope dial</span><output class="slider-val" id="lsWVal">0.5</output></div><div class="slider-track"><input id="lsW" type="range" min="-2" max="4" step="0.1" value="0.5" aria-label="Slope w of the fitted line"></div></div>
+<div class="slider-control"><div class="slider-head"><span class="slider-label">b — intercept dial</span><output class="slider-val" id="lsBVal">4</output></div><div class="slider-track"><input id="lsB" type="range" min="-4" max="6" step="0.1" value="4" aria-label="Intercept b of the fitted line"></div></div>
+</div>
+<div class="readout" id="r1" aria-live="polite"></div>
+</div>
+<p><span class="badge core">CLASS CORE</span> Hand-tuning two dials is possible. But the source's central observation is that real models are not this small: modern neural networks contain <b>millions to billions</b> of trainable parameters, so the loss is a function of millions of variables — a <a class="term" href="#g-highdim" data-term="g-highdim">high-dimensional</a> <a class="term" href="#g-paramspace" data-term="g-paramspace">parameter space</a>. You cannot hand-tune a billion dials. Training is <b>navigating a high-dimensional surface</b> — and the source suggests the right mental picture: mountains, valleys, slopes, and plateaus, where optimization means finding the lowest valley. <span class="ptag">source</span></p>
+<div class="callout info"><b>Preview — words you are about to earn.</b> The source compresses the whole journey into one table. Read it now as a promise, not as knowledge: the bolded words get real definitions in Units 2–5, and every row is exercised live before the end.
+<table class="apptable"><tr><th>ML concept</th><th>Geometric meaning</th><th>Defined in</th></tr>
+<tr><td><b>Loss function</b></td><td>Surface</td><td>this unit (you are standing on it)</td></tr>
+<tr><td><b>Gradient</b></td><td>Direction of steepest ascent</td><td>Unit 2</td></tr>
+<tr><td><b>Negative gradient</b></td><td>Fastest descent direction</td><td>Unit 2</td></tr>
+<tr><td><b>Hessian</b></td><td>Curvature</td><td>Unit 5</td></tr>
+<tr><td><b>Optimization</b></td><td>Surface navigation</td><td>Units 2–6</td></tr></table> <span class="ptag">source (table); definitions roadmap added</span></div>
+<div class="ladder" id="lad1">
+<div class="label">PRACTICE · LADDER 1 — LOSS ARITHMETIC (3 RUNGS)</div>
+<div class="rung">
+<div class="label">RUNG 1 · WORKED EXAMPLE</div>
+<p>One point (x, y) = (1, 3), model ŷ = 2x. Compute the MSE.</p>
+<div class="worked">ŷ = 2·1 = 2 → error = ŷ − y = 2 − 3 = −1 → squared = 1 → MSE = 1/1 = <b>1</b>.<br>Rule used: prediction first, then error, then square, then average.</div>
+</div>
+<div class="rung">
+<div class="label">RUNG 2 · COMPLETION — FILL THE BLANK</div>
+<p>One point (4, 6), model ŷ = 0.5x + 2. Enter the squared error.</p>
+<div class="numin"><input type="number" id="l1r2in" step="0.1" aria-label="Squared error for the point (4,6) under y-hat = 0.5x + 2"><button type="button" class="ghost" data-ladder="l1r2">Check</button><button type="button" class="ghost" data-hint="l1r2h">Hint</button></div>
+<div class="hint" id="l1r2h" hidden>Prediction first: 0.5·4 + 2 = 4. Then the error is 4 − 6 = −2.</div>
+<div class="feedback" id="l1r2fb" aria-live="polite"></div>
+</div>
+<div class="rung">
+<div class="label">RUNG 3 · INDEPENDENT</div>
+<p>Two points (1, 4) and (3, 6), model ŷ = 2x + 1. Enter the MSE.</p>
+<div class="numin"><input type="number" id="l1r3in" step="0.1" aria-label="MSE for the two points under y-hat = 2x + 1"><button type="button" class="ghost" data-ladder="l1r3">Check</button><button type="button" class="ghost" data-hint="l1r3h">Hint</button></div>
+<div class="hint" id="l1r3h" hidden>Square each miss separately, add, then divide by n = 2.</div>
+<div class="feedback" id="l1r3fb" aria-live="polite"></div>
+</div>
+</div>
+<div class="check" id="chk1">
+<div class="label">CHECK · UNIT 1</div>
+<p><b>1. Numeric.</b> Two points (1, 5) and (2, 7), model ŷ = 3x. Enter the MSE.</p>
+<div class="numin"><input type="number" id="c1n" step="0.1" aria-label="MSE for the two points under y-hat = 3x"><button type="button" data-check="c1n" data-target="c1nfb">Check</button></div>
+<div class="feedback" id="c1nfb" aria-live="polite"></div>
+<p><b>2. Diagnostic choice.</b> A teammate says: "Our model is underperforming — so the optimization must be about collecting more data and picking a bigger network." In this unit's language, what does <i>optimization</i> in ML actually mean?</p>
+<div class="option-stack">
+<label class="option-item"><input type="radio" name="c1m" value="a"><span class="option-text">Collecting more data — more examples automatically lower the loss.</span></label>
+<label class="option-item"><input type="radio" name="c1m" value="b"><span class="option-text">Adjusting the model's parameters to make the loss function as small as possible — more data or a bigger model only help if they change this adjustment's outcome.</span></label>
+<label class="option-item"><input type="radio" name="c1m" value="c"><span class="option-text">Picking a bigger architecture — size is what the word means.</span></label>
+</div>
+<button type="button" data-mcq="c1m" data-target="c1mfb">Check choice</button>
+<div class="feedback" id="c1mfb" aria-live="polite"></div>
+</div>
+<div class="label">CONNECT · WHERE THIS RUNS <span class="badge ml">ML LINK</span></div>
+<p>You just hand-optimized a 2-dial model. Every trained network — a recommender with millions of embedding dials, a language model with billions — is doing exactly what you did by hand, except no human can sweep the dials. The machinery that replaces your hand-tuning is the rest of this lesson: partial derivatives say which dial to turn (Unit 2), the chain rule reaches dials buried deep in layers (Unit 4), and curvature explains why the walk is hard (Units 5–6). The loss you minimized by eye, calculus will find exactly — hold that thought; the readout above has been telling you the answer all along. <span class="ptag">source</span></p>
+</section>
+<section id="u2" class="unit" aria-labelledby="u2t">
+<div class="label">UNIT 2 · PARTIALS &amp; THE GRADIENT</div>
+<h2 id="u2t">A partial is the slope of one dial, all others frozen</h2>
+<p><span class="badge core">CLASS CORE</span> The loss is a function of many variables — in the explorer above, L(w, b). The first tool for such functions is the <a class="term" href="#g-partial" data-term="g-partial">partial derivative</a>: the rate of change with respect to <b>one</b> variable while keeping all the others fixed. <span class="ptag">source</span></p>
+<div class="formula"><div class="fx">∂f/∂x — "the slope of f along x, with every other variable frozen"</div>
+<ul class="symkey">
+<li><b>∂</b> — the rounded d signals a partial derivative: a plain derivative, but taken in a world where only one variable is allowed to move</li>
+<li><b>f</b> — the function whose change we are measuring (later: the loss L)</li>
+<li><b>x</b> — the one variable that moves; everything else is held constant</li>
+<li><b>Why it makes sense:</b> "how fast does f change if I nudge only x" is exactly the one-dial question a trainer needs to ask about every parameter. <b>How to read the result:</b> a positive value means f rises as x grows; 0 means f is momentarily flat along x.</li>
+</ul></div>
+<p><span class="badge core">CLASS CORE</span> The source's worked example, recomputed live: for f(x, y) = x² + 3y, the partial with respect to x treats y as a constant — the 3y term contributes nothing to change — so ∂f/∂x = 2x; the partial with respect to y treats x as a constant, so ∂f/∂y = 3. At the point (x, y) = (2, 4): ∂f/∂x = <b>4</b> and ∂f/∂y = <b>3</b> — the same two numbers the source's code cell prints. <span class="ptag">source</span></p>
+<div class="formula"><div class="fx">f(x,y) = x² + 3y &nbsp;⇒&nbsp; ∂f/∂x = 2x, &nbsp; ∂f/∂y = 3</div>
+<ul class="symkey">
+<li><b>x²</b> — changes with x, so it survives ∂/∂x as 2x; it is a constant from y's point of view, so it vanishes from ∂f/∂y</li>
+<li><b>3y</b> — a wall from x's point of view (vanishes from ∂f/∂x); from y's point of view it is a straight ramp of slope 3</li>
+<li><b>How to read the result at (2,4):</b> nudging x by +0.01 raises f by about 4·0.01; nudging y by +0.01 raises f by 3·0.01. The x-dial currently matters more.</li>
+</ul></div>
+<p><span class="badge core">CLASS CORE</span> The source's picture: imagine standing on a mountainside. You can move east-west or north-south, and each direction has its own slope. A partial derivative measures the slope along the one direction you chose, with the other frozen. In ML the mountain is the <a class="term" href="#g-surface" data-term="g-surface">loss surface</a>: for a model with parameters w₁, …, w_m, the partial ∂L/∂wᵢ measures <b>the sensitivity of the loss to parameter i</b> — a large partial means that parameter strongly affects the loss right here; a small one means its local effect is weak. <span class="ptag">source</span></p>
+<p><span class="badge core">CLASS CORE</span> One slope per dial invites the obvious next move: stack all the slopes into a vector. That vector is the <a class="term" href="#g-gradient" data-term="g-gradient">gradient</a>, the single most important object in this lesson. <span class="ptag">source</span></p>
+<div class="formula"><div class="fx">∇f = [ ∂f/∂x, ∂f/∂y, … ] &nbsp;&nbsp; e.g. ∇f(2,4) = [4, 3] for f = x² + 3y</div>
+<ul class="symkey">
+<li><b>∇</b> — "nabla": the operator that collects all partials into a vector, one entry per variable</li>
+<li><b>each entry ∂f/∂xᵢ</b> — the slope of f along axis i alone</li>
+<li><b>Why it makes sense:</b> a direction in the parameter space needs one coordinate per axis; the gradient provides exactly one slope per axis. <b>How to read the result:</b> an arrow whose entries say how f responds to each dial — not a single number.</li>
+</ul></div>
+<p><span class="badge core">CLASS CORE</span> Two more facts from the source, both earned live below: the <b>magnitude</b> ‖∇f‖ measures how steep the surface is at your feet — large magnitude means steep slope, small magnitude means a flat region — and the gradient points in the direction of <b>steepest increase</b>. Flip its sign and −∇f points in the direction of <b>fastest descent</b>. Why "steepest" is exactly right is Unit 3's theorem-in-waiting; for now treat it as the promise marked on the concept map. <span class="ptag">source</span></p>
+<div class="formula"><div class="fx">‖∇f‖ = √( (∂f/∂x)² + (∂f/∂y)² + … ) &nbsp;&nbsp; steepness of the surface at the current point</div>
+<ul class="symkey">
+<li><b>‖·‖</b> — the length of the gradient vector (the Class 1 norm, reused)</li>
+<li><b>Why it makes sense:</b> it folds every axis's slope into one overall steepness number. <b>How to read the result:</b> ‖∇f‖ = 0 means every direction is (locally) flat — the walk is done or stuck.</li>
+</ul></div>
+<div class="callout"><b>Beginner trap.</b> The gradient is <b>not</b> "the biggest partial" and not a single number at all. If a classmate reports "the gradient at (2,4) is 4, because ∂f/∂x is the bigger partial," they have thrown away the y-information: the gradient is the <b>vector [4, 3]</b>. Losing the vector means losing the direction — and direction is the whole point.</div>
+<div class="predict">
+<div class="label">PREDICT · GATE 1 (commit before the model opens)</div>
+<p>The surface below is f(x, y) = x² + 2y², and you are standing at (1, 1). Which single nudge raises f the <b>most per unit of step</b>?</p>
+<div class="option-stack">
+<label class="option-item"><input type="radio" name="g1" value="a"><span class="option-text">Along the gradient ∇f = (2, 4) — both slopes combined into one direction.</span></label>
+<label class="option-item"><input type="radio" name="g1" value="b"><span class="option-text">Straight up the y-axis — ∂f/∂y = 4 is the bigger partial, so the y-direction must be best.</span></label>
+<label class="option-item"><input type="radio" name="g1" value="c"><span class="option-text">The diagonal (1,1) direction — split the difference between the two axes.</span></label>
+</div>
+<button type="button" data-gate="g1" data-target="w2">Commit answer</button>
+<div class="feedback" id="g1fb" aria-live="polite"></div>
+</div>
+<div class="widget" id="w2" data-locked="true">
+<div class="label">EXPLORE · PARTIAL LAB (CONTOURS + GRADIENT ARROW)</div>
+<p class="goal">🎯 Goal: move the point and watch each axis's slope change — the arrow stacks them into one direction.</p>
+<canvas class="viz" id="cv2" aria-label="Contour map of the elliptical bowl f = x squared plus 2 y squared, with ellipses at heights 0.5, 2, 4.5 and 8. A point P is controlled by two sliders, dashed lines show the frozen-axis cross-sections, and a gradient arrow shows the steepest-ascent direction with a length scaled to its magnitude. A text readout below gives the same numbers." role="img"></canvas>
+<div class="legend-inline"><span class="lg-a">contours (equal height)</span><span class="lg-b">point P</span><span class="lg-c">gradient arrow (scaled)</span><span class="lg-d">frozen-axis guides</span></div>
+<div class="ctrl-grid">
+<div class="slider-control"><div class="slider-head"><span class="slider-label">x₀ — east-west position</span><output class="slider-val" id="pxVal">1.2</output></div><div class="slider-track"><input id="px" type="range" min="-2.5" max="2.5" step="0.1" value="1.2" aria-label="Point x coordinate"></div></div>
+<div class="slider-control"><div class="slider-head"><span class="slider-label">y₀ — north-south position</span><output class="slider-val" id="pyVal">0.8</output></div><div class="slider-track"><input id="py" type="range" min="-1.8" max="1.8" step="0.1" value="0.8" aria-label="Point y coordinate"></div></div>
+</div>
+<div class="readout" id="r2" aria-live="polite"></div>
+</div>
+<p><span class="badge deep">DEEP DIVE</span> Walk <i>down</i> instead of up and you get the workhorse of all of ML. The source states the update rule; the lab below makes every piece of it draggable:</p>
+<div class="formula"><div class="fx">θ := θ − η · ∇f(θ)</div>
+<ul class="symkey">
+<li><b>θ</b> — the current parameters (all dials at once, as a vector)</li>
+<li><b>∇f(θ)</b> — the gradient measured at the current setting: the uphill arrow</li>
+<li><b>η (eta)</b> — the <a class="term" href="#g-lr" data-term="g-lr">learning rate</a>: a small positive step size controlling how far to walk</li>
+<li><b>−</b> — the sign flip: subtract the uphill direction and you walk downhill</li>
+<li><b>:=</b> — "becomes": repeat this update over and over. <b>Why it makes sense:</b> each dial moves against its own slope, proportionally to it. <b>How to read the result:</b> the sequence of θ's is the training trajectory of <a class="term" href="#g-gd" data-term="g-gd">gradient descent</a>.</li>
+</ul></div>
+<p><span class="badge core">CLASS CORE</span> The source's own numbers, live: start at x = 5 on f(x) = x² (so ∇f = 2x = 10), set η = 0.1, and iterate. Each step multiplies x by 1 − 2η = 0.8, so after 20 steps x = 5 · 0.8²⁰ ≈ <b>0.0576</b> — the descent works, and it slows down as it approaches the flat bottom, where the gradient (and hence the step) shrinks. <span class="ptag">source (recomputed live below)</span></p>
+<div class="widget" id="w3">
+<div class="label">EXPLORE · DESCENT LAB (GRADIENT DESCENT, LIVE)</div>
+<p class="goal">🎯 Goal: find a learning rate that converges fast — then push η past 0.5 and watch the walk explode.</p>
+<canvas class="viz" id="cv3" aria-label="Contour map of the same elliptical bowl with a 14-step gradient descent path drawn from a starting point controlled by sliders. A text readout below gives the same numbers including per-axis update factors and a stability verdict." role="img"></canvas>
+<div class="legend-inline"><span class="lg-a">contours</span><span class="lg-b">descent path</span><span class="lg-c">start point</span></div>
+<div class="ctrl-grid">
+<div class="slider-control"><div class="slider-head"><span class="slider-label">η — learning rate</span><output class="slider-val" id="etaVal">0.15</output></div><div class="slider-track"><input id="eta" type="range" min="0.05" max="0.95" step="0.01" value="0.15" aria-label="Learning rate eta"></div></div>
+<div class="slider-control"><div class="slider-head"><span class="slider-label">start x</span><output class="slider-val" id="sxVal">−2.5</output></div><div class="slider-track"><input id="sx" type="range" min="-3" max="3" step="0.1" value="-2.5" aria-label="Starting x coordinate"></div></div>
+<div class="slider-control"><div class="slider-head"><span class="slider-label">start y</span><output class="slider-val" id="syVal">1.8</output></div><div class="slider-track"><input id="sy" type="range" min="-2" max="2" step="0.1" value="1.8" aria-label="Starting y coordinate"></div></div>
+</div>
+<div class="readout" id="r3" aria-live="polite"></div>
+</div>
+<div class="ladder" id="lad2">
+<div class="label">PRACTICE · LADDER 2 — FREEZE-AND-DIFFERENTIATE (3 RUNGS)</div>
+<div class="rung">
+<div class="label">RUNG 1 · WORKED EXAMPLE</div>
+<p>For f(x, y) = x² + 3y, compute ∂f/∂x at (2, 4).</p>
+<div class="worked">Freeze y: the 3y term cannot change, so it vanishes. ∂f/∂x = 2x = 2·2 = <b>4</b>.<br>Rule used: treat every other variable as a constant, then differentiate as usual.</div>
+</div>
+<div class="rung">
+<div class="label">RUNG 2 · COMPLETION — FILL THE BLANK</div>
+<p>For f(x, y) = x²y, compute ∂f/∂x at (1, 3). Freeze y = 3: the function is locally 3x².</p>
+<div class="numin"><input type="number" id="l2r2in" step="0.1" aria-label="Partial derivative of x squared times y with respect to x at (1,3)"><button type="button" class="ghost" data-ladder="l2r2">Check</button><button type="button" class="ghost" data-hint="l2r2h">Hint</button></div>
+<div class="hint" id="l2r2h" hidden>With y frozen at 3, f = 3x². Differentiate with respect to x.</div>
+<div class="feedback" id="l2r2fb" aria-live="polite"></div>
+</div>
+<div class="rung">
+<div class="label">RUNG 3 · INDEPENDENT</div>
+<p>For f(x, y) = 5x³ + 2y², compute ∂f/∂x at (2, 1).</p>
+<div class="numin"><input type="number" id="l2r3in" step="0.1" aria-label="Partial derivative of 5x cubed plus 2y squared with respect to x at (2,1)"><button type="button" class="ghost" data-ladder="l2r3">Check</button><button type="button" class="ghost" data-hint="l2r3h">Hint</button></div>
+<div class="hint" id="l2r3h" hidden>The y-term is frozen — it disappears entirely from ∂f/∂x.</div>
+<div class="feedback" id="l2r3fb" aria-live="polite"></div>
+</div>
+</div>
+<div class="check" id="chk2">
+<div class="label">CHECK · UNIT 2</div>
+<p><b>1. Numeric.</b> For f(x, y) = 4x³ + y³, enter ∂f/∂y at y = 2 (the value of the partial, not its formula).</p>
+<div class="numin"><input type="number" id="c2n" step="0.1" aria-label="Partial derivative with respect to y of 4x cubed plus y cubed, at y equals 2"><button type="button" data-check="c2n" data-target="c2nfb">Check</button></div>
+<div class="feedback" id="c2nfb" aria-live="polite"></div>
+<p><b>2. Diagnostic choice.</b> For f(x, y) = x² + 2y², a classmate reports: "The gradient at (1, 1) is 4 — the partials are 2 and 4, and the gradient is the bigger one." What is wrong?</p>
+<div class="option-stack">
+<label class="option-item"><input type="radio" name="c2m" value="a"><span class="option-text">Nothing — the gradient is the largest partial derivative.</span></label>
+<label class="option-item"><input type="radio" name="c2m" value="b"><span class="option-text">The gradient is the vector of <i>all</i> partials: ∇f = (2, 4). Dropping the 2 throws away the x-slope and the direction — which is the whole point.</span></label>
+<label class="option-item"><input type="radio" name="c2m" value="c"><span class="option-text">The gradient is the <i>sum</i> of the partials: 2 + 4 = 6.</span></label>
+</div>
+<button type="button" data-mcq="c2m" data-target="c2mfb">Check choice</button>
+<div class="feedback" id="c2mfb" aria-live="polite"></div>
+<p><b>3. Explain in your own words</b> (say it out loud or write it on paper first): why does the <i>negative</i> gradient point in the direction of fastest <b>descent</b>?</p>
+<div class="numin"><button type="button" class="ghost" data-explain="e2">Reveal a model answer</button></div>
+<div class="modelanswer" id="e2" hidden><b>Model answer (grade yourself honestly):</b> each partial gives the downhill rate along one axis; a direction can only combine those rates, and the direction that captures the full combined rate — none of it wasted — is the one aligned with the vector of rates, ∇f, whose projection onto any other direction is smaller. Walking opposite that arrow, −∇f, therefore decreases f fastest per unit step; every other downhill-leaning direction keeps only a fraction of the rate. Unit 3 turns exactly this "projection" idea into a computation.</div>
+<div class="feedback" id="e2fb" aria-live="polite"></div>
+</div>
+<div class="label">CONNECT · WHERE THIS RUNS <span class="badge ml">ML LINK</span></div>
+<p>Every trained model you have ever used — from a spam filter to a chat model — ran (a stochastic version of) this exact loop: measure ∂L/∂w for every parameter, step all of them against their slopes, repeat. The descent lab's η is the single most tuned hyperparameter in deep learning practice, and its 0.5 cliff in the lab reappears in Unit 6 as why real training diverges. <span class="ptag">source</span></p>
+</section>
+<section id="u3" class="unit" aria-labelledby="u3t">
+<div class="label">UNIT 3 · DIRECTIONAL DERIVATIVES</div>
+<h2 id="u3t">Any direction's climb rate is a projection</h2>
+<p><span class="badge core">CLASS CORE</span> Partials answer "how fast does f change along an <i>axis</i>?" The <a class="term" href="#g-dd" data-term="g-dd">directional derivative</a> answers the general question: "how fast does f change if I move in <b>THIS</b> direction?" — any direction, not just the axes. <span class="ptag">source</span></p>
+<div class="formula"><div class="fx">D<sub>u</sub>f = ∇f · u &nbsp;&nbsp; (u a <a class="term" href="#g-unitvec" data-term="g-unitvec">unit vector</a>)</div>
+<ul class="symkey">
+<li><b>u</b> — the chosen direction, scaled to length 1 so the answer means "rate per unit of step"</li>
+<li><b>∇f</b> — the gradient at the point you are standing on</li>
+<li><b>·</b> — the Class 1 <a class="term" href="#g-dot" data-term="g-dot">dot product</a>: multiply matching coordinates and add</li>
+<li><b>Why it makes sense:</b> the dot product reads off the part of ∇f that points along u — the <a class="term" href="#g-proj" data-term="g-proj">projection</a> of the gradient onto your direction. Only the slope <i>along</i> your walk matters to how fast you climb. <b>How to read the result:</b> positive = uphill along u; negative = downhill; 0 = flat to first order.</li>
+</ul></div>
+<p><span class="ptag">supplemental</span> Now the proof Unit 2 promised. Write the angle between u and ∇f as φ. The dot product of a unit vector with anything is that thing's projection, and the projection of ∇f onto u has length ‖∇f‖·cos φ:</p>
+<div class="formula"><div class="fx">D<sub>u</sub>f = ‖∇f‖ · cos φ ≤ ‖∇f‖ &nbsp;&nbsp; with equality exactly when φ = 0</div>
+<ul class="symkey">
+<li><b>φ</b> — the angle between your direction u and the gradient</li>
+<li><b>cos φ</b> — the fraction of the gradient's steepness your direction captures: 1 when aligned, 0 when perpendicular, negative when walking against it</li>
+<li><b>Why it makes sense:</b> cos φ ≤ 1, so <b>no direction can climb faster than ‖∇f‖</b>, and the only direction that achieves the maximum is u = ∇f/‖∇f‖ — the gradient direction. That is the steepest-ascent property, now earned instead of asserted. <b>How to read the result:</b> perpendicular to the gradient, cos φ = 0: the surface is flat to first order along that line.</li>
+</ul></div>
+<p><span class="badge core">CLASS CORE</span> The source's worked example, used live below: at a point where ∇f = [3, 4], the magnitude is √(3² + 4²) = <b>5</b>, so the maximum possible directional derivative is 5, achieved along the unit direction (3, 4)/5. Any other unit direction scores strictly less. <span class="ptag">source</span></p>
+<div class="callout"><b>Beginner trap.</b> "The maximum of ∇f·u is 25, achieved at u = (3, 4)." No — u must be a <b>unit</b> vector: the question is "per unit of step." Feeding the unnormalized (3, 4) gives 3·3 + 4·4 = 25, but that is the climb rate for a walk of length 5, not length 1. Normalize first: u = (3, 4)/5, and the honest maximum is <b>5</b>.</div>
+<div class="predict">
+<div class="label">PREDICT · GATE 2 (commit before the dial opens)</div>
+<p>With ∇f = [3, 4]: over all unit directions u, what is the largest possible value of D<sub>u</sub>f = ∇f·u — and along which u?</p>
+<div class="option-stack">
+<label class="option-item"><input type="radio" name="g2" value="a"><span class="option-text">25, along u = (3, 4).</span></label>
+<label class="option-item"><input type="radio" name="g2" value="b"><span class="option-text">5, along u = (3, 4)/5 — the normalized gradient.</span></label>
+<label class="option-item"><input type="radio" name="g2" value="c"><span class="option-text">3, along the x-axis — the gradient's first entry.</span></label>
+</div>
+<button type="button" data-gate="g2" data-target="w4">Commit answer</button>
+<div class="feedback" id="g2fb" aria-live="polite"></div>
+</div>
+<div class="widget" id="w4" data-locked="true">
+<div class="label">EXPLORE · DIRECTION LAB (PROJECTION, LIVE)</div>
+<p class="goal">🎯 Goal: sweep the dial — find the angle where climbing is fastest, and the angle where it is flat.</p>
+<canvas class="viz" id="cv4" aria-label="Contour map of the bowl f = x squared plus 2y squared with the point P at (1.2, 0.8), the fixed gradient arrow, a unit direction arrow controlled by an angle dial, and a horizontal projection bar comparing the directional derivative against the gradient magnitude of 4. A text readout below gives the same numbers." role="img"></canvas>
+<div class="legend-inline"><span class="lg-c">gradient ∇f + projection bar</span><span class="lg-b">your direction u (unit)</span></div>
+<div class="ctrl-grid">
+<div class="slider-control"><div class="slider-head"><span class="slider-label">θ — direction dial (degrees)</span><output class="slider-val" id="thVal">60</output></div><div class="slider-track"><input id="dth" type="range" min="0" max="360" step="5" value="60" aria-label="Direction angle in degrees"></div></div>
+</div>
+<div class="readout" id="r4" aria-live="polite"></div>
+</div>
+<div class="ladder" id="lad3">
+<div class="label">PRACTICE · LADDER 3 — DIRECTIONAL DERIVATIVES (3 RUNGS)</div>
+<div class="rung">
+<div class="label">RUNG 1 · WORKED EXAMPLE</div>
+<p>At a point where ∇f = (3, 4), what is D<sub>u</sub>f along u = (1, 0)?</p>
+<div class="worked">D<sub>u</sub>f = ∇f·u = 3·1 + 4·0 = <b>3</b>.<br>Rule used: project — keep the coordinate of the gradient that survives the dot product with u.</div>
+</div>
+<div class="rung">
+<div class="label">RUNG 2 · COMPLETION — FILL THE BLANK</div>
+<p>Same point, ∇f = (3, 4), now along the unit direction u = (0.6, 0.8). Enter D<sub>u</sub>f — and notice what this u is.</p>
+<div class="numin"><input type="number" id="l3r2in" step="0.1" aria-label="Directional derivative along (0.6, 0.8)"><button type="button" class="ghost" data-ladder="l3r2">Check</button><button type="button" class="ghost" data-hint="l3r2h">Hint</button></div>
+<div class="hint" id="l3r2h" hidden>(0.6, 0.8) = (3, 4)/5 — this is the unit vector aligned with the gradient.</div>
+<div class="feedback" id="l3r2fb" aria-live="polite"></div>
+</div>
+<div class="rung">
+<div class="label">RUNG 3 · INDEPENDENT</div>
+<p>At a point where ∇f = (2, −1), enter D<sub>u</sub>f along the 45° diagonal u = (1/√2, 1/√2) ≈ (0.707, 0.707).</p>
+<div class="numin"><input type="number" id="l3r3in" step="0.01" aria-label="Directional derivative along the 45-degree diagonal"><button type="button" class="ghost" data-ladder="l3r3">Check</button><button type="button" class="ghost" data-hint="l3r3h">Hint</button></div>
+<div class="hint" id="l3r3h" hidden>Dot product: 2·(1/√2) + (−1)·(1/√2) — one coordinate climbs, the other descends.</div>
+<div class="feedback" id="l3r3fb" aria-live="polite"></div>
+</div>
+</div>
+<div class="check" id="chk3">
+<div class="label">CHECK · UNIT 3</div>
+<p><b>1. Numeric.</b> At a point where ∇f = (6, 8) and u = (0.6, 0.8), enter D<sub>u</sub>f.</p>
+<div class="numin"><input type="number" id="c3n" step="0.1" aria-label="Directional derivative along (0.6, 0.8) with gradient (6,8)"><button type="button" data-check="c3n" data-target="c3nfb">Check</button></div>
+<div class="feedback" id="c3nfb" aria-live="polite"></div>
+<p><b>2. Diagnostic choice.</b> Walking exactly <i>perpendicular</i> to the gradient, what is the directional derivative?</p>
+<div class="option-stack">
+<label class="option-item"><input type="radio" name="c3m" value="a"><span class="option-text">0 — the projection of the gradient onto your direction is zero, so the surface is flat to first order along that line.</span></label>
+<label class="option-item"><input type="radio" name="c3m" value="b"><span class="option-text">‖∇f‖ — every direction climbs at the full steepness.</span></label>
+<label class="option-item"><input type="radio" name="c3m" value="c"><span class="option-text">Negative — perpendicular means heading downhill.</span></label>
+</div>
+<button type="button" data-mcq="c3m" data-target="c3mfb">Check choice</button>
+<div class="feedback" id="c3mfb" aria-live="polite"></div>
+</div>
+<div class="label">CONNECT · WHERE THIS RUNS <span class="badge ml">ML LINK</span></div>
+<p>The flat perpendicular is more than a curiosity — it is the anatomy of a <a class="term" href="#g-plateau" data-term="g-plateau">plateau</a>. When training slows to a crawl, it is usually because the loss surface locally <i>is</i> nearly flat in the walking direction: D<sub>u</sub>f ≈ 0 even though the model is far from trained. Unit 6 meets this again at scale, where plateaus and cliffs shape every real training run. <span class="ptag">constructed example</span></p>
+</section>
+<section id="u4" class="unit" aria-labelledby="u4t">
+<div class="label">UNIT 4 · THE CHAIN RULE (CRITICAL)</div>
+<h2 id="u4t">Gradients flow backward by multiplying local slopes</h2>
+<p><span class="badge core">CLASS CORE</span> Deep learning systems are <a class="term" href="#g-comp" data-term="g-comp">nested compositions</a> of functions: input → layer 1 → activation → layer 2 → … → output → loss. To train such a tower, the loss's sensitivity must reach <b>every parameter, including the ones buried in early layers</b> — gradients must flow backward through the composition. The tool that makes that possible is the <a class="term" href="#g-chain" data-term="g-chain">chain rule</a>. The source marks it CRITICAL, and means it: without the chain rule, deep learning cannot exist. <span class="ptag">source</span></p>
+<p><span class="badge core">CLASS CORE</span> <span class="ptag">source (formula corrected)</span> One honest note before the mathematics: the source notebook's printed formula reads "dy/dg = dg/dx", which equates two unrelated derivatives — a transcription slip, confirmed as such by the source's own code cell, which correctly <i>multiplies</i> the two local derivatives. The intended statement, standard in every calculus text, is:</p>
+<div class="formula"><div class="fx">y = f(g(x)) &nbsp;⇒&nbsp; dy/dx = (dy/dg) · (dg/dx)</div>
+<ul class="symkey">
+<li><b>g(x)</b> — the inner function: its output feeds the next stage</li>
+<li><b>f</b> — the outer function: it consumes g's output</li>
+<li><b>dy/dg</b> — the outer stage's local slope: how y responds to its input</li>
+<li><b>dg/dx</b> — the inner stage's local slope: how that input responds to x</li>
+<li><b>Why it makes sense:</b> a small nudge to x gets scaled by the inner slope, then that scaled nudge gets scaled again by the outer slope — effects through a pipeline <b>multiply</b>. <b>How to read the result:</b> the total sensitivity of the far end to the near end is the product of local sensitivities along the path.</li>
+</ul></div>
+<p><span class="badge core">CLASS CORE</span> The source's worked numbers, live below: take g = x² and y = g + 1, evaluated at x = 2. Forward: g = 4, then y = 5. Backward: dg/dx = 2x = 4 and dy/dg = 1, so dy/dx = 1 · 4 = <b>4</b> — exactly what the source's code prints. <span class="ptag">source</span></p>
+<p><span class="badge core">CLASS CORE</span> For functions of many variables the rule generalizes the only way it can — every path from the input to the output contributes a product, and the contributions <b>add</b>:</p>
+<div class="formula"><div class="fx">∂L/∂x = Σⱼ (∂L/∂uⱼ) · (∂uⱼ/∂x)</div>
+<ul class="symkey">
+<li><b>L</b> — the loss at the far end of the composition</li>
+<li><b>uⱼ</b> — the intermediate quantities x feeds into (the layer outputs)</li>
+<li><b>∂L/∂uⱼ</b> — how the loss responds to intermediate j (already computed when working backward)</li>
+<li><b>∂uⱼ/∂x</b> — how intermediate j responds to x (a local slope)</li>
+<li><b>Why it makes sense:</b> influence flows along every path; sum the per-path products. <b>How to read the result:</b> one entry of the gradient the trainer needs for dial x.</li>
+</ul></div>
+<p><span class="badge core">CLASS CORE</span> The bookkeeping structure is the <a class="term" href="#g-cgraph" data-term="g-cgraph">computational graph</a>: nodes hold quantities, edges hold the local derivatives. The <a class="term" href="#g-fwd" data-term="g-fwd">forward pass</a> computes values left-to-right until the loss exists; the <a class="term" href="#g-bwd" data-term="g-bwd">backward pass</a> walks the same edges right-to-left, multiplying and summing local derivatives. Applied to a neural network layer by layer, this is <a class="term" href="#g-bp" data-term="g-bp">backpropagation</a>: <b>repeated chain rule, organized by a graph</b>. <span class="ptag">source</span></p>
+<div class="callout"><b>Beginner trap.</b> "Backpropagation is a clever algorithm separate from calculus." It is not a new law — it is the chain rule applied systematically: one product per path, one local derivative per node, reused for every parameter that path touches. The engineering feat is <i>bookkeeping efficiency</i>, not new mathematics.</div>
+<div class="widget" id="w5">
+<div class="label">EXPLORE · GRAPH LAB (FORWARD VALUES, BACKWARD DERIVATIVES)</div>
+<p class="goal">🎯 Goal: move x and watch forward values (green) and backward local derivatives (red) move together — the product is the chain rule.</p>
+<canvas class="viz" id="cv5" aria-label="Computational graph with three nodes x, g equals x squared, and y equals g plus one. Forward pass values are drawn in green inside each node and backward local derivatives in red below each edge. A text readout below gives the same numbers." role="img"></canvas>
+<div class="legend-inline"><span class="lg-c">forward values</span><span class="lg-b">backward local derivatives</span></div>
+<div class="ctrl-grid">
+<div class="slider-control"><div class="slider-head"><span class="slider-label">x — the input dial</span><output class="slider-val" id="gxVal">2</output></div><div class="slider-track"><input id="gx" type="range" min="-3" max="3" step="0.1" value="2" aria-label="Input value x"></div></div>
+</div>
+<div class="readout" id="r5" aria-live="polite"></div>
+</div>
+<div class="ladder" id="lad4">
+<div class="label">PRACTICE · LADDER 4 — CHAIN-RULE PRODUCTS (3 RUNGS)</div>
+<div class="rung">
+<div class="label">RUNG 1 · WORKED EXAMPLE</div>
+<p>g = x², y = g + 2, at x = 3. Compute dy/dx.</p>
+<div class="worked">dg/dx = 2x = 6; dy/dg = 1 (the "+2" adds nothing to a slope). Chain: dy/dx = 1 · 6 = <b>6</b>.<br>Rule used: local slopes multiply along the path.</div>
+</div>
+<div class="rung">
+<div class="label">RUNG 2 · COMPLETION — FILL THE BLANK</div>
+<p>g = x², y = 5g, at x = −2. Enter dy/dx.</p>
+<div class="numin"><input type="number" id="l4r2in" step="0.1" aria-label="Chain rule derivative for g = x squared, y = 5g, at x = -2"><button type="button" class="ghost" data-ladder="l4r2">Check</button><button type="button" class="ghost" data-hint="l4r2h">Hint</button></div>
+<div class="hint" id="l4r2h" hidden>dy/dg = 5 and dg/dx = 2x = −4. Multiply the local slopes.</div>
+<div class="feedback" id="l4r2fb" aria-live="polite"></div>
+</div>
+<div class="rung">
+<div class="label">RUNG 3 · INDEPENDENT</div>
+<p>A three-link chain: g = x², h = 3g, y = h + 1, at x = 4. Enter dy/dx.</p>
+<div class="numin"><input type="number" id="l4r3in" step="0.1" aria-label="Chain rule derivative for the three-link chain at x = 4"><button type="button" class="ghost" data-ladder="l4r3">Check</button><button type="button" class="ghost" data-hint="l4r3h">Hint</button></div>
+<div class="hint" id="l4r3h" hidden>Three local slopes: dh/dg = 3, dg/dx = 2x = 8, and the "+1" link contributes 1.</div>
+<div class="feedback" id="l4r3fb" aria-live="polite"></div>
+</div>
+</div>
+<div class="check" id="chk4">
+<div class="label">CHECK · UNIT 4</div>
+<p><b>1. Numeric.</b> g = x², y = 2g + 1, at x = 3. Enter dy/dx.</p>
+<div class="numin"><input type="number" id="c4n" step="0.1" aria-label="Chain rule derivative for g = x squared, y = 2g + 1, at x = 3"><button type="button" data-check="c4n" data-target="c4nfb">Check</button></div>
+<div class="feedback" id="c4nfb" aria-live="polite"></div>
+<p><b>2. Diagnostic choice.</b> What is backpropagation, mathematically?</p>
+<div class="option-stack">
+<label class="option-item"><input type="radio" name="c4m" value="a"><span class="option-text">A search algorithm that guesses parameter updates and keeps the best — unrelated to derivatives.</span></label>
+<label class="option-item"><input type="radio" name="c4m" value="b"><span class="option-text">Repeated application of the chain rule along the computational graph: local derivatives multiply along every path from the loss back to each parameter.</span></label>
+<label class="option-item"><input type="radio" name="c4m" value="c"><span class="option-text">A faster way to compute the forward pass.</span></label>
+</div>
+<button type="button" data-mcq="c4m" data-target="c4mfb">Check choice</button>
+<div class="feedback" id="c4mfb" aria-live="polite"></div>
+<p><b>3. Explain in your own words</b> (out loud or on paper first): why is backpropagation <i>just</i> the chain rule — what exactly does the graph contribute?</p>
+<div class="numin"><button type="button" class="ghost" data-explain="e4">Reveal a model answer</button></div>
+<div class="modelanswer" id="e4" hidden><b>Model answer (grade yourself honestly):</b> each layer composes functions, so the loss is one long composition y = f(…g(x)). The chain rule says the derivative of a composition is the product of local derivatives along the path; a network merely has many paths, so the total gradient sums one product per path. The graph contributes the <i>bookkeeping</i>: it stores each node's local derivative once and reuses it for every parameter downstream, and it fixes the order (backward pass) in which products and sums are assembled. New organization — no new calculus.</div>
+<div class="feedback" id="e4fb" aria-live="polite"></div>
+</div>
+<div class="label">CONNECT · WHERE THIS RUNS <span class="badge ml">ML LINK</span></div>
+<p>Every deep-learning framework — PyTorch, TensorFlow, JAX — is at heart a computational-graph builder with a chain-rule engine attached. When you call <i>loss.backward()</i>, the framework is doing precisely what the graph lab does: forward values were recorded, and the backward pass multiplies local slopes from the loss back to every dial. Those per-layer factors are also the reason very deep stacks are hard to train — a single layer's factor, multiplied many times, decides whether the signal survives: that arithmetic is Unit 6's opening. <span class="ptag">constructed example</span></p>
+</section>
+<section id="u5" class="unit" aria-labelledby="u5t">
+<div class="label">UNIT 5 · JACOBIAN, HESSIAN &amp; CURVATURE</div>
+<h2 id="u5t">First order says direction; second order says shape</h2>
+<p><span class="badge core">CLASS CORE</span> The gradient handles functions with many inputs and <i>one</i> output. But a neural-network layer maps its input to <i>many</i> outputs — a <a class="term" href="#g-vvf" data-term="g-vvf">vector-valued function</a> F(x) = [f₁(x), …, f_m(x)]. Its derivative is not one vector but a whole matrix of them: the <a class="term" href="#g-jac" data-term="g-jac">Jacobian</a>, one row per output, one column per input. <span class="ptag">source</span></p>
+<div class="formula"><div class="fx">J<sub>ij</sub> = ∂f<sub>i</sub>/∂x<sub>j</sub> &nbsp;&nbsp; shape: (number of outputs) × (number of inputs)</div>
+<ul class="symkey">
+<li><b>f<sub>i</sub></b> — the i-th output of the function</li>
+<li><b>x<sub>j</sub></b> — the j-th input coordinate</li>
+<li><b>J<sub>ij</sub></b> — the sensitivity of output i to input j</li>
+<li><b>Why it makes sense:</b> each output deserves its own gradient; stacking those gradients as rows gives the complete first-order picture. <b>How to read the result:</b> the best linear approximation of the transformation near the point — its entries describe local stretching, scaling, and rotation. A function with 3 outputs from 2 inputs has a 3×2 Jacobian.</li>
+</ul></div>
+<p><span class="badge core">CLASS CORE</span> The source's example matrix, live: J = <span class="matblock">[ 2&nbsp;1 ]</span><span class="matblock">[ 0&nbsp;3 ]</span> transforms any input v = (v₁, v₂) into J·v = (2v₁ + v₂, 3v₂) — stretching, shearing, and rotating its neighborhood. Feed it a vector mentally: (1, 1) ↦ (3, 3). The source names where this machinery runs: backpropagation itself, vector transformations, normalizing flows (invertible models built from exactly these local maps), diffusion models (which push data through such transformations while adding noise), and sensitivity analysis (how much each input moves each output). <span class="ptag">source (applications glossed)</span></p>
+<p><span class="badge core">CLASS CORE</span> Now zoom out one order of derivatives. The <a class="term" href="#g-hess" data-term="g-hess">Hessian</a> collects the <a class="term" href="#g-second" data-term="g-second">second-order derivatives</a> — the derivatives of the gradient's entries. Where the gradient gave the tilt of the surface, the Hessian gives its <a class="term" href="#g-curv" data-term="g-curv">curvature</a>: how the slope itself bends. <span class="ptag">source</span></p>
+<div class="formula"><div class="fx">H<sub>ij</sub> = ∂²f/∂x<sub>i</sub>∂x<sub>j</sub> &nbsp;&nbsp; — "differentiate the gradient once more"</div>
+<ul class="symkey">
+<li><b>∂²f/∂x<sub>i</sub>∂x<sub>j</sub></b> — first differentiate with respect to x<sub>j</sub>, then with respect to x<sub>i</sub></li>
+<li><b>diagonal entries ∂²f/∂xᵢ²</b> — the curvature along each pure axis: is the axis-slope itself rising or falling?</li>
+<li><b>Why it makes sense:</b> gradient = first-order local model (a tilted plane); Hessian = second-order local model (how the plane itself bends). For smooth functions the mixed entries come out equal, so H is a symmetric matrix — the shape the Class 2 <a class="term" href="#g-eig" data-term="g-eig">eigenvalue</a> machinery applies to.</li>
+</ul></div>
+<p><span class="badge foundation">FOUNDATION</span> Why curvature <i>classifies</i> critical points — the second-order view the source assumes. Near any setting θ, a smooth loss behaves like:</p>
+<div class="formula"><div class="fx">f(θ + δ) ≈ f(θ) + ∇f(θ)·δ + ½·δᵀ H δ</div>
+<ul class="symkey">
+<li><b>δ</b> — a small step away from θ</li>
+<li><b>∇f(θ)·δ</b> — the first-order tilt: 0 exactly at a critical point, where ∇f = 0</li>
+<li><b>½·δᵀHδ</b> — the curvature term: what remains when the tilt vanishes — it alone decides whether the critical point is a floor, a ceiling, or a horse's back</li>
+<li><b>How to read the result:</b> at a critical point, walk in each eigen-direction of H (Class 2): if every eigenvalue is positive the surface bends up in all directions — a <a class="term" href="#g-pd" data-term="g-pd">positive definite</a> Hessian and a <a class="term" href="#g-min" data-term="g-min">local minimum</a> (a valley). All negative: <a class="term" href="#g-nd" data-term="g-nd">negative definite</a>, a <a class="term" href="#g-max" data-term="g-max">local maximum</a> (a peak). Mixed signs: <a class="term" href="#g-indef" data-term="g-indef">indefinite</a>, a <a class="term" href="#g-saddle" data-term="g-saddle">saddle point</a> — up in some directions, down in others.</li>
+</ul></div>
+<p><span class="badge core">CLASS CORE</span> The source's summary table, tightened to per-direction truth: positive curvature = bowl-shaped, negative = dome-shaped, mixed = saddle. And its warning: deep-learning landscapes are packed with saddle points and flat plateaus, which is precisely why optimization there is hard. <span class="ptag">source (direction-dependence tightened)</span></p>
+<div class="callout"><b>Beginner trap.</b> "∇f = 0, so we found a minimum." A zero gradient only says: <i>flat in every direction to first order</i>. The Hessian then decides the fate: all-positive eigenvalues → minimum; all-negative → maximum; <b>mixed signs → saddle</b> — a point that is a minimum along some directions and a maximum along others. In high-dimensional losses saddles vastly outnumber true minima, so "∇f = 0" is usually the beginning of the story, not the end.</div>
+<div class="predict">
+<div class="label">PREDICT · GATE 3 (commit before the curvature lab opens)</div>
+<p>A loss has a critical point where ∇f = 0, and the Hessian there has eigenvalues +4 and −2. What is the point?</p>
+<div class="option-stack">
+<label class="option-item"><input type="radio" name="g3" value="a"><span class="option-text">A local minimum — the gradient is zero, and zero means the walk has ended at the bottom.</span></label>
+<label class="option-item"><input type="radio" name="g3" value="b"><span class="option-text">A saddle point — the mixed eigenvalues mean the surface bends up along one direction and down along the other.</span></label>
+<label class="option-item"><input type="radio" name="g3" value="c"><span class="option-text">A local maximum — negative eigenvalues always dominate.</span></label>
+</div>
+<button type="button" data-gate="g3" data-target="w6">Commit answer</button>
+<div class="feedback" id="g3fb" aria-live="polite"></div>
+</div>
+<div class="widget" id="w6" data-locked="true">
+<div class="label">EXPLORE · CURVATURE LAB (TWO LIVE CROSS-SECTIONS)</div>
+<p class="goal">🎯 Goal: give the two directions opposite curvatures — and meet the saddle; make both negative — and stand inside a dome.</p>
+<canvas class="viz" id="cv6" aria-label="Two side-by-side parabola panels: the left shows the cross-section of the loss along the x-axis with curvature a, the right shows the cross-section along the y-axis with curvature c, each opening up, flat, or down according to the sign of its slider. A text readout below gives the Hessian matrix, its eigenvalues, the classification, and the Newton step." role="img"></canvas>
+<div class="legend-inline"><span class="lg-c">curving up (positive)</span><span class="lg-b">curving down (negative)</span><span style="color:var(--ink-faint)">flat: gray line</span></div>
+<div class="ctrl-grid">
+<div class="slider-control"><div class="slider-head"><span class="slider-label">a — curvature along x</span><output class="slider-val" id="caVal">3</output></div><div class="slider-track"><input id="ca" type="range" min="-3" max="6" step="0.1" value="3" aria-label="Curvature coefficient a along the x axis"></div></div>
+<div class="slider-control"><div class="slider-head"><span class="slider-label">c — curvature along y</span><output class="slider-val" id="ccVal">5</output></div><div class="slider-track"><input id="cc" type="range" min="-3" max="6" step="0.1" value="5" aria-label="Curvature coefficient c along the y axis"></div></div>
+</div>
+<div class="readout" id="r6" aria-live="polite"></div>
+</div>
+<p><span class="badge core">CLASS CORE</span> <span class="ptag">source (guard added, supplemental)</span> The source closes the second-order story with <a class="term" href="#g-newton" data-term="g-newton">Newton's method</a>: use the Hessian not just to <i>classify</i> the landscape but to <i>size the step</i>.</p>
+<div class="formula"><div class="fx">θ := θ − H⁻¹ ∇f(θ)</div>
+<ul class="symkey">
+<li><b>H⁻¹</b> — the inverse Hessian: exists only when no eigenvalue is zero (a saddle with a zero eigen-direction, or a flat direction, leaves it undefined — the guard the source omits)</li>
+<li><b>∇f(θ)</b> — the gradient: the direction</li>
+<li><b>Why it makes sense:</b> gradient descent takes a fixed-size step and re-measures; Newton divides the slope by the curvature, so steep-but-gently-curving regions get long steps and sharp bowls get short, precise ones. <b>How to read the result:</b> for a quadratic surface, one Newton step lands exactly on the critical point — verify it in the lab's readout. The catch: computing and inverting H for a billion parameters is exactly the cost that keeps deep learning on first-order methods (Unit 6).</li>
+</ul></div>
+<div class="ladder" id="lad5">
+<div class="label">PRACTICE · LADDER 5 — HESSIAN ENTRIES &amp; CLASSIFICATION (3 RUNGS)</div>
+<div class="rung">
+<div class="label">RUNG 1 · WORKED EXAMPLE</div>
+<p>For f(x, y) = 3x² + 5y², enter the Hessian entry H₂₂ = ∂²f/∂y².</p>
+<div class="worked">∂f/∂y = 10y → ∂²f/∂y² = <b>10</b>. Both diagonal entries (6, 10) positive → positive definite → bowl → minimum at the origin.<br>Rule used: differentiate the gradient's entry once more; classify by the sign pattern.</div>
+</div>
+<div class="rung">
+<div class="label">RUNG 2 · COMPLETION — FILL THE BLANK</div>
+<p>For f(x, y) = 2x² − 4y², enter ∂²f/∂y².</p>
+<div class="numin"><input type="number" id="l5r2in" step="0.1" aria-label="Second partial derivative with respect to y of 2x squared minus 4y squared"><button type="button" class="ghost" data-ladder="l5r2">Check</button><button type="button" class="ghost" data-hint="l5r2h">Hint</button></div>
+<div class="hint" id="l5r2h" hidden>∂f/∂y = −8y; differentiate once more with respect to y.</div>
+<div class="feedback" id="l5r2fb" aria-live="polite"></div>
+</div>
+<div class="rung">
+<div class="label">RUNG 3 · INDEPENDENT</div>
+<p>For f(x, y) = −x² + 7y² the Hessian is diag(−2, 14) — a saddle. Enter its <b>negative</b> eigenvalue.</p>
+<div class="numin"><input type="number" id="l5r3in" step="0.1" aria-label="Negative eigenvalue of the Hessian of minus x squared plus 7y squared"><button type="button" class="ghost" data-ladder="l5r3">Check</button><button type="button" class="ghost" data-hint="l5r3h">Hint</button></div>
+<div class="hint" id="l5r3h" hidden>H = diag(∂²f/∂x², ∂²f/∂y²); for a diagonal matrix the eigenvalues are the diagonal entries.</div>
+<div class="feedback" id="l5r3fb" aria-live="polite"></div>
+</div>
+</div>
+<div class="check" id="chk5">
+<div class="label">CHECK · UNIT 5</div>
+<p><b>1. Numeric.</b> For f(x, y) = 2x² + 5y², enter the curvature ∂²f/∂y².</p>
+<div class="numin"><input type="number" id="c5n" step="0.1" aria-label="Second partial derivative with respect to y of 2x squared plus 5y squared"><button type="button" data-check="c5n" data-target="c5nfb">Check</button></div>
+<div class="feedback" id="c5nfb" aria-live="polite"></div>
+<p><b>2. Diagnostic choice.</b> At a critical point, the Hessian has eigenvalues −3 and −3 (both negative). What is the point?</p>
+<div class="option-stack">
+<label class="option-item"><input type="radio" name="c5m" value="a"><span class="option-text">A bowl — a local minimum, since the gradient is zero.</span></label>
+<label class="option-item"><input type="radio" name="c5m" value="b"><span class="option-text">A saddle — mixed curvature.</span></label>
+<label class="option-item"><input type="radio" name="c5m" value="c"><span class="option-text">A dome — negative definite: the surface bends down in every direction, so a local maximum.</span></label>
+</div>
+<button type="button" data-mcq="c5m" data-target="c5mfb">Check choice</button>
+<div class="feedback" id="c5mfb" aria-live="polite"></div>
+</div>
+<div class="label">CONNECT · WHERE THIS RUNS <span class="badge ml">ML LINK</span></div>
+<p>The gradient answers "which way?" and the Hessian answers "what shape am I walking on?" — the source's Part-8 summary in one line. Second-order information powers everything from step-size schedules to methods that trust the local quadratic model within a small neighborhood (where the Hessian is a fair description of the ground), and the reason deep learning lives on first-order methods is pure arithmetic: a billion-parameter Hessian has 10¹⁸ entries. Unit 6 turns that arithmetic into the modern optimizer story. <span class="ptag">source</span></p>
+</section>
+<section id="u6" class="unit" aria-labelledby="u6t">
+<div class="label">UNIT 6 · THE DEEP-LEARNING VIEW</div>
+<h2 id="u6t">Repeat the chain rule 100 times</h2>
+<p><span class="badge core">CLASS CORE</span> Everything so far ran on toy surfaces. Real deep networks have <b>billions of parameters</b> and highly <a class="term" href="#g-nonconvex" data-term="g-nonconvex">non-convex</a> landscapes — mountains, valleys, and long stretches where nothing much happens. Multivariate calculus is central to all of it: training stability, optimization, and convergence all live on the machinery you just built. <span class="ptag">source</span></p>
+<p><span class="badge core">CLASS CORE</span> The source's first deep-net warning is pure Unit 4 arithmetic. Backpropagation multiplies one local derivative per layer along the whole path. If each layer's factor is a number λ, a signal crossing k layers arrives multiplied by:</p>
+<div class="formula"><div class="fx">g<sub>k</sub> = λᵏ &nbsp;&nbsp; (one factor per layer, multiplied k times)</div>
+<ul class="symkey">
+<li><b>λ</b> — the typical per-layer chain-rule factor: how much that layer scales the gradient passing through it</li>
+<li><b>k</b> — the number of layers the gradient must cross</li>
+<li><b>Why it makes sense:</b> the chain rule <i>multiplies</i> local slopes; multiplying the same factor k times is exponentiation. λ &lt; 1 shrinks exponentially (a <a class="term" href="#g-vangrad" data-term="g-vangrad">vanishing gradient</a>: early layers learn almost nothing); λ &gt; 1 blows up exponentially (an <a class="term" href="#g-expgrad" data-term="g-expgrad">exploding gradient</a>: updates swamp the weights). <b>How to read the result:</b> 0.9¹⁰⁰ ≈ 0.000027 — a 90%-faithful layer, repeated 100 times, is a disaster.</li>
+</ul></div>
+<div class="callout"><b>Beginner trap.</b> "Vanishing gradients happen because something is subtracted at each layer." Nothing is subtracted — the chain rule <b>multiplies</b>. A factor of 0.9 per layer is 0.9·0.9·0.9…, and a hundred of those leave about 0.003% of the signal. Small factors compound; they do not erode linearly.</div>
+<div class="widget" id="w7">
+<div class="label">EXPLORE · CHAIN-DEPTH LAB (EXPONENTIAL GRADIENT SCALE, LIVE)</div>
+<p class="goal">🎯 Goal: one factor per layer, k layers — watch what multiplication does; find the band where training survives.</p>
+<div class="ctrl-grid">
+<div class="slider-control"><div class="slider-head"><span class="slider-label">λ — per-layer factor</span><output class="slider-val" id="lamVal">0.8</output></div><div class="slider-track"><input id="lam" type="range" min="0.5" max="1.5" step="0.01" value="0.8" aria-label="Per-layer chain-rule factor lambda"></div></div>
+<div class="slider-control"><div class="slider-head"><span class="slider-label">k — depth (layers)</span><output class="slider-val" id="kVal">20</output></div><div class="slider-track"><input id="kdep" type="range" min="1" max="100" step="1" value="20" aria-label="Number of layers"></div></div>
+</div>
+<div class="readout" id="r7" aria-live="polite"></div>
+</div>
+<p><span class="badge core">CLASS CORE</span> The source's second warning is Units 3 and 5 at scale: real loss landscapes contain <b>flat regions</b> (near-zero gradients — the flat perpendicular of Unit 3 stretched into a plain), <b>steep cliffs</b> (gradients that suddenly explode — Unit 2's too-large-η cliff), and <b>saddle points</b> (Unit 5's mixed-curvature traps, which dominate high dimensions). Optimization becomes highly complex precisely because each failure mode is one of the shapes you have already met in miniature. <span class="ptag">source</span></p>
+<p><span class="badge core">CLASS CORE</span> The response of practice is a family of modern optimizers — Adam, RMSProp, Adagrad — whose shared one-line mechanism is <b>adaptive scaling</b>: keep per-parameter statistics of the gradient's recent sizes and give steep parameters smaller steps and flat parameters larger ones, instead of the single global η of plain gradient descent (an <a class="term" href="#g-adaptive" data-term="g-adaptive">adaptive optimizer</a>). <span class="ptag">source (mechanism summarized; details bounded as EXTENSION)</span> <span class="badge ext">EXTENSION</span> The rest of the family in one line each: momentum keeps a running average of past steps (a ball that keeps rolling across plateaus); weight decay nudges every dial slightly toward zero (Class 3's regularization idea, reused); second-moment estimates are exactly the "recent gradient sizes" above.</p>
+<p><span class="badge core">CLASS CORE</span> And at the frontier, the scale problem is answered with <a class="term" href="#g-sgd" data-term="g-sgd">stochastic gradients</a>: estimate the gradient on small random batches of data (noisy but cheap, millions of times per run), spread the work over distributed systems, and tune with curvature-aware tricks where the budget allows. Every buzzword in large-scale AI training is one of this lesson's objects wearing a systems-engineering hat. <span class="ptag">source</span></p>
+<div class="ladder" id="lad6">
+<div class="label">PRACTICE · LADDER 6 — EXPONENTIAL FACTORS (3 RUNGS)</div>
+<div class="rung">
+<div class="label">RUNG 1 · WORKED EXAMPLE</div>
+<p>A 10-layer net scales the gradient by λ = 0.9 per layer. What fraction survives?</p>
+<div class="worked">0.9¹⁰ ≈ <b>0.35</b> — about a third survives; the early layers still learn, but they are already 3× slower than the last layer.<br>Rule used: multiply the per-layer factor once per layer — exponentiation, not subtraction.</div>
+</div>
+<div class="rung">
+<div class="label">RUNG 2 · COMPLETION — FILL THE BLANK</div>
+<p>The source's own setting: λ = 0.8 across k = 20 layers (the trajectory from Unit 2's descent lab, read as a signal). Enter 0.8²⁰.</p>
+<div class="numin"><input type="number" id="l6r2in" step="0.001" aria-label="The factor 0.8 to the power 20"><button type="button" class="ghost" data-ladder="l6r2">Check</button><button type="button" class="ghost" data-hint="l6r2h">Hint</button></div>
+<div class="hint" id="l6r2h" hidden>Each added layer multiplies by 0.8 again: 0.8¹⁰ ≈ 0.107, then square it.</div>
+<div class="feedback" id="l6r2fb" aria-live="polite"></div>
+</div>
+<div class="rung">
+<div class="label">RUNG 3 · INDEPENDENT</div>
+<p>Now the exploding side: λ = 1.1 across k = 30 layers. Enter 1.1³⁰.</p>
+<div class="numin"><input type="number" id="l6r3in" step="0.1" aria-label="The factor 1.1 to the power 30"><button type="button" class="ghost" data-ladder="l6r3">Check</button><button type="button" class="ghost" data-hint="l6r3h">Hint</button></div>
+<div class="hint" id="l6r3h" hidden>Each layer multiplies by 1.1; ten layers ≈ 2.59, thirty ≈ 2.59³.</div>
+<div class="feedback" id="l6r3fb" aria-live="polite"></div>
+</div>
+</div>
+<div class="check" id="chk6">
+<div class="label">CHECK · UNIT 6</div>
+<p><b>1. Numeric.</b> A network's layers each scale the gradient by 0.7. After 10 layers, what fraction remains? Enter 0.7¹⁰.</p>
+<div class="numin"><input type="number" id="c6n" step="0.001" aria-label="The factor 0.7 to the power 10"><button type="button" data-check="c6n" data-target="c6nfb">Check</button></div>
+<div class="feedback" id="c6nfb" aria-live="polite"></div>
+<p><b>2. Diagnostic choice.</b> Why do adaptive optimizers (Adam, RMSProp, Adagrad) help on real loss landscapes, in this lesson's terms?</p>
+<div class="option-stack">
+<label class="option-item"><input type="radio" name="c6m" value="a"><span class="option-text">They make every update bigger, and bigger updates always converge faster.</span></label>
+<label class="option-item"><input type="radio" name="c6m" value="b"><span class="option-text">They scale each parameter's step using that parameter's own gradient statistics — taming steep directions (cliffs) with smaller steps and flat directions (plateaus) with larger ones, instead of one global learning rate.</span></label>
+<label class="option-item"><input type="radio" name="c6m" value="c"><span class="option-text">They replace the chain rule with a faster derivative rule.</span></label>
+</div>
+<button type="button" data-mcq="c6m" data-target="c6mfb">Check choice</button>
+<div class="feedback" id="c6mfb" aria-live="polite"></div>
+</div>
+<div class="label">CONNECT · WHERE THIS RUNS <span class="badge ml">ML LINK</span></div>
+<p>This unit is not a detour — it is the same lesson wearing production clothes. The λᵏ law is why 100-layer networks needed architectural answers — <a class="term" href="#g-resid" data-term="g-resid">residual connections</a> keep λ near 1 by adding an identity path; the plateau problem is Unit 3's flat perpendicular at scale; the cliff problem is Unit 2's η threshold; the saddle count is Unit 5's definiteness census in a billion dimensions. When a training run's loss curve misbehaves, practitioners debug it with exactly this vocabulary. <span class="ptag">constructed example</span> <span class="ptag">source</span></p>
+</section>
+<section id="synthesis" aria-labelledby="synt">
+<div class="label">SYNTHESIS</div>
+<h2 id="synt">The walk, end to end</h2>
+<p>Look back at the <a href="#u0">concept map</a> — every edge is now earned. Training is <b>optimization</b>: the loss is a surface over the model's dials. <b>Partials</b> give each dial's slope; stacked, they are the <b>gradient</b>, whose projection onto any direction is that direction's climb rate — which is why the gradient is the steepest direction and why walking against it (<b>gradient descent</b>) is the fastest local way down. To reach dials buried in composed layers, derivatives <b>multiply along paths</b> (the chain rule), and applying that rule through the whole <b>computational graph</b> is backpropagation — whose per-layer factors compound into vanishing or exploding gradients. Stack all first-order slopes into a matrix and you have the <b>Jacobian</b>; differentiate once more and the <b>Hessian</b> gives curvature, classifying critical points into minima, maxima, and saddles, and powering Newton's method when the budget allows. The source's preview table is no longer a promise; it is a summary of things you have touched.</p>
+<table class="apptable"><tr><th>ML concept</th><th>Geometric meaning</th><th>You saw it in</th></tr>
+<tr><td>Loss function</td><td>Surface</td><td>the loss explorer (Unit 1)</td></tr>
+<tr><td>Gradient</td><td>Direction of steepest ascent</td><td>the partial lab, proven in the direction lab</td></tr>
+<tr><td>Negative gradient</td><td>Fastest descent direction</td><td>the descent lab</td></tr>
+<tr><td>Hessian</td><td>Curvature</td><td>the curvature lab (bowl / dome / saddle)</td></tr>
+<tr><td>Optimization</td><td>Surface navigation</td><td>every unit — η, λᵏ, saddles, and the optimizers that fight them</td></tr></table>
+<p>Now prove it to yourself — the mastery check below interleaves all six units, asks you to tag your confidence on each item, and routes anything you miss <i>while sure</i> to your review list. No number it uses appeared earlier in this lesson.</p>
+</section>
+<section id="mastery" aria-labelledby="mast">
+<div class="label">MASTERY CHECK · 8 ITEMS, CONFIDENCE-TAGGED</div>
+<h2 id="mast">Can you use it cold?</h2>
+<div class="mitem">
+<p><b>M1 · numeric (Unit 2).</b> For f(x, y) = 3x²y, enter ∂f/∂x at (2, 3).</p>
+<div class="numin"><input type="number" id="m1in" step="0.1" aria-label="Partial derivative of 3x squared y with respect to x at (2,3)"><button type="button" data-masteryn="m1" data-target="m1fb">Check</button></div>
+<div class="conf">Confidence: <label><input type="radio" name="m1c" value="sure"> sure</label> <label><input type="radio" name="m1c" value="thinkso"> think so</label> <label><input type="radio" name="m1c" value="guessing"> guessing</label></div>
+<div class="feedback" id="m1fb" aria-live="polite"></div>
+</div>
+<div class="mitem">
+<p><b>M2 · reasoning (Unit 2).</b> Gradient descent updates θ := θ − η∇f(θ). Why is the minus sign the whole point?</p>
+<div class="option-stack">
+<label class="option-item"><input type="radio" name="m2" value="a"><span class="option-text">The gradient points uphill (steepest ascent), and training minimizes — so the fastest decrease is the exact opposite direction, the negative gradient.</span></label>
+<label class="option-item"><input type="radio" name="m2" value="b"><span class="option-text">Because the gradient itself is a negative quantity.</span></label>
+<label class="option-item"><input type="radio" name="m2" value="c"><span class="option-text">The learning rate η flips the direction, so no minus is really needed.</span></label>
+</div>
+<button type="button" data-mastery="m2" data-target="m2fb">Check</button>
+<div class="conf">Confidence: <label><input type="radio" name="m2c" value="sure"> sure</label> <label><input type="radio" name="m2c" value="thinkso"> think so</label> <label><input type="radio" name="m2c" value="guessing"> guessing</label></div>
+<div class="feedback" id="m2fb" aria-live="polite"></div>
+</div>
+<div class="mitem">
+<p><b>M3 · reasoning (Units 2+5).</b> Training stalls near a point where the Hessian has eigenvalues +2 and −5. What is happening?</p>
+<div class="option-stack">
+<label class="option-item"><input type="radio" name="m3" value="a"><span class="option-text">It is converging to a minimum — zero eigenvalues would be needed for a stall.</span></label>
+<label class="option-item"><input type="radio" name="m3" value="b"><span class="option-text">It is diverging along the negative-eigenvalue direction.</span></label>
+<label class="option-item"><input type="radio" name="m3" value="c"><span class="option-text">It has met a saddle: progress stalls because one direction still descends slowly and the other ascends — training lingers, then eventually escapes rather than settles.</span></label>
+</div>
+<button type="button" data-mastery="m3" data-target="m3fb">Check</button>
+<div class="conf">Confidence: <label><input type="radio" name="m3c" value="sure"> sure</label> <label><input type="radio" name="m3c" value="thinkso"> think so</label> <label><input type="radio" name="m3c" value="guessing"> guessing</label></div>
+<div class="feedback" id="m3fb" aria-live="polite"></div>
+</div>
+<div class="mitem">
+<p><b>M4 · numeric (Unit 2).</b> On f(x) = x², one gradient-descent step from x = 8 with η = 0.05: enter the new x.</p>
+<div class="numin"><input type="number" id="m4in" step="0.01" aria-label="New x after one gradient descent step from x = 8 with learning rate 0.05"><button type="button" data-masteryn="m4" data-target="m4fb">Check</button></div>
+<div class="conf">Confidence: <label><input type="radio" name="m4c" value="sure"> sure</label> <label><input type="radio" name="m4c" value="thinkso"> think so</label> <label><input type="radio" name="m4c" value="guessing"> guessing</label></div>
+<div class="feedback" id="m4fb" aria-live="polite"></div>
+</div>
+<div class="mitem">
+<p><b>M5 · reasoning (Unit 6).</b> A 50-layer network scales the gradient by about 0.95 per layer. What reaches the first layer, and by what law?</p>
+<div class="option-stack">
+<label class="option-item"><input type="radio" name="m5" value="a"><span class="option-text">Multiplicative decay: 0.95⁵⁰ ≈ 0.077 — each layer multiplies what remains, so the early layers receive a tiny fraction of the signal.</span></label>
+<label class="option-item"><input type="radio" name="m5" value="b"><span class="option-text">Additive decay: 0.05 · 50 = 2.5 is subtracted along the way.</span></label>
+<label class="option-item"><input type="radio" name="m5" value="c"><span class="option-text">Nothing changes — every layer passes gradients through untouched.</span></label>
+</div>
+<button type="button" data-mastery="m5" data-target="m5fb">Check</button>
+<div class="conf">Confidence: <label><input type="radio" name="m5c" value="sure"> sure</label> <label><input type="radio" name="m5c" value="thinkso"> think so</label> <label><input type="radio" name="m5c" value="guessing"> guessing</label></div>
+<div class="feedback" id="m5fb" aria-live="polite"></div>
+</div>
+<div class="mitem">
+<p><b>M6 · error identification (Unit 5).</b> A teammate reports: "Great news — the loss hit a critical point (∇L = 0) with Hessian eigenvalues +0.02 and +0.02. That's a maximum, so we should restart somewhere and instead search for a point where the Hessian is indefinite." Find the flaw.</p>
+<div class="option-stack">
+<label class="option-item"><input type="radio" name="m6" value="a"><span class="option-text">The classification is backwards: a positive-definite Hessian at a critical point is a (very flat) <i>minimum</i> — good news, not bad — and hunting for an indefinite Hessian would mean seeking out saddles.</span></label>
+<label class="option-item"><input type="radio" name="m6" value="b"><span class="option-text">The eigenvalues are too small to classify anything.</span></label>
+<label class="option-item"><input type="radio" name="m6" value="c"><span class="option-text">There is no flaw — the reasoning is correct.</span></label>
+</div>
+<button type="button" data-mastery="m6" data-target="m6fb">Check</button>
+<div class="conf">Confidence: <label><input type="radio" name="m6c" value="sure"> sure</label> <label><input type="radio" name="m6c" value="thinkso"> think so</label> <label><input type="radio" name="m6c" value="guessing"> guessing</label></div>
+<div class="feedback" id="m6fb" aria-live="polite"></div>
+</div>
+<div class="mitem">
+<p><b>M7 · numeric, new territory (Unit 3 in 3-D).</b> At a point where ∇f = (1, 2, 2), enter the directional derivative along u = (1, 1, 0)/√2 — the 3-D lesson never had a dial, but the rule does not care.</p>
+<div class="numin"><input type="number" id="m7in" step="0.01" aria-label="Directional derivative in 3 dimensions along (1,1,0) over root 2"><button type="button" data-masteryn="m7" data-target="m7fb">Check</button></div>
+<div class="conf">Confidence: <label><input type="radio" name="m7c" value="sure"> sure</label> <label><input type="radio" name="m7c" value="thinkso"> think so</label> <label><input type="radio" name="m7c" value="guessing"> guessing</label></div>
+<div class="feedback" id="m7fb" aria-live="polite"></div>
+</div>
+<div class="mitem">
+<p><b>M8 · transfer (Unit 5).</b> A network layer maps a 4-dimensional input to a 7-dimensional output. What shape is its Jacobian?</p>
+<div class="option-stack">
+<label class="option-item"><input type="radio" name="m8" value="a"><span class="option-text">4 × 7 — inputs first.</span></label>
+<label class="option-item"><input type="radio" name="m8" value="b"><span class="option-text">7 × 4 — one row per output, one column per input: outputs × inputs.</span></label>
+<label class="option-item"><input type="radio" name="m8" value="c"><span class="option-text">28 × 1 — flattened into one vector.</span></label>
+</div>
+<button type="button" data-mastery="m8" data-target="m8fb">Check</button>
+<div class="conf">Confidence: <label><input type="radio" name="m8c" value="sure"> sure</label> <label><input type="radio" name="m8c" value="thinkso"> think so</label> <label><input type="radio" name="m8c" value="guessing"> guessing</label></div>
+<div class="feedback" id="m8fb" aria-live="polite"></div>
+</div>
+<div class="msum" id="msum">Answer items and tag confidence — a summary appears here.</div>
+</section>
+<section id="review" aria-labelledby="revt">
+<div class="label">YOUR REVIEW LIST</div>
+<h2 id="revt">What to revisit</h2>
+<p>Every check you miss, and every mastery item you miss <i>while sure</i>, lands here automatically (saved in this browser). Come back after a break — spaced retrieval is the cheapest memory upgrade there is.</p>
+<div id="reviewList" aria-live="polite"></div>
+<p><button type="button" id="resetProgress" class="ghost">Reset all saved progress</button></p>
+</section>
+<section id="glossary" aria-labelledby="glost">
+<div class="label">GLOSSARY</div>
+<h2 id="glost">Every term, six ways</h2>
+<dl class="gloss-list">
+<div class="gitem"><dt id="g-opt">optimization</dt><dd><b>Simple:</b> making a bad number smaller by choosing well. <b>Precise:</b> the process of searching for inputs that minimize (or maximize) an objective function. <b>Intuition:</b> tuning dials until the needle sits as low as it will go. <b>Example:</b> adjusting w and b until the MSE in Unit 1 hits 0.22. <b>Related:</b> loss function, gradient descent. <b>In practice/ML:</b> training any model is optimization over its parameters.</dd></div>
+<div class="gitem"><dt id="g-loss">loss function</dt><dd><b>Simple:</b> the scoreboard that says how wrong the model is. <b>Precise:</b> a function L of the model's parameters whose value measures prediction error on data. <b>Intuition:</b> the needle the trainer watches. <b>Example:</b> MSE; cross-entropy for classifiers. <b>Related:</b> mean squared error, loss surface. <b>In practice/ML:</b> every framework's <i>loss.backward()</i> starts from one.</dd></div>
+<div class="gitem"><dt id="g-param">parameter</dt><dd><b>Simple:</b> a dial the training loop is allowed to turn. <b>Precise:</b> a trainable numerical quantity (weight or bias) that the optimizer adjusts; collectively θ. <b>Intuition:</b> one knob among millions. <b>Example:</b> slope w and intercept b in Unit 1's line. <b>Related:</b> parameter space, gradient. <b>In practice/ML:</b> modern networks have millions–billions.</dd></div>
+<div class="gitem"><dt id="g-paramspace">parameter space</dt><dd><b>Simple:</b> the map of all possible dial settings. <b>Precise:</b> the vector space whose axes are the model's parameters; each point is one complete model configuration. <b>Intuition:</b> every point of the map is a differently-tuned model. <b>Example:</b> the (w, b) plane of Unit 1. <b>Related:</b> high-dimensional, loss surface. <b>In practice/ML:</b> training is a walk through it.</dd></div>
+<div class="gitem"><dt id="g-highdim">high-dimensional</dt><dd><b>Simple:</b> having so many coordinates that pictures stop working. <b>Precise:</b> a space whose coordinate count d is large (hundreds to billions). <b>Intuition:</b> the setting where geometry gets strange (Class 3's curse). <b>Example:</b> a 256×256×3 image = 196,608 dimensions. <b>Related:</b> parameter space, non-convex. <b>In practice/ML:</b> all real model training happens here.</dd></div>
+<div class="gitem"><dt id="g-surface">loss surface</dt><dd><b>Simple:</b> the landscape the loss makes over all dial settings. <b>Precise:</b> the graph of L as a function of the parameters — a hypersurface in parameter space plus one loss axis. <b>Intuition:</b> mountains, valleys, slopes, plateaus. <b>Example:</b> Unit 1's MSE bowl over (w, b). <b>Related:</b> loss function, saddle point, plateau. <b>In practice/ML:</b> the terrain every optimizer walks.</dd></div>
+<div class="gitem"><dt id="g-mse">mean squared error (MSE)</dt><dd><b>Simple:</b> the average of the squared misses. <b>Precise:</b> L(w,b) = (1/n)Σ(ŷᵢ−yᵢ)², squared error averaged over data points. <b>Intuition:</b> punish big misses hard; let opposite misses add, not cancel. <b>Example:</b> Unit 1's worked MSE = 1 for the single point (1,3) under ŷ = 2x. <b>Related:</b> loss function. <b>In practice/ML:</b> the default regression loss.</dd></div>
+<div class="gitem"><dt id="g-partial">partial derivative</dt><dd><b>Simple:</b> the slope along one dial with the rest frozen. <b>Precise:</b> the rate of change of f with respect to one variable, all others held constant; written ∂f/∂x. <b>Intuition:</b> east-west slope on the mountain while you promise not to walk north-south. <b>Example:</b> ∂(x²+3y)/∂x = 2x. <b>Related:</b> gradient, sensitivity. <b>In practice/ML:</b> ∂L/∂wᵢ is one entry of the gradient the trainer needs.</dd></div>
+<div class="gitem"><dt id="g-gradient">gradient</dt><dd><b>Simple:</b> all the slopes, stacked into one arrow. <b>Precise:</b> the vector ∇f of all first-order partials, one entry per variable. <b>Intuition:</b> the felt uphill direction on a mountain you cannot see. <b>Example:</b> ∇f = (4, 3) at (2,4) for f = x²+3y. <b>Related:</b> partial derivative, gradient magnitude, directional derivative. <b>In practice/ML:</b> the update direction for every parameter, every step.</dd></div>
+<div class="gitem"><dt id="g-mag">gradient magnitude (steepness)</dt><dd><b>Simple:</b> how steep it is where you stand. <b>Precise:</b> ‖∇f‖, the norm of the gradient; the maximum possible rate of increase over all unit directions. <b>Intuition:</b> the arrow's length, not its heading. <b>Example:</b> ‖(3,4)‖ = 5. <b>Related:</b> gradient, directional derivative. <b>In practice/ML:</b> near-zero magnitude is what a plateau feels like.</dd></div>
+<div class="gitem"><dt id="g-lr">learning rate</dt><dd><b>Simple:</b> how big a step to take each update. <b>Precise:</b> the scalar η in θ := θ − η∇f(θ); for a quadratic, stability requires η < 2/λ_max. <b>Intuition:</b> stride length on the mountain — too long and you leap across the valley. <b>Example:</b> Unit 2's descent lab explodes past η = 0.5. <b>Related:</b> gradient descent. <b>In practice/ML:</b> the most-tuned hyperparameter in the field.</dd></div>
+<div class="gitem"><dt id="g-gd">gradient descent</dt><dd><b>Simple:</b> repeatedly step against the uphill arrow. <b>Precise:</b> the iterative update θ := θ − η∇f(θ), descending the loss surface. <b>Intuition:</b> walking downhill by feeling the slope under your feet, one step at a time. <b>Example:</b> x = 5 → ≈0.0576 in twenty steps on f = x² with η = 0.1. <b>Related:</b> learning rate, stochastic gradient. <b>In practice/ML:</b> the engine of essentially all model training.</dd></div>
+<div class="gitem"><dt id="g-unitvec">unit vector</dt><dd><b>Simple:</b> an arrow of length exactly 1. <b>Precise:</b> u with ‖u‖ = 1; directions are quoted as unit vectors so rates mean "per unit of step." <b>Intuition:</b> a pure direction, with size stripped away. <b>Example:</b> (3,4)/5 = (0.6, 0.8). <b>Related:</b> directional derivative, projection. <b>In practice/ML:</b> normalization (Class 3) makes embedding directions comparable.</dd></div>
+<div class="gitem"><dt id="g-dd">directional derivative</dt><dd><b>Simple:</b> the climb rate along any chosen direction. <b>Precise:</b> D<sub>u</sub>f = ∇f·u for a unit u; the projection of the gradient onto u. <b>Intuition:</b> how much of the slope works for you on the path you picked. <b>Example:</b> ∇f=(3,4) along (0,1) gives 4. <b>Related:</b> gradient, projection, dot product. <b>In practice/ML:</b> the formal reason "steepest" means the gradient direction.</dd></div>
+<div class="gitem"><dt id="g-proj">projection</dt><dd><b>Simple:</b> the shadow one vector casts on another's direction. <b>Precise:</b> the component of v along u, of length v·u for a unit u. <b>Intuition:</b> how much of v survives if you may only walk along u. <b>Example:</b> D<sub>u</sub>f = ‖∇f‖cos φ. <b>Related:</b> dot product, directional derivative. <b>In practice/ML:</b> cosine similarity (Class 3) is a projection of directions.</dd></div>
+<div class="gitem"><dt id="g-dot">dot product</dt><dd><b>Simple:</b> multiply matching coordinates and add. <b>Precise:</b> v·u = Σvᵢuᵢ; for a unit u it is the projection of v along u. <b>Intuition:</b> a compatibility score between two arrows. <b>Example:</b> (2,−1)·(1,1)/√2 = 1/√2 ≈ 0.707. <b>Related:</b> projection, directional derivative. <b>In practice/ML:</b> attention (Class 3) is built from dot products.</dd></div>
+<div class="gitem"><dt id="g-chain">chain rule</dt><dd><b>Simple:</b> through a pipeline, slopes multiply. <b>Precise:</b> for y = f(g(x)): dy/dx = (dy/dg)(dg/dx); multivariable: sum one product per path. <b>Intuition:</b> a nudge gets scaled at each stage, and the scalings compound. <b>Example:</b> g = x², y = g+1 at x=2 gives 1·4 = 4. <b>Related:</b> composition, backpropagation. <b>In practice/ML:</b> nothing trains without it.</dd></div>
+<div class="gitem"><dt id="g-comp">composition of functions</dt><dd><b>Simple:</b> functions feeding functions. <b>Precise:</b> y = f(g(x)): the inner function's output is the outer's input. <b>Intuition:</b> an assembly line of stages. <b>Example:</b> input → layer → activation → … → loss. <b>Related:</b> chain rule, computational graph. <b>In practice/ML:</b> a deep network is one long composition.</dd></div>
+<div class="gitem"><dt id="g-cgraph">computational graph</dt><dd><b>Simple:</b> the wiring diagram of who feeds whom. <b>Precise:</b> a directed graph whose nodes hold quantities and edges hold local derivatives, supporting forward values and backward products. <b>Intuition:</b> the loss's family tree. <b>Example:</b> Unit 4's x → g = x² → y = g+1. <b>Related:</b> chain rule, backpropagation, forward pass. <b>In practice/ML:</b> what PyTorch/TensorFlow/JAX build and differentiate.</dd></div>
+<div class="gitem"><dt id="g-fwd">forward pass</dt><dd><b>Simple:</b> push the data through to get the loss. <b>Precise:</b> evaluating the composition left-to-right, recording each node's value. <b>Intuition:</b> doing the work once, keeping the receipts. <b>Example:</b> x=2 → g=4 → y=5. <b>Related:</b> computational graph, backward pass. <b>In practice/ML:</b> one step of inference or one training sample's loss.</dd></div>
+<div class="gitem"><dt id="g-bwd">backward pass</dt><dd><b>Simple:</b> walk the receipts back, multiplying slopes. <b>Precise:</b> right-to-left application of the chain rule, reusing stored local derivatives to compute ∂L/∂(every node). <b>Intuition:</b> blame assignment: how much did each dial contribute? <b>Example:</b> dy/dg=1 times dg/dx=4 gives 4. <b>Related:</b> chain rule, backpropagation. <b>In practice/ML:</b> loss.backward() in every framework.</dd></div>
+<div class="gitem"><dt id="g-bp">backpropagation</dt><dd><b>Simple:</b> the chain rule run efficiently through the whole network. <b>Precise:</b> the algorithm that computes the loss's gradient w.r.t. every parameter by one backward pass over the computational graph, reusing each node's local derivative. <b>Intuition:</b> repeated chain rule with smart bookkeeping. <b>Example:</b> the graph lab, scaled to a billion dials. <b>Related:</b> chain rule, computational graph, Jacobian. <b>In practice/ML:</b> the mathematical engine of deep learning.</dd></div>
+<div class="gitem"><dt id="g-vvf">vector-valued function</dt><dd><b>Simple:</b> a function with several answers at once. <b>Precise:</b> F(x) = [f₁(x), …, f_m(x)], mapping inputs to m outputs. <b>Intuition:</b> one dial board, many gauges. <b>Example:</b> a layer mapping 2 inputs to 3 outputs. <b>Related:</b> Jacobian. <b>In practice/ML:</b> every network layer is one.</dd></div>
+<div class="gitem"><dt id="g-jac">Jacobian</dt><dd><b>Simple:</b> the gradient of a many-output function, one row per output. <b>Precise:</b> the matrix J<sub>ij</sub> = ∂f<sub>i</sub>/∂x<sub>j</sub>, shape (outputs × inputs); the best linear approximation of the map near a point. <b>Intuition:</b> the layer's local stretch-and-rotate fingerprint. <b>Example:</b> the source's [[2,1],[0,3]]: (1,1) ↦ (3,3). <b>Related:</b> gradient, vector-valued function, Hessian. <b>In practice/ML:</b> backprop, normalizing flows, diffusion, sensitivity analysis.</dd></div>
+<div class="gitem"><dt id="g-second">second-order derivative</dt><dd><b>Simple:</b> the slope of the slope. <b>Precise:</b> the derivative of a derivative; for multivariable f the entries ∂²f/∂x<sub>i</sub>∂x<sub>j</sub>. <b>Intuition:</b> whether the ground is bending up, down, or both. <b>Example:</b> d/dx(2x) = 2 — constant upward bend. <b>Related:</b> Hessian, curvature. <b>In practice/ML:</b> the difference between "flat" and "at the bottom."</dd></div>
+<div class="gitem"><dt id="g-curv">curvature</dt><dd><b>Simple:</b> how the slope itself changes. <b>Precise:</b> the second-order behavior measured by the Hessian; positive = bending up, negative = bending down, mixed = saddle. <b>Intuition:</b> the tilt of the tilt. <b>Example:</b> the curvature lab's two parabola panels. <b>Related:</b> Hessian, saddle point. <b>In practice/ML:</b> why step sizes that work in a gentle bowl fail in a sharp ravine.</dd></div>
+<div class="gitem"><dt id="g-hess">Hessian</dt><dd><b>Simple:</b> the matrix of all second derivatives. <b>Precise:</b> H<sub>ij</sub> = ∂²f/∂x<sub>i</sub>∂x<sub>j</sub>; symmetric for smooth f; classifies critical points via eigenvalue signs. <b>Intuition:</b> the surface's bending profile in every direction. <b>Example:</b> H = diag(3, 5) for the curvature lab's default. <b>Related:</b> Jacobian, eigenvalue, Newton's method. <b>In practice/ML:</b> too big to store for real networks — but its vocabulary is how training is debugged.</dd></div>
+<div class="gitem"><dt id="g-eig">eigenvalue</dt><dd><b>Simple:</b> the stretch factor along one of a matrix's special directions (Class 2's word, reused). <b>Precise:</b> a scalar λ with H·v = λv for some direction v; for a diagonal Hessian the eigenvalues are the diagonal entries. <b>Intuition:</b> the curvature the surface has if you may only walk in that direction. <b>Example:</b> diag(+4, −2): +4 up, −2 down — a saddle. <b>Related:</b> Hessian, positive definite, indefinite. <b>In practice/ML:</b> the 2/λ_max learning-rate threshold in Unit 2.</dd></div>
+<div class="gitem"><dt id="g-pd">positive definite</dt><dd><b>Simple:</b> bends up in every direction — a bowl. <b>Precise:</b> a symmetric matrix all of whose eigenvalues are > 0. <b>Intuition:</b> no escape direction; gravity everywhere points at the middle. <b>Example:</b> diag(3, 5). <b>Related:</b> negative definite, indefinite, local minimum. <b>In practice/ML:</b> the quadratic-approximation test for "did we find a minimum?"</dd></div>
+<div class="gitem"><dt id="g-nd">negative definite</dt><dd><b>Simple:</b> bends down in every direction — a dome. <b>Precise:</b> all eigenvalues < 0. <b>Intuition:</b> a hilltop: every direction loses height. <b>Example:</b> diag(−3, −3) in Unit 5's check. <b>Related:</b> positive definite, local maximum. <b>In practice/ML:</b> rare in loss landscapes, common as local tests.</dd></div>
+<div class="gitem"><dt id="g-indef">indefinite</dt><dd><b>Simple:</b> bends up some ways, down others — a horse's back. <b>Precise:</b> eigenvalues of both signs. <b>Intuition:</b> a mountain pass: ascend or descend depending on your bearing. <b>Example:</b> diag(+4, −2). <b>Related:</b> saddle point. <b>In practice/ML:</b> the dominant critical-point type in high dimensions.</dd></div>
+<div class="gitem"><dt id="g-saddle">saddle point</dt><dd><b>Simple:</b> a pass between hills — minimum one way, maximum the other. <b>Precise:</b> a critical point (∇f = 0) with an indefinite Hessian. <b>Intuition:</b> flat underfoot, yet the ground curves both ways. <b>Example:</b> f = −x² + 7y² at the origin. <b>Related:</b> indefinite, critical point, plateau. <b>In practice/ML:</b> deep nets are full of them; training stalls there.</dd></div>
+<div class="gitem"><dt id="g-min">local minimum</dt><dd><b>Simple:</b> a valley floor — every nearby step goes up. <b>Precise:</b> a point where ∇f = 0 and the Hessian is positive definite (or, weakly, positive semidefinite). <b>Intuition:</b> the bottom of your current bowl, whether or not it is the deepest one. <b>Example:</b> the origin of every bowl in the labs. <b>Related:</b> positive definite, saddle point. <b>In practice/ML:</b> what training converges to — hopefully a deep one.</dd></div>
+<div class="gitem"><dt id="g-max">local maximum</dt><dd><b>Simple:</b> a hilltop — every nearby step goes down. <b>Precise:</b> a critical point with negative definite Hessian. <b>Intuition:</b> the dome's crown. <b>Example:</b> diag(−3,−3) at the origin. <b>Related:</b> negative definite. <b>In practice/ML:</b> a loss's local maxima are the trainer's dead ends.</dd></div>
+<div class="gitem"><dt id="g-crit">critical point</dt><dd><b>Simple:</b> where the ground is flat in every direction — first order. <b>Precise:</b> a parameter setting where ∇f = 0; its type (min / max / saddle) is decided by the Hessian. <b>Intuition:</b> standing still feels the same on a valley floor, a hilltop, and a pass — curvature tells them apart. <b>Example:</b> the origin in every Unit-5 lab setting. <b>Related:</b> saddle point, local minimum. <b>In practice/ML:</b> "∇L ≈ 0" is how a training run reports being stuck — or done.</dd></div>
+<div class="gitem"><dt id="g-newton">Newton's method</dt><dd><b>Simple:</b> size the step by the curvature, not just the slope. <b>Precise:</b> the update θ := θ − H⁻¹∇f(θ); needs H invertible and a locally good quadratic model. <b>Intuition:</b> a slope of 10 in a sharp bowl deserves a shorter step than a slope of 10 on a valley floor. <b>Example:</b> one step lands the curvature lab's quadratic exactly on its critical point. <b>Related:</b> Hessian, gradient descent. <b>In practice/ML:</b> the H⁻¹ cost is why deep learning stays first-order.</dd></div>
+<div class="gitem"><dt id="g-plateau">plateau</dt><dd><b>Simple:</b> a long flat stretch where steps stop helping. <b>Precise:</b> a region where ‖∇f‖ ≈ 0 (to first order flat — e.g. along the gradient's perpendicular), so updates shrink toward zero. <b>Intuition:</b> Unit 3's flat direction, stretched into terrain. <b>Example:</b> λ near 0.5 in the chain-depth lab makes progress crawl. <b>Related:</b> saddle point, adaptive optimizer. <b>In practice/ML:</b> the flat "loss stops moving" phase of real training curves.</dd></div>
+<div class="gitem"><dt id="g-nonconvex">non-convex</dt><dd><b>Simple:</b> a landscape with many valleys, hills, and passes — no single bowl. <b>Precise:</b> a function whose loss surface is not convex; multiple local minima and saddles exist. <b>Intuition:</b> hiking country, not a wok. <b>Example:</b> any deep network's loss. <b>Related:</b> saddle point, loss surface. <b>In practice/ML:</b> the honest description of every real training problem.</dd></div>
+<div class="gitem"><dt id="g-vangrad">vanishing gradient</dt><dd><b>Simple:</b> the training signal dies before reaching early layers. <b>Precise:</b> repeated chain-rule multiplication by per-layer factors < 1 shrinks the gradient exponentially: λᵏ → 0. <b>Intuition:</b> 0.9 one hundred times is not 90% — it is 0.003%. <b>Example:</b> the chain-depth lab below 10⁻⁴. <b>Related:</b> exploding gradient, chain rule. <b>In practice/ML:</b> the historical obstacle to deep (many-layer) training.</dd></div>
+<div class="gitem"><dt id="g-expgrad">exploding gradient</dt><dd><b>Simple:</b> the training signal grows until updates wreck the dials. <b>Precise:</b> per-layer factors > 1 compound as λᵏ → ∞. <b>Intuition:</b> the mirror failure of vanishing — a snowball per layer. <b>Example:</b> λ = 1.1, k = 30 → ≈17.4. <b>Related:</b> vanishing gradient, adaptive optimizer. <b>In practice/ML:</b> why training pipelines clamp gradients to a safe range.</dd></div>
+<div class="gitem"><dt id="g-adaptive">adaptive optimizer</dt><dd><b>Simple:</b> an optimizer that tunes each dial's step size to that dial's history. <b>Precise:</b> a method (Adam, RMSProp, Adagrad) scaling per-parameter updates using gradient statistics, in place of one global η. <b>Intuition:</b> cautious steps on cliffs, confident steps on flats. <b>Example:</b> Adam — the field's default. <b>Related:</b> learning rate, gradient descent. <b>In practice/ML:</b> the standard choice for deep training.</dd></div>
+<div class="gitem"><dt id="g-sgd">stochastic gradient</dt><dd><b>Simple:</b> a cheap, slightly random stand-in for the true gradient. <b>Precise:</b> the gradient of the loss on a random mini-batch, used as a noisy estimate of the full-data gradient. <b>Intuition:</b> survey a few voters instead of the country. <b>Example:</b> one batch of 256 samples per update. <b>Related:</b> gradient descent. <b>In practice/ML:</b> how billion-scale training affords millions of updates.</dd></div>
+<div class="gitem"><dt id="g-lsq">least squares</dt><dd><b>Simple:</b> the parameter values that make the total squared error as small as possible. <b>Precise:</b> the minimizers of Σ(ŷᵢ−yᵢ)²; for a line, w* = S<sub>xy</sub>/S<sub>xx</sub>, b* = ȳ − w*x̄. <b>Intuition:</b> the exact best fit the calculus of Unit 2 is walking toward. <b>Example:</b> Unit 1's dataset: w* = 1.7, b* = −0.1, MSE* = 0.22. <b>Related:</b> mean squared error, gradient descent. <b>In practice/ML:</b> closed-form regression; also the textbook test case for optimizers.</dd></div>
+<div class="gitem"><dt id="g-resid">residual connection</dt><dd><b>Simple:</b> a layer design that adds "plus the input unchanged" to its output. <b>Precise:</b> an identity path y = F(x) + x, giving gradients a multiplicative factor near 1 across the layer. <b>Intuition:</b> a bypass lane that keeps the λᵏ chain from collapsing. <b>Example:</b> the trick behind 100+ layer networks. <b>Related:</b> vanishing gradient, chain rule. <b>In practice/ML:</b> the architectural answer to Unit 6's exponent law.</dd></div>
+</dl>
+</section>
+</main>
+<footer class="colophon">Built with <span class="heart">♥</span> using Interactive Lessons<br>AI-generated, so mistakes can sneak in — double-check what matters.</footer>
+<script>
+"use strict";
+/* ===== math core (live computation only — nothing hard-coded) ===== */
+function fmt(x,d){ if(d===undefined){ d=2; } return (+x).toFixed(d).replace(/\.?0+$/,""); }
+function sci(x){ if(x===0){ return "0"; } var e=Math.floor(Math.log10(Math.abs(x))); var m=x/Math.pow(10,e); return fmt(m,2)+"e"+(e<0?e:"+"+e); }
+/* ===== responsive viewport (ADR-0013 makeView) ===== */
+function makeView(canvasId,xMin,xMax,yMin,yMax){
+  var cv=document.getElementById(canvasId); if(!cv){ return null; }
+  function fresh(){
+    var dpr=window.devicePixelRatio||1;
+    var cw=cv.clientWidth||640;
+    var ch=Math.round(cw*(yMax-yMin)/(xMax-xMin));
+    if(cv.width!==Math.round(cw*dpr)){ cv.width=Math.round(cw*dpr); cv.height=Math.round(ch*dpr); cv.style.height=ch+"px"; }
+    var ctx=cv.getContext("2d");
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+    return {ctx:ctx,cw:cw,ch:ch};
+  }
+  var X=function(x){ return (x-xMin)/(xMax-xMin); };
+  var Y=function(y){ return 1-(y-yMin)/(yMax-yMin); };
+  return {cv:cv,fresh:fresh,X:X,Y:Y};
+}
+function px(view,nx){ return nx*view.cv.clientWidth; }
+function py(view,ny){ return ny*view.cv.clientHeight; }
+function dotAt(view,ctx,x,y,color){ ctx.fillStyle=color; ctx.beginPath(); ctx.arc(px(view,view.X(x)),py(view,view.Y(y)),4,0,2*Math.PI); ctx.fill(); }
+function arrow(view,ctx,x1,y1,x2,y2,color,label){
+  var ax=px(view,view.X(x1)), ay=py(view,view.Y(y1));
+  var bx=px(view,view.X(x2)), by=py(view,view.Y(y2));
+  ctx.strokeStyle=color; ctx.fillStyle=color; ctx.lineWidth=2.2;
+  ctx.beginPath(); ctx.moveTo(ax,ay); ctx.lineTo(bx,by); ctx.stroke();
+  var ang=Math.atan2(by-ay,bx-ax), hl=9;
+  ctx.beginPath();
+  ctx.moveTo(bx,by);
+  ctx.lineTo(bx-hl*Math.cos(ang-0.42),by-hl*Math.sin(ang-0.42));
+  ctx.lineTo(bx-hl*Math.cos(ang+0.42),by-hl*Math.sin(ang+0.42));
+  ctx.closePath(); ctx.fill();
+  if(label){ ctx.font="12px sans-serif"; ctx.fillText(label,bx+6,by-6); }
+}
+/* ===== storage with graceful fallback ===== */
+var STORAGE_OK=(function(){ try{ var t="__mvc1t"; localStorage.setItem(t,"1"); localStorage.removeItem(t); return true; }catch(e){ return false; } })();
+function loadJSON(key,fb){ if(!STORAGE_OK){ return fb; } try{ var raw=localStorage.getItem(key); if(raw===null){ return fb; } var v=JSON.parse(raw); return (v&&typeof v==="object")?v:fb; }catch(e){ return fb; } }
+function saveJSON(key,val){ if(!STORAGE_OK){ return; } try{ localStorage.setItem(key,JSON.stringify(val)); }catch(e){} }
+var dots=loadJSON("mvc1-dots",{});
+var review=loadJSON("mvc1-review",[]);
+function addReview(id,label){ for(var i=0;i<review.length;i++){ if(review[i].id===id){ return; } } review.push({id:id,label:label}); saveJSON("mvc1-review",review); renderReview(); }
+function renderReview(){
+  var el=document.getElementById("reviewList");
+  if(!el){ return; }
+  if(!review.length){ el.innerHTML="<p style='color:var(--ink-faint)'>Nothing queued — clear the checks above and see.</p>"; return; }
+  var html="<ul style='margin:.3rem 0;padding-left:1.2rem'>";
+  for(var i=0;i<review.length;i++){ html+="<li>"+review[i].label+" — <a href='#"+review[i].id+"'>go back</a></li>"; }
+  html+="</ul><p style='font-size:.82rem;color:var(--ink-soft)'>"+review.length+" item(s) queued. Come back after a break — spacing helps it stick.</p>";
+  el.innerHTML=html;
+}
+function setDot(unit,done){
+  var link=document.querySelector('.topnav a[href="#'+unit+'"] .dot');
+  if(link){ link.classList.toggle("done",!!done); }
+}
+function markCheck(unit,part,ok,label){
+  dots[unit]=dots[unit]||{};
+  dots[unit][part]=!!ok;
+  saveJSON("mvc1-dots",dots);
+  if(!ok){ addReview("chk"+unit.slice(1),label); }
+  if(dots[unit].n&&dots[unit].m){ setDot(unit,true); }
+}
+/* ===== nav dots + active state (IntersectionObserver) ===== */
+(function(){
+  var links=document.querySelectorAll(".topnav a");
+  var units=["u1","u2","u3","u4","u5","u6"];
+  for(var i=0;i<links.length;i++){
+    var href=links[i].getAttribute("href").slice(1);
+    if(units.indexOf(href)>=0){
+      var d=document.createElement("span");
+      d.className="dot"+(dots[href]&&dots[href].n&&dots[href].m?" done":"");
+      links[i].appendChild(d);
+    }
+  }
+  if("IntersectionObserver" in window){
+    var obs=new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if(en.isIntersecting){
+          for(var j=0;j<links.length;j++){ links[j].removeAttribute("aria-current"); }
+          var a=document.querySelector('.topnav a[href="#'+en.target.id+'"]');
+          if(a){ a.setAttribute("aria-current","true"); }
+        }
+      });
+    },{rootMargin:"-25% 0px -60% 0px"});
+    ["u0","u1","u2","u3","u4","u5","u6","synthesis","mastery","glossary"].forEach(function(id){
+      var s=document.getElementById(id); if(s){ obs.observe(s); }
+    });
+  }
+})();
+/* ===== prediction gates: unlock by commitment, differentiated feedback ===== */
+var GATES={
+  g1:{fb:"g1fb",target:"w2",rule:"Rule: the gradient combines every axis's slope; walking a single axis (or a fixed diagonal) keeps only part of it.",
+    opts:{
+      a:"Right: the gradient (2, 4) mixes both slopes — east at rate 2, north at rate 4 — and no axis-aligned or diagonal shortcut climbs faster. Lab unlocked; drag the point and watch the arrow.",
+      b:"Tempting — the y-slope IS bigger. But a pure +y walk abandons the x-slope entirely; the gradient keeps both. Lab unlocked — compare the arrow with the axis guides.",
+      c:"No fixed split is optimal: the best mix weights each axis by its own slope, which is exactly the gradient (2, 4). Lab unlocked — see for yourself."}},
+  g2:{fb:"g2fb",target:"w4",rule:"Rule: D_u f is a projection of the gradient onto a unit direction, so it can never exceed ‖∇f‖ — and equals it only along the normalized gradient.",
+    opts:{
+      a:"25 is the dot product with the UNNORMALIZED (3, 4) — a walk of length 5, not 1. Per unit of step the maximum is 5, along (3, 4)/5. Dial unlocked — find the angle that scores 5.",
+      b:"Right: 5 along (3, 4)/5 — the length of the gradient, achieved only when u points the same way. Dial unlocked — sweep θ and watch the projection bar top out at ‖∇f‖.",
+      c:"The x-axis is a valid unit direction, but its rate (3) keeps only the x-slope. The maximum is 5, along the normalized gradient. Dial unlocked."}},
+  g3:{fb:"g3fb",target:"w6",rule:"Rule: at a critical point the curvature term alone decides — mixed eigenvalue signs mean up some directions, down others: a saddle.",
+    opts:{
+      a:"The zero gradient only says first-order flat. Eigenvalue −2 makes one direction bend DOWN — this cannot be a minimum. Lab unlocked — build the mixed case and watch.",
+      b:"Right: +4 up, −2 down — a saddle, the high-dimensional landscape's most common trap. Lab unlocked — set a and c to opposite signs and meet it.",
+      c:"A maximum needs ALL eigenvalues negative; +4 bends one direction up. Mixed signs = saddle. Lab unlocked."}}
+};
+function gAnswer(key){ return {g1:"a",g2:"b",g3:"b"}[key]; }
+function bindGates(){
+  var btns=document.querySelectorAll("[data-gate]");
+  for(var i=0;i<btns.length;i++){
+    btns[i].addEventListener("click",function(){
+      var key=this.getAttribute("data-gate");
+      var G=GATES[key];
+      var fb=document.getElementById(G.fb);
+      var choice=document.querySelector('input[name="'+key+'"]:checked');
+      if(!choice){ fb.className="feedback no"; fb.textContent="Commit to an answer first — that commitment is what makes the reveal worth it."; return; }
+      fb.className="feedback "+(choice.value===gAnswer(key)?"ok":"no");
+      fb.innerHTML=G.opts[choice.value]+"<br><b>"+G.rule+"</b>";
+      var w=document.getElementById(G.target);
+      if(w){ w.style.display=""; w.removeAttribute("data-locked"); }
+      if(typeof window["draw_"+G.target]==="function"){ window["draw_"+G.target](); }
+    });
+  }
+}
+/* ===== W1: loss explorer (live MSE) ===== */
+var DATA=[[1,2],[2,3],[3,5],[4,6],[5,9]];
+function drawW1(){
+  var w=+document.getElementById("lsW").value;
+  var b=+document.getElementById("lsB").value;
+  document.getElementById("lsWVal").textContent=fmt(w,1);
+  document.getElementById("lsBVal").textContent=fmt(b,1);
+  var view=makeView("cv1",-2,10,-4,10); if(!view){ return; }
+  var f=view.fresh(), ctx=f.ctx;
+  ctx.clearRect(0,0,f.cw,f.ch);
+  /* axes */
+  ctx.strokeStyle="#e3e0d8"; ctx.lineWidth=1;
+  if(view.X(0)>=0&&view.X(0)<=1){ ctx.beginPath(); ctx.moveTo(px(view,view.X(0)),0); ctx.lineTo(px(view,view.X(0)),f.ch); ctx.stroke(); }
+  ctx.beginPath(); ctx.moveTo(0,py(view,view.Y(0))); ctx.lineTo(f.cw,py(view,view.Y(0))); ctx.stroke();
+  var i, mse=0, se=[];
+  for(i=0;i<DATA.length;i++){
+    var yh=w*DATA[i][0]+b, e=yh-DATA[i][1];
+    se.push(e*e); mse+=e*e;
+  }
+  mse/=DATA.length;
+  /* error squares + dashed segments */
+  for(i=0;i<DATA.length;i++){
+    var x=DATA[i][0], y=DATA[i][1], yh=w*x+b;
+    var x0p=px(view,view.X(x)), y0p=py(view,view.Y(y)), y1p=py(view,view.Y(yh));
+    ctx.setLineDash([4,3]); ctx.strokeStyle="#8a6116"; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(x0p,y0p); ctx.lineTo(x0p,y1p); ctx.stroke();
+    ctx.setLineDash([]);
+    var sq=Math.abs(yh-y);
+    var sqx=(yh>=y)?x:x-sq;
+    ctx.fillStyle="rgba(138,97,22,0.30)";
+    ctx.fillRect(px(view,view.X(sqx)),Math.min(y0p,y1p),px(view,sq/12),Math.abs(y1p-y0p));
+  }
+  /* model line */
+  ctx.strokeStyle="#b3382e"; ctx.lineWidth=2;
+  ctx.beginPath(); ctx.moveTo(px(view,view.X(-2)),py(view,view.Y(w*-2+b))); ctx.lineTo(px(view,view.X(10)),py(view,view.Y(w*10+b))); ctx.stroke();
+  /* data points */
+  ctx.fillStyle="#2f5fd0";
+  for(i=0;i<DATA.length;i++){ ctx.beginPath(); ctx.arc(px(view,view.X(DATA[i][0])),py(view,view.Y(DATA[i][1])),4,0,2*Math.PI); ctx.fill(); }
+  /* least-squares optimum, computed live from the dataset */
+  var mx=0,my=0;
+  for(i=0;i<DATA.length;i++){ mx+=DATA[i][0]; my+=DATA[i][1]; }
+  mx/=DATA.length; my/=DATA.length;
+  var sxy=0,sxx=0;
+  for(i=0;i<DATA.length;i++){ sxy+=(DATA[i][0]-mx)*(DATA[i][1]-my); sxx+=(DATA[i][0]-mx)*(DATA[i][0]-mx); }
+  var ws=sxy/sxx, bs=my-ws*mx, mses=0;
+  for(i=0;i<DATA.length;i++){ var es=ws*DATA[i][0]+bs-DATA[i][1]; mses+=es*es; }
+  mses/=DATA.length;
+  document.getElementById("r1").innerHTML=
+    "Current dials: ŷ = "+fmt(w,1)+"·x + "+fmt(b,1)+" → MSE = <b>"+fmt(mse,3)+"</b><br>"+
+    "Per-point squared errors: "+se.map(function(v){return fmt(v,2);}).join(" · ")+"<br>"+
+    "Best by <a class='term' href='#g-lsq' data-term='g-lsq'>least squares</a> (computed live from the dataset): w* = <b>"+fmt(ws,2)+"</b>, b* = <b>"+fmt(bs,2)+"</b>, MSE* = <b>"+fmt(mses,3)+"</b> — you are "+fmt(Math.sqrt((w-ws)*(w-ws)+(b-bs)*(b-bs)),2)+" dial-units away<br>"+
+    "Reading: each shaded square is one point's squared error; the loss is the average square. Gradient descent on this surface walks straight to (w*, b*) — Unit 2 shows the walk on a bowl you can see.";
+}
+/* ===== W2: partial lab (contours + gradient arrow), gated by G1 ===== */
+var LEVELS=[0.5,2,4.5,8];
+function draw_w2(){ drawW2(); }
+function drawW2(){
+  var x0=+document.getElementById("px").value;
+  var y0=+document.getElementById("py").value;
+  document.getElementById("pxVal").textContent=fmt(x0,1);
+  document.getElementById("pyVal").textContent=fmt(y0,1);
+  var view=makeView("cv2",-3.4,3.4,-2.6,2.6); if(!view){ return; }
+  var f=view.fresh(), ctx=f.ctx;
+  ctx.clearRect(0,0,f.cw,f.ch);
+  /* contour ellipses x^2 + 2y^2 = c : semi-axes sqrt(c), sqrt(c/2) */
+  ctx.strokeStyle="#2f5fd0"; ctx.lineWidth=1.2;
+  for(var l=0;l<LEVELS.length;l++){
+    var c=LEVELS[l], a=Math.sqrt(c), bb=Math.sqrt(c/2);
+    ctx.beginPath();
+    for(var t=0;t<=64;t++){
+      var th=t/64*2*Math.PI, xx=a*Math.cos(th), yy=bb*Math.sin(th);
+      if(t===0){ ctx.moveTo(px(view,view.X(xx)),py(view,view.Y(yy))); } else { ctx.lineTo(px(view,view.X(xx)),py(view,view.Y(yy))); }
+    }
+    ctx.stroke();
+  }
+  /* frozen-axis guides through P */
+  ctx.setLineDash([4,4]); ctx.strokeStyle="#8a6116"; ctx.lineWidth=1;
+  ctx.beginPath(); ctx.moveTo(px(view,view.X(x0)),0); ctx.lineTo(px(view,view.X(x0)),f.ch); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(0,py(view,view.Y(y0))); ctx.lineTo(f.cw,py(view,view.Y(y0))); ctx.stroke();
+  ctx.setLineDash([]);
+  dotAt(view,ctx,x0,y0,"#b3382e");
+  /* gradient arrow: direction = unit(g), display length scaled to magnitude */
+  var gx=2*x0, gy=4*y0, gm=Math.sqrt(gx*gx+gy*gy);
+  var GMAX=Math.sqrt(5*5+7.2*7.2);
+  if(gm>1e-9){
+    var len=0.9*gm/GMAX;
+    arrow(view,ctx,x0,y0,x0+gx/gm*len,y0+gy/gm*len,"#1e7a46","∇f");
+  }
+  document.getElementById("r2").innerHTML=
+    "∂f/∂x = 2·x₀ = <b>"+fmt(gx,2)+"</b> (east-west slope) &nbsp;·&nbsp; ∂f/∂y = 4·y₀ = <b>"+fmt(gy,2)+"</b> (north-south slope)<br>"+
+    "∇f = <b>("+fmt(gx,2)+", "+fmt(gy,2)+")</b> &nbsp;·&nbsp; ‖∇f‖ = <b>"+fmt(gm,2)+"</b> steepness"+
+    (gm<1e-9?" — <span class='ok'>at the origin every partial is 0: you are standing on the minimum.</span>":"")+"<br>"+
+    "Arrow drawn at "+fmt(100*0.9/GMAX,0)+"% of true length (so extreme points stay on canvas); its <i>direction</i> is exact. Unit 3 proves this is the steepest direction — and gives the number it maximizes: ‖∇f‖.";
+}
+/* ===== W3: descent lab (gradient descent path), always visible ===== */
+function drawW3(){
+  var eta=+document.getElementById("eta").value;
+  var sx=+document.getElementById("sx").value;
+  var sy=+document.getElementById("sy").value;
+  document.getElementById("etaVal").textContent=fmt(eta,2);
+  document.getElementById("sxVal").textContent=fmt(sx,1);
+  document.getElementById("syVal").textContent=fmt(sy,1);
+  var view=makeView("cv3",-3.4,3.4,-2.6,2.6); if(!view){ return; }
+  var f=view.fresh(), ctx=f.ctx;
+  ctx.clearRect(0,0,f.cw,f.ch);
+  ctx.strokeStyle="#2f5fd0"; ctx.lineWidth=1.2;
+  for(var l=0;l<LEVELS.length;l++){
+    var c=LEVELS[l], a=Math.sqrt(c), bb=Math.sqrt(c/2);
+    ctx.beginPath();
+    for(var t=0;t<=64;t++){
+      var th=t/64*2*Math.PI, xx=a*Math.cos(th), yy=bb*Math.sin(th);
+      if(t===0){ ctx.moveTo(px(view,view.X(xx)),py(view,view.Y(yy))); } else { ctx.lineTo(px(view,view.X(xx)),py(view,view.Y(yy))); }
+    }
+    ctx.stroke();
+  }
+  /* 14 steps of GD on f = x^2 + 2y^2 (updates: x *= (1-2η), y *= (1-4η)) */
+  var fx=1-2*eta, fy=1-4*eta;
+  var pts=[[sx,sy]], x=sx, y=sy, escaped=-1;
+  for(var s=1;s<=14;s++){
+    x=x*fx; y=y*fy;
+    if(Math.abs(x)>8||Math.abs(y)>6){ escaped=s; break; }
+    pts.push([x,y]);
+  }
+  ctx.strokeStyle="#b3382e"; ctx.lineWidth=1.6;
+  ctx.beginPath();
+  for(var p=0;p<pts.length;p++){
+    var q=px(view,view.X(pts[p][0])), r=py(view,view.Y(pts[p][1]));
+    if(p===0){ ctx.moveTo(q,r); } else { ctx.lineTo(q,r); }
+  }
+  ctx.stroke();
+  for(p=0;p<pts.length;p++){ dotAt(view,ctx,pts[p][0],pts[p][1],"#b3382e"); }
+  dotAt(view,ctx,sx,sy,"#1e7a46");
+  /* steps to ‖∇f‖ < 0.01, capped */
+  var kx=x, ky=y, steps=-1;
+  for(s=0;s<400;s++){
+    var g=Math.sqrt(4*kx*kx+16*ky*ky);
+    if(g<0.01){ steps=s; break; }
+    kx=kx*fx; ky=ky*fy;
+    if(Math.abs(kx)>1e6||Math.abs(ky)>1e6){ break; }
+  }
+  var verdict;
+  if(Math.abs(fy)>1){ verdict="<span class='no'>DIVERGING — η is past the cliff 2/λ_max = 0.5: each y-step overshoots and grows.</span>"; }
+  else if(fy<0){ verdict="Oscillating but converging (y flips sign each step, shrinking)."; }
+  else{ verdict="<span class='ok'>Stable.</span>"; }
+  document.getElementById("r3").innerHTML=
+    "Update factors per step: x ← x·(1−2η) = x·<b>"+fmt(fx,2)+"</b> &nbsp;·&nbsp; y ← y·(1−4η) = y·<b>"+fmt(fy,2)+"</b><br>"+
+    (escaped>0?"Path left the viewing window after <b>"+escaped+"</b> step(s) — that is divergence, not a bug: the walk is real, the canvas is finite. ":"After 14 steps: ("+fmt(x,3)+", "+fmt(y,3)+") — the bowl's minimum, reached without hand-tuning (the move that replaces your Unit-1 dials). ")+"Steps until ‖∇f‖ &lt; 0.01: "+(steps>=0?"<b>"+steps+"</b>":"<span class='no'>never at this η</span>")+"<br>"+
+    verdict+" Source trajectory check (x only, f = x², η = 0.1, x₀ = 5): after 20 steps x = 5·0.8²⁰ = <b>"+fmt(5*Math.pow(0.8,20),4)+"</b>.";
+}
+/* ===== W4: direction lab (projection), gated by G2 ===== */
+function draw_w4(){ drawW4(); }
+function drawW4(){
+  var th=+document.getElementById("dth").value;
+  document.getElementById("thVal").textContent=th;
+  var view=makeView("cv4",-3.4,3.4,-2.6,2.6); if(!view){ return; }
+  var f=view.fresh(), ctx=f.ctx;
+  ctx.clearRect(0,0,f.cw,f.ch);
+  ctx.strokeStyle="#e3e0d8"; ctx.lineWidth=1.2;
+  for(var l=0;l<LEVELS.length;l++){
+    var c=LEVELS[l], a=Math.sqrt(c), bb=Math.sqrt(c/2);
+    ctx.beginPath();
+    for(var t=0;t<=64;t++){
+      var th2=t/64*2*Math.PI, xx=a*Math.cos(th2), yy=bb*Math.sin(th2);
+      if(t===0){ ctx.moveTo(px(view,view.X(xx)),py(view,view.Y(yy))); } else { ctx.lineTo(px(view,view.X(xx)),py(view,view.Y(yy))); }
+    }
+    ctx.stroke();
+  }
+  var Px=1.2, Py=0.8, gx=2.4, gy=3.2, gm=4;
+  dotAt(view,ctx,Px,Py,"#66727f");
+  arrow(view,ctx,Px,Py,Px+0.35*gx,Py+0.35*gy,"#1e7a46","∇f");
+  var rad=th*Math.PI/180, ux=Math.cos(rad), uy=Math.sin(rad);
+  arrow(view,ctx,Px,Py,Px+1.2*ux,Py+1.2*uy,"#b3382e","u");
+  var Du=gx*ux+gy*uy;
+  /* projection bar at y = -2.3, D in [-4, 4] mapped to x in [-3.2, 3.2] */
+  var bx=function(D){ return D/4*3.2; };
+  ctx.strokeStyle="#eeece5"; ctx.lineWidth=6;
+  ctx.beginPath(); ctx.moveTo(px(view,view.X(-3.2)),py(view,view.Y(-2.3))); ctx.lineTo(px(view,view.X(3.2)),py(view,view.Y(-2.3))); ctx.stroke();
+  ctx.strokeStyle="#1e7a46"; ctx.lineWidth=6;
+  ctx.beginPath(); ctx.moveTo(px(view,view.X(0)),py(view,view.Y(-2.3))); ctx.lineTo(px(view,view.X(bx(Du))),py(view,view.Y(-2.3))); ctx.stroke();
+  ctx.font="11px monospace"; ctx.fillStyle="#66727f";
+  ctx.fillText("D_u f = "+fmt(Du,2)+"  (bar ceiling = ‖∇f‖ = 4)",px(view,view.X(-3.2)),py(view,view.Y(-2.55)));
+  var thStar=Math.atan2(gy,gx)*180/Math.PI;
+  var flatAng=((thStar+90)%360+360)%360;
+  document.getElementById("r4").innerHTML=
+    "u = (cos "+th+"°, sin "+th+"°) = ("+fmt(ux,3)+", "+fmt(uy,3)+") &nbsp;·&nbsp; D<sub>u</sub>f = ∇f·u = 2.4·"+fmt(ux,3)+" + 3.2·"+fmt(uy,3)+" = <b>"+fmt(Du,3)+"</b><br>"+
+    "Max possible: ‖∇f‖ = <b>4</b>, reached at θ* = "+fmt(thStar,1)+"° (aligned with ∇f) — you captured "+fmt(Math.max(0,Du)/gm*100,0)+"% of it<br>"+
+    "Flat direction: θ = "+fmt(flatAng,1)+"° (perpendicular) gives D<sub>u</sub>f ≈ 0 — the plateau direction"+
+    (Math.abs(Du)<0.02?" — <span class='ok'>you are ON it: first-order flat, the plateau of Unit 6.</span>":"")+"<br>"+
+    "Reading: the projection bar can never cross its ceiling — that ceiling IS the steepest-ascent theorem.";
+}
+/* ===== W5: graph lab (forward values, backward derivatives) ===== */
+function drawW5(){
+  var x=+document.getElementById("gx").value;
+  document.getElementById("gxVal").textContent=fmt(x,1);
+  var view=makeView("cv5",-3.4,3.4,-2.6,2.6); if(!view){ return; }
+  var f=view.fresh(), ctx=f.ctx;
+  ctx.clearRect(0,0,f.cw,f.ch);
+  var g=x*x, y=g+1, dgdx=2*x, dydg=1;
+  var nodes=[["x",fmt(x,1),-2.2],["g = x²",fmt(g,2),0],["y = g+1",fmt(y,2),2.2]];
+  for(var i=0;i<nodes.length;i++){
+    var nx=nodes[i][2];
+    ctx.fillStyle="#f7f6f2"; ctx.strokeStyle="#e3e0d8"; ctx.lineWidth=1.5;
+    var rx=px(view,view.X(nx-0.85)), ry=py(view,view.Y(0.6)), rw=px(view,1.7/6.8), rh=Math.abs(py(view,view.Y(-0.6))-py(view,view.Y(0.6)));
+    ctx.fillRect(rx,ry,rw,rh); ctx.strokeRect(rx,ry,rw,rh);
+    ctx.textAlign="center";
+    ctx.font="12px monospace"; ctx.fillStyle="#1c2430";
+    ctx.fillText(nodes[i][0],rx+rw/2,ry+rh*0.35);
+    ctx.font="bold 15px monospace"; ctx.fillStyle="#1e7a46";
+    ctx.fillText(nodes[i][1],rx+rw/2,ry+rh*0.72);
+    ctx.textAlign="left";
+  }
+  arrow(view,ctx,-1.35,0,-0.85,0,"#66727f");
+  arrow(view,ctx,0.85,0,1.35,0,"#66727f");
+  ctx.font="12px monospace"; ctx.fillStyle="#b3382e"; ctx.textAlign="center";
+  ctx.fillText("dg/dx = "+fmt(dgdx,2),px(view,view.X(-1.1)),py(view,view.Y(-0.35)));
+  ctx.fillText("dy/dg = "+fmt(dydg,0),px(view,view.X(1.1)),py(view,view.Y(-0.35)));
+  ctx.fillText("forward → (green)",px(view,view.X(0)),py(view,view.Y(1.9)));
+  ctx.fillText("← backward (red)",px(view,view.X(0)),py(view,view.Y(2.15)));
+  ctx.textAlign="left";
+  document.getElementById("r5").innerHTML=
+    "Forward pass: g = x² = <b>"+fmt(g,2)+"</b> → y = g+1 = <b>"+fmt(y,2)+"</b> &nbsp;·&nbsp; Backward pass: dg/dx = 2x = <b>"+fmt(dgdx,2)+"</b>, dy/dg = <b>"+fmt(dydg,0)+"</b><br>"+
+    "Chain rule: dy/dx = dy/dg · dg/dx = "+fmt(dydg,0)+" · "+fmt(dgdx,2)+" = <b>"+fmt(dgdx*dydg,2)+"</b>"+
+    (x===2?" — matches the source's code cell (4) exactly":"")+"<br>"+
+    (Math.abs(dgdx)<1e-9?"Note: at x = 0 the square is flat (dg/dx = 0), so the whole product is 0 — a flat composition: the chain rule multiplies in a zero.":"Reading: the graph stores each node's LOCAL derivative; the product along the path is the total sensitivity.");
+}
+/* ===== W6: curvature lab (two live cross-sections), gated by G3 ===== */
+function draw_w6(){ drawW6(); }
+function drawW6(){
+  var a=+document.getElementById("ca").value;
+  var c=+document.getElementById("cc").value;
+  document.getElementById("caVal").textContent=fmt(a,1);
+  document.getElementById("ccVal").textContent=fmt(c,1);
+  var view=makeView("cv6",-3.4,3.4,-2.6,2.6); if(!view){ return; }
+  var f=view.fresh(), ctx=f.ctx;
+  ctx.clearRect(0,0,f.cw,f.ch);
+  var VMAX=27, i;
+  function panel(x0pix,x1pix,coef,label){
+    var y0=f.ch*0.55, amp=f.ch*0.40, span=x1pix-x0pix;
+    ctx.strokeStyle="#eeece5"; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(x0pix,y0); ctx.lineTo(x1pix,y0); ctx.stroke();
+    ctx.strokeStyle=(coef>0)?"#1e7a46":(coef<0)?"#b3382e":"#66727f";
+    ctx.lineWidth=2.2;
+    ctx.beginPath();
+    var drew=false;
+    for(i=0;i<=60;i++){
+      var xx=-3+6*i/60, v=0.5*coef*xx*xx;
+      var xpix=x0pix+span*(i/60), ypix=y0-(v/VMAX)*amp;
+      if(!drew){ ctx.moveTo(xpix,ypix); drew=true; } else { ctx.lineTo(xpix,ypix); }
+    }
+    ctx.stroke();
+    ctx.font="11px monospace"; ctx.fillStyle="#66727f";
+    ctx.fillText(label+"  curvature "+fmt(coef,1),x0pix,14);
+    ctx.fillText("0",x0pix+span/2-3,y0+12);
+    return {y0:y0,amp:amp};
+  }
+  panel(14,f.cw/2-14,a,"f(x,0)");
+  panel(f.cw/2+14,f.cw-14,c,"f(0,y)");
+  /* classification (live) */
+  var cls, tone;
+  if(a>0&&c>0){ cls="positive definite → <b>bowl</b> → local minimum at (0,0)"; tone="ok"; }
+  else if(a<0&&c<0){ cls="negative definite → <b>dome</b> → local maximum at (0,0)"; tone="no"; }
+  else if(a===0||c===0){ cls="a zero eigenvalue → <b>flat direction</b> (degenerate: neither bowl, dome, nor saddle)"; tone="no"; }
+  else{ cls="indefinite → <b>saddle point</b> at (0,0) — up one axis, down the other"; tone="no"; }
+  var newton=(a!==0&&c!==0)
+    ?"Newton from any point: θ − H⁻¹∇f = (x − x/1, y − y/1) = <b>(0, 0)</b> — one step lands the critical point for this quadratic (H⁻¹ = diag(1/"+fmt(a,1)+", 1/"+fmt(c,1)+") exists)."
+    :"<span class='no'>H⁻¹ does not exist: a zero eigenvalue makes Newton's step undefined — the guard the source omits.</span>";
+  document.getElementById("r6").innerHTML=
+    "H = <b>diag("+fmt(a,1)+", "+fmt(c,1)+")</b> &nbsp;·&nbsp; eigenvalues (diagonal case, Class 2): <b>"+fmt(a,1)+"</b>, <b>"+fmt(c,1)+"</b><br>"+
+    "Classification: <span class='"+tone+"'>"+cls+"</span><br>"+
+    newton+"<br>"+
+    "Reading: each panel is the surface sliced along one axis — the Hessian's diagonal entries are exactly these two curvatures.";
+}
+/* ===== W7: chain-depth lab (numeric, no canvas by stated reason) ===== */
+function drawW7(){
+  var lam=+document.getElementById("lam").value;
+  var k=+document.getElementById("kdep").value;
+  document.getElementById("lamVal").textContent=fmt(lam,2);
+  document.getElementById("kVal").textContent=k;
+  var val=Math.pow(lam,k);
+  var verdict;
+  if(val<1e-4){ verdict="<span class='no'>VANISHED — below the 10⁻⁴ rule of thumb: early layers receive ≈0 learning signal.</span>"; }
+  else if(val>1e4){ verdict="<span class='no'>EXPLODED — above the 10⁴ rule of thumb: updates swamp the weights.</span>"; }
+  else{ verdict="<span class='ok'>Usable band — training can live with this.</span>"; }
+  var lamLo=Math.pow(0.5,1/k), lamHi=Math.pow(2,1/k);
+  document.getElementById("r7").innerHTML=
+    "λ<sup>k</sup> = "+fmt(lam,2)+"<sup>"+k+"</sup> = <b>"+sci(val)+"</b> ("+fmt(val,6)+")<br>"+
+    verdict+"<br>"+
+    "To stay inside [0.5, 2] across all "+k+" layers, each layer's factor must live in [0.5<sup>1/"+k+"</sup>, 2<sup>1/"+k+"</sup>] = [<b>"+fmt(lamLo,4)+"</b>, <b>"+fmt(lamHi,4)+"</b>] — computed live<br>"+
+    "Landmark (computed live): 0.9¹⁰⁰ = "+sci(Math.pow(0.9,100))+" — a 90%-faithful layer, repeated 100 times, is a disaster. Thresholds 10⁻⁴/10⁴ are engineering rules of thumb, not laws (constructed example).";
+}
+/* ===== ladders ===== */
+var LAD={
+  l1r2:{ans:4,tol:0.01,ok:"Right: ŷ = 0.5·4+2 = 4, error 4−6 = −2, squared = 4.",no:"Compute the prediction first (0.5·4+2), then the error, then square."},
+  l1r3:{ans:1,tol:0.01,ok:"Right: errors −1 and +1 square to 1 and 1; the average is 1.",no:"Square each miss ((3−4)² and (7−6)²), add, divide by n = 2."},
+  l2r2:{ans:6,tol:0.01,ok:"Right: frozen y = 3 makes f = 3x², so ∂f/∂x = 6xy = 6.",no:"Freeze y: f is locally 3x²; differentiate with respect to x (or use 2xy with x=1, y=3)."},
+  l2r3:{ans:60,tol:0.5,ok:"Right: the y-term vanishes and ∂/∂x(5x³) = 15x² = 60 at x = 2.",no:"The 2y² term is frozen — only 5x³ survives, and d/dx of 5x³ is 15x²."},
+  l3r2:{ans:5,tol:0.01,ok:"Right: 3·0.6 + 4·0.8 = 1.8 + 3.2 = 5 — the full ‖∇f‖, because u IS the normalized gradient.",no:"Dot product: multiply matching coordinates and add."},
+  l3r3:{ans:0.707,tol:0.01,ok:"Right: (2−1)/√2 ≈ 0.707 — one axis climbs, the other descends, and they mostly cancel.",no:"Dot product: (2)(0.707) + (−1)(0.707)."},
+  l4r2:{ans:-20,tol:0.01,ok:"Right: dy/dg = 5, dg/dx = −4, and 5·(−4) = −20 — the sign travels with the product.",no:"Local slopes multiply: 5·(2x) with x = −2."},
+  l4r3:{ans:24,tol:0.01,ok:"Right: 1 · 3 · 8 = 24 — three links, three local slopes, one product.",no:"dh/dg = 3 and dg/dx = 2x = 8; the '+1' link has slope 1."},
+  l5r2:{ans:-8,tol:0.01,ok:"Right: ∂f/∂y = −8y, so ∂²f/∂y² = −8 — downward bend along y, upward (+4) along x: a saddle.",no:"Differentiate ∂f/∂y = −8y once more with respect to y."},
+  l5r3:{ans:-2,tol:0.01,ok:"Right: H = diag(−2, 14); the negative eigenvalue −2 is the descending direction of the saddle.",no:"∂²f/∂x² of −x² is −2; for a diagonal matrix the eigenvalues are the entries."},
+  l6r2:{ans:0.0115,tol:0.001,ok:"Right: 0.8²⁰ ≈ 0.0115 — about 1% survives twenty layers.",no:"0.8¹⁰ ≈ 0.107; square it for twenty layers."},
+  l6r3:{ans:17.45,tol:0.1,ok:"Right: 1.1³⁰ ≈ 17.4 — thirty layers of a 10% gain is a 17-fold explosion.",no:"1.1¹⁰ ≈ 2.59; cube it for thirty layers."}
+};
+function bindLadders(){
+  var bs=document.querySelectorAll("[data-ladder]");
+  for(var i=0;i<bs.length;i++){
+    bs[i].addEventListener("click",function(){
+      var key=this.getAttribute("data-ladder");
+      var L=LAD[key];
+      var inp=document.getElementById(key+"in");
+      var fb=document.getElementById(key+"fb");
+      var v=parseFloat(inp.value);
+      if(isNaN(v)){ fb.className="feedback no"; fb.textContent="Enter a number first."; return; }
+      var ok=Math.abs(v-L.ans)<=L.tol+1e-9;
+      fb.className="feedback "+(ok?"ok":"no");
+      fb.textContent=ok?L.ok:L.no;
+    });
+  }
+  var hs=document.querySelectorAll("[data-hint]");
+  for(i=0;i<hs.length;i++){
+    hs[i].addEventListener("click",function(){
+      var h=document.getElementById(this.getAttribute("data-hint"));
+      if(h){ h.hidden=!h.hidden; }
+    });
+  }
+  var exs=document.querySelectorAll("[data-explain]");
+  for(i=0;i<exs.length;i++){
+    exs[i].addEventListener("click",function(){
+      var key=this.getAttribute("data-explain");
+      var box=document.getElementById(key);
+      var fb=document.getElementById(key+"fb");
+      if(box){ box.hidden=!box.hidden; }
+      if(fb){ fb.className="feedback ok"; fb.textContent="Compare your answer with the model: did you name the mechanism (projections can't exceed the vector / products along paths with reused local derivatives)? Grade yourself honestly — overclaiming helps nobody."; }
+    });
+  }
+}
+/* ===== unit checks ===== */
+var CHECKS={
+  c1n:{ans:2.5,tol:0.05,ok:"Right: ŷ(1)=3 (error −2), ŷ(2)=6 (error −1); MSE = (4+1)/2 = 2.5.",no:"Predictions 3 and 6; squared errors 4 and 1; average = 2.5."},
+  c2n:{ans:12,tol:0.05,ok:"Right: ∂f/∂y = 3y² = 12 at y = 2 — the 4x³ term is frozen.",no:"Freeze x; ∂(y³)/∂y = 3y², evaluated at y = 2."},
+  c3n:{ans:10,tol:0.05,ok:"Right: 6·0.6 + 8·0.8 = 3.6 + 6.4 = 10 — the full ‖∇f‖, since u is the normalized gradient (6,8)/10.",no:"Dot product of (6,8) with (0.6,0.8): multiply matching coordinates, add."},
+  c4n:{ans:12,tol:0.05,ok:"Right: dy/dg = 2, dg/dx = 2x = 6, product = 12.",no:"Local slopes multiply: 2·(2x) with x = 3."},
+  c5n:{ans:10,tol:0.05,ok:"Right: ∂f/∂y = 10y, so ∂²f/∂y² = 10 — a constant upward bend along y.",no:"Differentiate ∂f/∂y = 10y once more with respect to y."},
+  c6n:{ans:0.0282,tol:0.005,ok:"Right: 0.7¹⁰ ≈ 0.028 — under 3% of the signal survives ten layers.",no:"Multiply 0.7 ten times (0.7⁵ ≈ 0.168, squared ≈ 0.028)."}
+};
+var MCS={
+  c1m:{ans:"b",rule:"optimization = parameter adjustment that minimizes the loss",fb:{
+    a:"More data can help a model — but it is not what the word means; the loss goes down only if the parameters change for the better.",
+    b:"Right: optimization is the search over parameter settings that minimizes the loss; data and architecture change the problem, the optimizer solves it.",
+    c:"Architecture choice defines the landscape — walking it down is still optimization."}},
+  c2m:{ans:"b",rule:"the gradient is the vector of ALL partials",fb:{
+    a:"No — the gradient is not a scalar. Throwing away all but one partial loses the direction.",
+    b:"Right: ∇f = (2, 4) — one entry per axis; the direction is the point.",
+    c:"Summing the partials (2+4) collapses a direction into one number — the same information loss in a different costume."}},
+  c3m:{ans:"a",rule:"D_u f = ‖∇f‖cos φ — perpendicular means cos φ = 0",fb:{
+    a:"Right: the projection of the gradient onto a perpendicular direction is zero — first-order flat, the plateau direction.",
+    b:"Only the aligned direction scores ‖∇f‖; perpendicularity zeroes the projection.",
+    c:"Perpendicular to the gradient is not downhill — it is neither: flat to first order."}},
+  c4m:{ans:"b",rule:"backpropagation = repeated chain rule on the computational graph",fb:{
+    a:"No guessing is involved — every update is an exact derivative, computed by products of local slopes.",
+    b:"Right: local derivatives multiply along every path from the loss back to each parameter; the graph organizes the bookkeeping.",
+    c:"The forward pass computes values; backpropagation's work is entirely about derivatives."}},
+  c5m:{ans:"c",rule:"negative definite at a critical point = local maximum",fb:{
+    a:"A bowl needs positive curvature — these eigenvalues are negative.",
+    b:"A saddle needs mixed signs; both are −3.",
+    c:"Right: both eigenvalues negative → bends down in every direction → a dome → local maximum."}},
+  c6m:{ans:"b",rule:"adaptive = per-parameter step sizes from gradient statistics",fb:{
+    a:"Bigger steps everywhere is exactly the divergence risk of Unit 2's lab — adaptivity is the opposite: bigger only where the history is flat.",
+    b:"Right: per-parameter scaling from that parameter's gradient statistics gives cautious steps on cliffs and confident steps on flats.",
+    c:"The chain rule is untouchable — adaptivity changes step sizes, never the derivative rule."}}
+};
+function bindChecks(){
+  var bs=document.querySelectorAll("[data-check]");
+  for(var i=0;i<bs.length;i++){
+    bs[i].addEventListener("click",function(){
+      var key=this.getAttribute("data-check");
+      var C=CHECKS[key];
+      var inp=document.getElementById(key);
+      var fb=document.getElementById(this.getAttribute("data-target"));
+      var v=parseFloat(inp.value);
+      if(isNaN(v)){ fb.className="feedback no"; fb.textContent="Enter a number first."; return; }
+      var ok=Math.abs(v-C.ans)<=C.tol+1e-9;
+      fb.className="feedback "+(ok?"ok":"no");
+      fb.textContent=ok?C.ok:C.no;
+      markCheck("u"+key.charAt(1),"n",ok,"Unit "+key.charAt(1)+" numeric miss");
+    });
+  }
+  var ms=document.querySelectorAll("[data-mcq]");
+  for(i=0;i<ms.length;i++){
+    ms[i].addEventListener("click",function(){
+      var key=this.getAttribute("data-mcq");
+      var M=MCS[key];
+      var fb=document.getElementById(this.getAttribute("data-target"));
+      var choice=document.querySelector('input[name="'+key+'"]:checked');
+      if(!choice){ fb.className="feedback no"; fb.textContent="Pick an option first."; return; }
+      var ok=choice.value===M.ans;
+      fb.className="feedback "+(ok?"ok":"no");
+      fb.innerHTML=M.fb[choice.value]+"<br><b>Governing rule: "+M.rule+".</b>";
+      markCheck("u"+key.charAt(1),"m",ok,"Unit "+key.charAt(1)+" choice miss");
+    });
+  }
+}
+/* ===== mastery ===== */
+var MASTN={
+  m1:{ans:36,tol:0.5,ok:"Right: ∂(3x²y)/∂x = 6xy = 36 at (2,3).",no:"Freeze y: f is locally 3y·x², so ∂f/∂x = 6xy."},
+  m4:{ans:7.2,tol:0.05,ok:"Right: ∇f = 2x = 16, and 8 − 0.05·16 = 7.2.",no:"Update rule: x − η·2x with x = 8, η = 0.05."},
+  m7:{ans:2.121,tol:0.02,ok:"Right: (1+2)/√2 ≈ 2.121 — the rule is dimension-agnostic.",no:"D_u f = ∇f·u = (1+2+0)/√2."}
+};
+var MASTM={
+  m2:{ans:"a",label:"M2 why opposite the gradient",fb:{
+    a:"Right: the gradient is steepest ascent (Unit 3's projection argument), and minimizing wants the exact opposite of steepest ascent.",
+    b:"The gradient is a vector, not a sign; at most points its entries are mixed.",
+    c:"η scales the step — the direction comes from the minus sign alone."}},
+  m3:{ans:"c",label:"M3 gradient descent at a saddle",fb:{
+    a:"A minimum needs all-positive curvature; −5 bends one direction down.",
+    b:"Pure divergence would need unbounded growth — near a saddle the walk creeps.",
+    c:"Right: +2 ascends, −5 descends — training lingers (both directions are nearly flat at the point itself), then escapes slowly along the descending one rather than settling."}},
+  m5:{ans:"a",label:"M5 multiplicative decay",fb:{
+    a:"Right: 0.95⁵⁰ ≈ 0.077 — the chain rule multiplies, so per-layer factors compound exponentially.",
+    b:"Nothing is subtracted — the law is multiplicative; 0.05·50 is the wrong operation.",
+    c:"0.95 ≠ 1: each layer scales what remains, and fifty of those leave under 8%."}},
+  m6:{ans:"a",label:"M6 error identification",fb:{
+    a:"Right: positive definite at a critical point = local (flat) minimum — good news misread as bad; and seeking an indefinite Hessian means hunting saddles.",
+    b:"Small positive eigenvalues still classify: sign pattern is what matters, not size.",
+    c:"There is a flaw, and it is the classification: +0.02/+0.02 is a minimum, not a maximum."}},
+  m8:{ans:"b",label:"M8 Jacobian shape",fb:{
+    a:"Inputs-first is the classic reversal — rows are outputs, one per output's gradient.",
+    b:"Right: 7 outputs × 4 inputs = a 7×4 matrix, one row of partials per output.",
+    c:"Flattening loses the (output, input) address of every sensitivity — the matrix shape is the information."}}
+};
+function confOf(key){
+  var c=document.querySelector('input[name="'+key+'c"]:checked');
+  return c?c.value:null;
+}
+var mastState={};
+function renderMSummary(){
+  var el=document.getElementById("msum");
+  var keys=Object.keys(mastState);
+  if(!keys.length){ el.innerHTML="Answer items and tag confidence — a summary appears here."; return; }
+  var okc=0;
+  for(var i=0;i<keys.length;i++){ if(mastState[keys[i]].ok){ okc++; } }
+  el.innerHTML="Answered "+keys.length+"/8 — "+okc+" correct so far."+(keys.length===8?" Interleaved retrieval complete: revisit your review list tomorrow for the spacing effect.":"");
+}
+function bindMastery(){
+  var mb=document.querySelectorAll("[data-mastery]");
+  for(var i=0;i<mb.length;i++){
+    mb[i].addEventListener("click",function(){
+      var key=this.getAttribute("data-mastery");
+      var M=MASTM[key];
+      var fb=document.getElementById(this.getAttribute("data-target"));
+      var choice=document.querySelector('input[name="'+key+'"]:checked');
+      var conf=confOf(key);
+      if(!choice){ fb.className="feedback no"; fb.textContent="Pick an option first."; return; }
+      if(!conf){ fb.className="feedback no"; fb.textContent="Also tag your confidence (sure / think so / guessing) — that is what routes misses to your review list."; return; }
+      var ok=choice.value===M.ans;
+      fb.className="feedback "+(ok?"ok":"no");
+      fb.innerHTML=M.fb[choice.value];
+      mastState[key]={ok:ok,conf:conf};
+      if(!ok&&conf==="sure"){ addReview("mastery","Confident miss: "+M.label); fb.innerHTML+="<br><span class='no'>You were sure — this one goes to your review list.</span>"; }
+      renderMSummary();
+    });
+  }
+  var nb=document.querySelectorAll("[data-masteryn]");
+  for(i=0;i<nb.length;i++){
+    nb[i].addEventListener("click",function(){
+      var key=this.getAttribute("data-masteryn");
+      var M=MASTN[key];
+      var inp=document.getElementById(key+"in");
+      var fb=document.getElementById(this.getAttribute("data-target"));
+      var conf=confOf(key);
+      var v=parseFloat(inp.value);
+      if(isNaN(v)){ fb.className="feedback no"; fb.textContent="Enter a number first."; return; }
+      if(!conf){ fb.className="feedback no"; fb.textContent="Also tag your confidence (sure / think so / guessing)."; return; }
+      var ok=Math.abs(v-M.ans)<=M.tol+1e-9;
+      fb.className="feedback "+(ok?"ok":"no");
+      fb.textContent=ok?M.ok:M.no;
+      mastState[key]={ok:ok,conf:conf};
+      if(!ok&&conf==="sure"){ addReview("mastery","Confident miss: "+key.toUpperCase()+" (mastery)"); fb.innerHTML+="<br><span class='no'>You were sure — this one goes to your review list.</span>"; }
+      renderMSummary();
+    });
+  }
+}
+
+/* ===== reset + init ===== */
+function bindReset(){
+  var b=document.getElementById("resetProgress");
+  if(!b){ return; }
+  b.addEventListener("click",function(){
+    if(STORAGE_OK){ try{ localStorage.removeItem("mvc1-dots"); localStorage.removeItem("mvc1-review"); }catch(e){} }
+    dots={}; review=[]; renderReview();
+    var ds=document.querySelectorAll(".topnav .dot");
+    for(var i=0;i<ds.length;i++){ ds[i].classList.remove("done"); }
+    window.scrollTo(0,0);
+  });
+}
+document.addEventListener("DOMContentLoaded",function(){
+  /* hide gated widgets via JS only (no-JS readers still see them) */
+  var locked=document.querySelectorAll('.widget[data-locked="true"]');
+  for(var i=0;i<locked.length;i++){ locked[i].style.display="none"; }
+  window.draw_w2=drawW2; window.draw_w4=drawW4; window.draw_w6=drawW6;
+  bindGates(); bindLadders(); bindChecks(); bindMastery(); bindReset();
+  if(!STORAGE_OK){ var sn=document.getElementById("storageNote"); if(sn){ sn.textContent="Storage is unavailable in this browser — progress lasts only for this visit. "; } }
+  renderReview();
+  /* always-visible widgets draw now; gated ones draw on unlock */
+  drawW1(); drawW3(); drawW5(); drawW7();
+  document.getElementById("lsW").addEventListener("input",drawW1);
+  document.getElementById("lsB").addEventListener("input",drawW1);
+  document.getElementById("px").addEventListener("input",drawW2);
+  document.getElementById("py").addEventListener("input",drawW2);
+  document.getElementById("eta").addEventListener("input",drawW3);
+  document.getElementById("sx").addEventListener("input",drawW3);
+  document.getElementById("sy").addEventListener("input",drawW3);
+  document.getElementById("dth").addEventListener("input",drawW4);
+  document.getElementById("gx").addEventListener("input",drawW5);
+  document.getElementById("ca").addEventListener("input",drawW6);
+  document.getElementById("cc").addEventListener("input",drawW6);
+  document.getElementById("lam").addEventListener("input",drawW7);
+  document.getElementById("kdep").addEventListener("input",drawW7);
+  window.addEventListener("resize",drawW1);
+  window.addEventListener("resize",drawW2);
+  window.addEventListener("resize",drawW3);
+  window.addEventListener("resize",drawW4);
+  window.addEventListener("resize",drawW5);
+  window.addEventListener("resize",drawW6);
+});
+</script>
+</body>
+</html>
