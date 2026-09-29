@@ -2,11 +2,11 @@
 
 **Status:** Supported
 **Curator:** Repository maintainer (solo Stage 1 operator)
-**Created / review date:** 2026-08-15
+**Created / review date:** 2026-08-15; amended 2026-09-29 (iteration 2)
 **Scope:** Interactive lesson generation and evaluation in Learning OS (Stage 1 pipeline)
 **Tags:** canvas-engineering, design-system, prompt-design, quality-gate, implementation-contract, workflow
-**Evidence records:** [EVAL-2026-0007](../evaluations/eval-2026-0007-linear-algebra-foundations-v4-v7-qa-design-audit.md), [RUN-20260815-0001](../runs/run-20260815-0001-linear-algebra-foundations-v7.md), [EVAL-2026-0006](../evaluations/eval-2026-0006-linear-algebra-foundations-v7.md), [BMK-2026-0001](../benchmarks/bmk-2026-0001-linear-algebra-foundations-v4.md)
-**Supersedes / conflicts-with:** none (Iteration 1 — original)
+**Evidence records:** [EVAL-2026-0007](../evaluations/eval-2026-0007-linear-algebra-foundations-v4-v7-qa-design-audit.md), [RUN-20260815-0001](../runs/run-20260815-0001-linear-algebra-foundations-v7.md), [EVAL-2026-0006](../evaluations/eval-2026-0006-linear-algebra-foundations-v7.md), [BMK-2026-0001](../benchmarks/bmk-2026-0001-linear-algebra-foundations-v4.md), [RUN-20260929-0001](../runs/run-20260929-0001-multivariate-calculus-v2.md) (revision 1), [EVAL-2026-0015](../evaluations/eval-2026-0015-multivariate-calculus-v2.md)
+**Supersedes / conflicts-with:** none (Iterations 1–2; iteration 2 amends)
 
 ## Lesson
 
@@ -25,6 +25,14 @@ The 2026-08-15 reproduction run built CAN-2026-0006 (v7) from the unchanged sour
 - The QA checklist (pre-2026-08-15) has no canvas responsiveness checks, no design token conformance checks, no nav design contract checks, and no widget label quality checks. The audits verified *pedagogical* correctness (depth, gates, ladders, assessment) but not *implementation* correctness (canvas architecture, design system).
 - The six audits passed with a clean adversarial gate because the checklist's canvas checks (Audit 2) verify extrema bounds (no off-canvas rendering) but not the responsive viewport contract. The artifact is *mathematically correct* but *technically broken* for real browser conditions.
 
+## Iteration 2 (2026-09-29) — partial rule restoration and state styling no gate could see
+
+The Class 4 lineage (CAN-2026-0013 → CAN-2026-0014; RUN-20260924-0001 → RUN-20260929-0001) shipped through a full six-audit pass and rendered verification with a group of interaction-state styles missing: `.feedback.ok`/`.feedback.no` (all graded feedback rendered as bare text), the base `.callout` rule (only the inert `.callout.good`/`.callout.info` overrides existed, so all six callout blocks rendered as plain prose), `.gloss-list`, and the `.mastery` markup wrapper. Root cause: the v1 assembly incident dropped a block of stylesheet-tail rules and the repair restored only the two rules it noticed; the v2 rebuild carried the design system verbatim. Every gate passed because they are text-, presence-, or assignment-level — a `className="feedback no"` in the DOM is invisible to them — and the module's other lessons ship different, complete state families (Class 1: `.fb.ok/.fb.no/.fb.note`; Classes 2–3: `.feedback.ok/.no`), so the gap existed only in this lineage and looked like a platform-wide non-issue.
+
+A learner reported the symptom (a wrong-answer Check rendering as unstyled text beside a styled Hint box). Revision 1 restored the rules (text verbatim from the sibling lessons), added an amber `.feedback.note` refusal state and `✓`/`✗` glyphs, and re-verified end-to-end: the new `scripts/verify-candidate.py` state-styling check was proven to fail on the pre-fix bytes and pass on the remediated bytes, and 27/27 browser computed-style assertions passed with zero page/console errors.
+
+**Iteration-2 rules:** (1) a state class assigned by script is a visual contract — DOM presence is not a rendered state, and only computed-style evidence closes it; (2) partial restoration of displaced rules must verify the whole lost group, not the rules that happened to be noticed; (3) identical-symptom absence across sibling lessons is not evidence of correctness when those lessons use different mechanisms.
+
 ## Recommended action
 
 1. **Canvas engineering standard** (`docs/01-product/canvas-engineering-standard.md`, ADR-0013): codifies the responsive `makeView` pattern, per-widget viewport declaration, resize listener requirement, normalized transform contract, color legend contract, and angular arc computation rule.
@@ -33,6 +41,7 @@ The 2026-08-15 reproduction run built CAN-2026-0006 (v7) from the unchanged sour
 4. **QA checklist**: Audit 5 gains ten new checks covering canvas responsiveness, resize listeners, normalized transforms, per-widget viewport, color legends, angular arcs, design token conformance, nav design contract, header design contract, and widget label quality.
 5. **XS template**: gains per-widget viewport range declaration (`xMin/xMax/yMin/yMax`).
 6. **SKILL.md**: P4 gains a canvas engineering verification step (grep-based checks for resize listeners, clientWidth, hardcoded offsets, legends, token count, nav contract).
+7. **Revision 1 (2026-09-29) — state-styling coverage:** QA checklist Audit 5 gains the interaction-state styling coverage item and Audit 6 the state-styling computed-style check; `scripts/verify-candidate.py` gains the mechanical state-styling check; the Class 4 artifact was remediated in place as CAN-2026-0014 revision 1 (no new candidate ID).
 
 ## Counterexamples and limitations
 
@@ -40,10 +49,11 @@ The 2026-08-15 reproduction run built CAN-2026-0006 (v7) from the unchanged sour
 - Design token values are pinned as *defaults*; a lesson may adjust them with documented rationale in the XS record. The standard prevents *accidental* drift, not *deliberate* variation.
 - The v7 regressions were caught by a *human-initiated* comparative audit (EVAL-2026-0007), not by the pipeline's own gates. The new checks are designed to catch these classes at P5, but their effectiveness is unproven until the next governed generation run.
 - Evidence comes from one source package and non-independent review; the "degraded mode" Audit 6 (no browser) meant the canvas defects were invisible to the pipeline's own verification.
+- **Iteration 2 caveats:** the state-styling defect was found by a learner after two full verification passes; the new mechanical check closes the named contract classes (`.feedback.ok/.no`, base-before-variant rules) while the generic class-token sweep stays note-level. v1 of the Class 4 lesson remains frozen with the same missing rules (historical artifact), and the Class 1–3 lessons under-implement the §10.1 `✓`/`✗` marker — candidates for a future platform-consistency pass, not retroactive edits.
 
 ## Retrieval guidance
 
-Consult at P3 (XS authoring — declare per-widget viewport ranges), at P4 generation (prompt card ≥ 0.5.0; canvas engineering verification step), and at P5 (were the canvas/design checks executed with evidence?). Pair with MEM-2026-0004 (compliant-minimum collapse — the pedagogical analog of this implementation-level failure) and MEM-2026-0003 (structural checks cannot see dynamic defects — the canvas responsiveness contract is a *dynamic* property).
+Consult at P3 (XS authoring — declare per-widget viewport ranges), at P4 generation (prompt card ≥ 0.5.0; canvas engineering verification step), and at P5 (were the canvas/design checks executed with evidence?). At P5/P6 (iteration 2), additionally require computed-style evidence for every graded state and group-level verification of any displaced-rule restoration. Pair with MEM-2026-0004 (compliant-minimum collapse — the pedagogical analog of this implementation-level failure) and MEM-2026-0003 (structural checks cannot see dynamic defects — the canvas responsiveness contract is a *dynamic* property).
 
 ## Privacy and retention
 

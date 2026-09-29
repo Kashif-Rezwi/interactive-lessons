@@ -295,6 +295,67 @@ def check_callout_density(content: str, is_strict: bool) -> None:
         note("callout-density: callout discipline verified (<= 1 per unit)")
 
 
+def check_interaction_state_styles(content: str, is_strict: bool) -> None:
+    """Verify interaction-state styling coverage (standard §10.1; QA checklist Audit 5).
+
+    A state class assigned by script is a visual contract: feedback ok/no states
+    must ship their colour rules, and components with variant selectors must ship
+    the base rule those variants override. Text- and assignment-level checks
+    cannot see an unstyled class — the DOM holds the class name either way.
+    Added 2026-09-29 after the learner-reported revision 1 of CAN-2026-0014
+    (RUN-20260929-0001): .feedback.ok/.feedback.no and the base .callout rule
+    were missing while every existing check passed.
+    """
+    style_match = re.search(r'<style[^>]*>(.*?)</style>', content, re.DOTALL | re.IGNORECASE)
+    css = style_match.group(1) if style_match else ""
+    problems = []
+
+    if re.search(r'class=[\"\'][^\"\']*\bfeedback\b[^\"\']*[\"\']', content, re.IGNORECASE):
+        for state in ("ok", "no"):
+            if not re.search(r'\.feedback\.' + state + r'\b', css):
+                problems.append(
+                    f".feedback.{state} rule missing while feedback markup exists "
+                    "(standard §10.1: feedback ok/no states)"
+                )
+
+    if re.search(r'\.callout\.[a-z]+', css) and not re.search(r'\.callout\s*[,{]', css):
+        problems.append(
+            "base .callout rule missing while .callout variant selectors exist "
+            "(variants override an absent base; standard §10.1 callout styles)"
+        )
+
+    if problems:
+        msg = "state-styling: " + "; ".join(problems)
+        if is_strict:
+            fail(msg)
+        else:
+            note(f"[LEGACY] {msg}")
+    else:
+        note("state-styling: feedback ok/no rules and callout base rule verified")
+
+    # Informational sweep: class tokens assigned by script should resolve to a
+    # CSS class selector somewhere (surfaces novel unstyled state classes).
+    assigned = set()
+    for m in re.finditer(r'className\s*=\s*[\"\'][^\"\']*[\"\']', content):
+        literal = re.match(r'className\s*=\s*[\"\']([^\"\']*)[\"\']', m.group(0))
+        if literal:
+            assigned.update(t for t in literal.group(1).split() if re.fullmatch(r'[A-Za-z][\w-]*', t))
+    for m in re.finditer(
+        r'className\s*=\s*[\"\'][^\"\']*[\"\']\s*\+\s*\([^()]*?\?\s*[\"\']([\w-]+)[\"\']\s*:\s*[\"\']([\w-]+)[\"\']\s*\)',
+        content,
+    ):
+        assigned.update((m.group(1), m.group(2)))
+    for m in re.finditer(r'classList\.(?:add|toggle|remove)\(\s*[\"\']([\w-]+)[\"\']', content):
+        assigned.add(m.group(1))
+    css_classes = set(re.findall(r'\.([A-Za-z][\w-]*)', css))
+    unresolved = sorted(t for t in assigned if t not in css_classes)
+    if unresolved:
+        note(
+            "state-styling: script-assigned class tokens without a CSS class selector "
+            f"(review for unstyled states): {', '.join(unresolved)}"
+        )
+
+
 def check_slider_encapsulation_per_element(content: str, is_strict: bool) -> None:
     """Verify per-element §10.6: every range input sits inside a .slider-track wrapper.
 
@@ -434,6 +495,7 @@ def verify_file(filepath: Path, force_strict: bool = False) -> int:
     check_option_stack_architecture(content, is_strict)
     check_formula_completeness(content)
     check_callout_density(content, is_strict)
+    check_interaction_state_styles(content, is_strict)
     check_jargon_and_glossary_resolution(content, parser, is_strict)
 
     # Print Report

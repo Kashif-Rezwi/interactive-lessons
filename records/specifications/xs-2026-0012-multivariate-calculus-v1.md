@@ -1,0 +1,84 @@
+# XS-2026-0012: Interactive lesson candidate multivariate calculus v1
+
+**Status:** Approved  
+**Approval scope:** Stage 1 governed generation  
+**Supersedes / iteration position:** Iteration 1 — original  
+**Source concept model:** [CM-2026-0011](../concepts/cm-2026-0011-multivariate-calculus.md)  
+**Learning plan:** [LP-2026-0012](../plans/lp-2026-0012-multivariate-calculus.md)  
+**Target learner:** AIML-4 student, post-Class-1/2/3 (vectors, dot products, norms, function graphs; matrix/eigenvalue vocabulary; high-dimensional-space vocabulary)  
+**Artifact family:** Single-file offline HTML  
+**Learning outcomes:** per LP-2026-0012 §Measurable learning outcomes (7 outcomes, each exercised by ≥1 assessment item)
+
+## Learner problem and teaching strategy
+
+The source is an agenda-style notebook: nearly every section asserts a definition with one or two worked numbers, four code cells with cleared outputs, two opaque figures, and one mathematically wrong chain-rule formula. The artifact turns it into an explain-before-use path: orientation unit, six units in canonical anatomy (Learn → Predict → Explore → Practice → Check → Connect), synthesis with interleaved mastery, persistent review list, glossary. One visual metaphor throughout: training is walking downhill on a surface the model can feel but cannot see. All readouts are computed live in the page; nothing hard-codes what can be computed. No stochastic simulation is load-bearing this time — every widget is closed-form, so every displayed number is exactly reproducible.
+
+## Content and evidence map
+
+U0 cells 1–2 (agenda → orientation; agenda's PART 9/10 numbering inconsistency dispositioned in CM); U1 cells 3–6 (ML as optimization; loss families; L(w₁,w₂,b); millions–billions of parameters; surface-navigation intuition; geometric-interpretation table kept as a labeled *preview* with definitions deferred to U2/U5; cell 5's opaque figure replaced by the live `loss-eval` canvas, dispositioned) + FOUNDATION bridge (MSE); U2 cells 7–10, 11–14 (partials: definition, freeze-others, f=x²+3y with (2,4) → 4,3 recomputed live, mountain analogy, ∂L/∂wᵢ sensitivity; gradient: vector of partials, steepest-ascent key property (promise, paid off in U3), magnitude, negative gradient; gradient descent θ:=θ−η∇f with cell 14's 5 → 0.0576 trajectory recomputed live; cell 5's figure role covered by `partial-lab`/`descent-lab` live replacements); U3 cells 15–16 (directional derivative D_u f=∇f·u; projection intuition; maximum-along-gradient claim proven via the cos φ argument, supplemental tag; the source's ∇f=[3,4] ‖∇f‖=5 example used in the G2 gate and `direction-lab`); U4 cells 17–20 (chain rule: nested compositions, input→layer→activation→output→loss, cell 18's formula corrected with tag, computational graphs, backpropagation = repeated chain rule, cell 20's x=2 → dy/dx=4 recomputed live in `graph-lab`); U5 cells 21–23 (Jacobian: J_ij=∂f_i/∂xⱼ, shape (outputs × inputs), 3×2 example, local transformation meaning, ML applications; cell 23's matrix shown as a live transformation) and cells 24–25, 26–29 (Hessian, curvature, definiteness classification, saddle-point problem, Newton's method with invertibility guard note; PART 8 geometric-intuition summary woven in; cell 29's opaque figure replaced by the live `curv-lab` cross-sections, dispositioned); U6 cells 30–31 (advanced ML perspective: non-convex landscapes, vanishing/exploding gradients grounded by the λᵏ lab, curvature challenges, Adam/RMSProp/Adagrad with a one-line mechanism, distributed/stochastic/noisy/curvature-aware optimization). No source cell is silently dropped; the full 31-cell dispositions ship in the evaluation coverage matrix.
+
+## Learning sequence
+
+## Interaction and feedback specification
+
+**W1 `loss-eval` (U1, canvas).** Fixed dataset (1,2), (2,3), (3,5), (4,6), (5,9). Manipulables: slope w (slider −2..4, step 0.1, default 0.5), intercept b (slider −4..6, step 0.1, default 4 — step 0.1 so the exact least-squares optimum b* = −0.1 is reachable by hand). Canvas: scatter points, the line ŷ = w·x + b, and squared-error squares (vertical dashed error segments + shaded squares); MSE computed live. Viewport: xMin=−2, xMax=10, yMin=−4, yMax=10 (wide reading window so the full line stays inside; data occupies x∈[1,5]; values beyond the window are clipped by the canvas, never drawn off-region). Legend: data points, model line, error squares. Readout: MSE live, the least-squares reference (w*=1.7, b*=−0.1, MSE*=0.22, computed from the dataset at load and stated as the Unit-2 payoff), and interpretation ("each square's area is one point's squared error; the loss is their average"). Degenerate guard: none needed (bounded sliders). Goal strip: "Tune the two dials by hand — get the average square as small as you can."
+
+**W2 `partial-lab` (U2, canvas, gated by G1).** Surface f(x,y) = x² + 2y². Manipulables: point x₀ (slider −2.5..2.5, step 0.1, default 1.2), point y₀ (slider −1.8..1.8, step 0.1, default 0.8) — bounds chosen so the scaled gradient arrow can never leave the viewport at any corner. Canvas: contour ellipses x²+2y² ∈ {0.5, 2, 4.5, 8}, the point P, dashed axis-aligned cross-section guides, and the gradient arrow (2x₀, 4y₀) with its length scaled to 90%·(‖∇f‖/8.766) and the scale stated in the readout. Viewport: xMin=−3.4, xMax=3.4, yMin=−2.6, yMax=2.6. Readout: ∂f/∂x = 2x₀, ∂f/∂y = 4y₀, ∇f, ‖∇f‖ (default point reproduces the 3-4-5 triangle: ∇f=(2.4, 3.2), ‖∇f‖=4), plus the mountain reading (east-west slope vs north-south slope). Goal strip: "Move P and watch each axis's slope — the arrow stacks them."
+
+**W3 `descent-lab` (U2, canvas, always visible).** Same surface f(x,y) = x² + 2y². Manipulables: learning rate η (slider 0.05..0.95, step 0.01, default 0.15), start x (slider −3..3, step 0.1, default −2.5), start y (slider −2..2, step 0.1, default 1.8). Canvas: contours + the 14-step descent path from the start point. Readout: per-axis update factors (1−2η) and (1−4η), trajectory end value, steps-to-tolerance, stability verdict (stable / oscillating / diverging with the 2/λ_max = 0.5 threshold), and the payoff line: at η=0.15 the path walks to the minimum — the same minimum hand-tuning chased in U1. Goal strip: "Find an η that converges fast — then push η past 0.5 and watch it explode."
+
+**W4 `direction-lab` (U3, canvas, gated by G2).** Fixed point P=(1.2, 0.8) on f(x,y) = x² + 2y², so ∇f(P) = (2.4, 3.2), ‖∇f‖ = 4. Manipulable: direction dial θ (slider 0..360, step 5, default 60). Canvas: the gradient arrow, the unit direction arrow u = (cos θ, sin θ), and a projection bar showing D_u f against the ‖∇f‖ = 4 ceiling. Viewport: xMin=−3.4, xMax=3.4, yMin=−2.6, yMax=2.6. Readout: u, D_u f = ∇f·u (at default θ=60°: 2.4·0.5 + 3.2·0.866 = 3.97), the aligned angle θ* = atan2(3.2, 2.4) = 53.1°, and the perpendicular angle where D_u f = 0 (143.1°). Readings: max = 4 along ∇f/‖∇f‖ (pays off U2's promise); 0 along the perpendicular (flat to first order). Goal strip: "Sweep the dial: find the angle where climbing is fastest — and where it is flat."
+
+**W5 `graph-lab` (U4, canvas, always visible).** Chain x → g = x² → y = g + 1 (the source's cell-20 composition). Manipulable: x (slider −3..3, step 0.1, default 2). Canvas: three graph nodes with forward values (green) and backward local derivatives (red) drawn on the edges; node boxes labeled x, g, y. Readout: forward pass g, y; backward pass dg/dx = 2x, dy/dg = 1; the chain product dy/dx = 2x·1 (at x=2 → 4, matching cell 20 recomputed), plus the honest note that every node stores its local derivative and the graph multiplies them along every path. Degenerate guard: none needed (bounded slider; x=0 gives dg/dx=0 — readout states "the square's slope is 0 at x=0, so the whole product is 0: a flat composition"). Goal strip: "Move x and watch forward values and backward derivatives move together."
+
+**W6 `curv-lab` (U5, canvas, gated by G3).** Quadratic f(x,y) = ½(a·x² + c·y²), H = diag(a, c). Manipulables: curvature a (slider −3..6, step 0.1, default 3), curvature c (slider −3..6, step 0.1, default 5). Canvas: two live cross-section parabolas — f(x,0) on the left panel, f(0,y) on the right panel — each drawn over [−3, 3] with a flat-line rendering when the coefficient is 0. Readout: the Hessian matrix, its eigenvalues (= the diagonal entries for this diagonal case, with the Class-2 bridge), the definiteness classification (positive definite → bowl → minimum; negative definite → dome → maximum; indefinite → saddle; a zero entry → flat direction), and the Newton note: from any point the Newton step θ − H⁻¹∇f lands (0,0) in one step for a≠0, c≠0 — with the guard that H⁻¹ does not exist when an eigenvalue is 0. Viewport per panel: xMin=−3, xMax=3, yMin=−10, yMax=10 (autoscaled values inside). Goal strip: "Give the two directions opposite curvatures — and meet the saddle."
+
+**W7 `chain-depth` (U6, numeric, no canvas — reason: the skill is exponent arithmetic on per-layer factors; a spatial picture adds nothing the readout cannot state exactly).** Manipulables: per-layer factor λ (slider 0.5..1.5, step 0.01, default 0.8), depth k (slider 1..100, step 1, default 20). Readout: λᵏ in exact and scientific form, verdict lines (λᵏ < 10⁻⁴ → "vanished: early layers learn almost nothing"; λᵏ > 10⁴ → "exploded: updates swamp the weights"; else "usable band"), the live-computed per-layer factor that stays in [0.5, 2] over k layers (λ_max_stable = 2^(1/k), λ_min_stable = 0.5^(1/k)), and the honest note that real nets have many paths and factors, but the exponential law is the same. Goal strip: "One factor per layer, k layers — watch what multiplication does."
+
+
+U0 → U1 → U2 → U3 → U4 → U5 → U6 → Synthesis + mastery (M1–M8) → review list → glossary → colophon. Reveal arcs per LP depth-pass table; every forward reference is a promise with a named payoff unit.
+
+
+## Assessment specification
+
+
+## Term definition registry (each defined at first mention, linked to a 6-field glossary entry)
+
+optimization; loss function; parameter; parameter space; high-dimensional; loss surface; partial derivative; gradient; gradient magnitude; steepness; learning rate; gradient descent; unit vector; directional derivative; projection; dot product; chain rule; composition of functions; computational graph; forward pass; backward pass; backpropagation; Jacobian; vector-valued function; Hessian; second-order derivative; curvature; eigenvalue; positive/negative definite; indefinite; saddle point; local minimum; local maximum; critical point; Newton's method; plateau; non-convex; vanishing gradient; exploding gradient; stochastic gradient; adaptive optimizer; mean squared error; least squares; residual connection. (44 terms; prerequisite terms dot product / eigenvalue get refreshed one-line bridges plus glossary entries, per cross-lesson continuity.)
+
+## Accessibility and inclusion plan
+
+Semantic landmarks (header/nav/main/section/footer), logical heading order, `aria-live` readouts, keyboard-operable native controls, canvas text equivalents with identical numbers, legends plus labels (color never sole encoder), `prefers-reduced-motion` disables transitions, print stylesheet exposes content and hides controls, focus-visible rings, 16px floor at every breakpoint, no drag-only or hover-only interaction.
+
+## Performance/responsiveness intent
+
+Single file; zero external requests; all six canvases responsive via `makeView` (clientWidth at draw time, DPR scaling, aspect-ratio height, resize listeners = canvas count); all widget math closed-form (largest per-redraw workload: 14 gradient-descent steps and a 5×2 grid of level curves — bounded by construction); nav single-line horizontal scroll; storage guarded with try/catch and reset.
+
+## Acceptance criteria and evaluation dimensions
+
+`verify-candidate.py` strict pass (0 failures); every Formula-Manifest equation present in a `.formula` block with `.symkey`; every Term-Registry term defined at first mention and linked to a 6-field glossary entry; every widget matches its declaration element-for-element; six audits + adversarial gate pass; rendered verification at 320/640/1024px with 0 console errors; repository checker exit 0; disposition private-pilot-complete, non-independent, release-ineligible.
+
+## Concept map (dependency nodes and directed edges)
+
+Nodes: OPT (ML as optimization), LOSS (loss over parameters), PD (partial derivatives), GRAD (gradient), GD (gradient descent), DD (directional derivative), CR (chain rule), BP (backpropagation), JAC (Jacobian), HES (Hessian & curvature), SADDLE (definiteness & saddles), NEWT (Newton's method), DEEP (deep-net training: vanishing/exploding, adaptive optimizers).
+Edges: OPT→LOSS; LOSS→PD; PD→GRAD; GRAD→GD; GRAD→DD; DD→GRAD (explains steepest ascent — payoff edge, drawn dashed); GRAD→JAC; LOSS→CR; CR→BP; JAC→BP; GRAD→HES; HES→SADDLE; HES→NEWT; CR→DEEP; SADDLE→DEEP; GD→DEEP.
+
+## Conformance checklist (depth-calibration contract)
+
+- [x] Every widget declares learner-manipulable variable(s) or explicit "static demo" justification (W7 numeric by stated reason)
+- [x] Every canvas widget declares input bounding (sliders, min/max) — all manipulables slider-bounded
+- [x] Every canvas widget declares its mathematical viewport (W1 0–6.4 / −4–10; W2/W4 ±3.4 / ±2.6; W3 ±3.4 / ±2.6; W5 ±3.4 / ±2.6; W6 two panels −3–3 / −10–10)
+- [x] Controls declare atomic `.slider-control` encapsulation and `.option-stack` layout
+- [x] Complete Formula manifest (EQ-001–EQ-015) mapped to unit `.formula` blocks
+- [x] Complete Term definition registry (41 terms); zero deferred jargon
+- [x] Assessment modality strictly MCQ / bounded auto-graded numeric; no `<textarea>`
+- [x] Exhaustive glossary term set listed from the CM (every term used gets 6 fields)
+- [x] Concept map declares explicit dependency nodes and directed edges (multi-branch)
+- [x] Every LP-planned ladder (L1–L6), prediction gate (G1–G3), and reveal arc has a specified element
+- [x] Canvas text equivalents specified for every visual component
+
+Six unit checks (chk1–chk6), each = 1 auto-graded numeric + 1 diagnostic MCQ with per-option misconception feedback: c1n MSE for dataset (1,5),(2,7) with ŷ=3x → 2.5 (tol 0.05); c2n ∂f/∂y of f=4x³+y³ at y=2 → 12 (tol 0.05); c3n D_u f for ∇f=(6,8), u=(0.6,0.8) → 10 (tol 0.05); c4n dy/dx for x=3, g=x², y=2g+1 → 12 (tol 0.05); c5n ∂²f/∂y² of f=2x²+5y² → 10 (tol 0.05); c6n 0.7¹⁰ → 0.0282 (tol 0.005). MCQs: c1m optimization meaning; c2m "gradient is the biggest partial" misconception; c3m perpendicular-direction flatness; c4m backprop = repeated chain rule; c5m negative-definite classification; c6m adaptive-optimizer mechanism. Ladders L1–L6 × 3 rungs (L1 MSE arithmetic: 0 / 4 / 1; L2 partials: 4 / 6 / 60; L3 directional derivatives: 3 / 5 / 0.707; L4 chain products: 6 / −20 / 24; L5 Hessian entries: 10 / −8 / −2; L6 exponential factors: 0.349 / 0.0115 / 17.45). Gates G1–G3 with commitment-gated unlock and differentiated feedback (G1 correct: gradient direction; G2 correct: 5 along (3,4)/5; G3 correct: saddle). Explain items e2 (U2) and e4 (U4) with model-answer reveals and honest self-evaluation prompts. Mastery M1–M8 with confidence routing (sure/think so/guessing): m1 numeric ∂(3x²y)/∂x at (2,3) → 36 (tol 0.5); m2 MCQ reasoning (why opposite the gradient); m3 MCQ reasoning (GD at a saddle with eigenvalues +2, −5); m4 numeric GD step f=x² from x=8, η=0.05 → 7.2 (tol 0.05); m5 MCQ reasoning (multiplicative decay 0.95⁵⁰ ≈ 0.077); m6 MCQ error-identification (positive-definite critical point misread as maximum); m7 numeric transfer D_u f in 3-D: ∇f=(1,2,2), u=(1,1,0)/√2 → 2.121 (tol 0.02); m8 MCQ transfer Jacobian shape for an R⁴ → R⁷ layer → 7×4. Strict modality: MCQ / bounded auto-graded numeric only; zero `<textarea>`, zero unvalidated free text; options in `.option-stack`.
+
+## Formula manifest (every equation ships in a `.formula` block with a `.symkey`)
+
+EQ-001 partial derivative (operational definition, freeze-others) — U2; EQ-002 partials of f = x²+3y → 2x, 3 — U2; EQ-003 gradient ∇f = [∂f/∂x, ∂f/∂y] — U2; EQ-004 gradient magnitude ‖∇f‖ — U2; EQ-005 gradient descent θ := θ − η∇f(θ) — U2; EQ-006 directional derivative D_u f = ∇f·u — U3; EQ-007 projection bound D_u f = ‖∇f‖·cos φ ≤ ‖∇f‖ — U3; EQ-008 single-variable chain rule dy/dx = dy/dg·dg/dx (source cell-18 formula corrected, tagged) — U4; EQ-009 multivariable chain rule ∂L/∂x = Σⱼ ∂L/∂uⱼ · ∂uⱼ/∂x — U4; EQ-010 Jacobian J_ij = ∂f_i/∂xⱼ, shape (outputs × inputs) — U5; EQ-011 Hessian H_ij = ∂²f/∂xᵢ∂xⱼ — U5; EQ-012 second-order view f(θ+δ) ≈ f(θ) + ∇f·δ + ½δᵀHδ (FOUNDATION bridge, tagged) — U5; EQ-013 Newton's method θ := θ − H⁻¹∇f (with invertibility guard, supplemental tag) — U5; EQ-014 MSE loss L(w,b) = (1/n)Σ(ŷᵢ−yᵢ)² (FOUNDATION bridge) — U1; EQ-015 exponential gradient scale g_k = λᵏ (constructed example) — U6.
