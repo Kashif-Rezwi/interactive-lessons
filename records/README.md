@@ -28,13 +28,13 @@
 
 ## Stage 1 progress scoreboard
 
-Updated at each run closure (last update: 2026-08-13). Canonical commitments: the ADR-0002/ADR-0003 review triggers and the evaluation framework's calibration commitment.
+Updated at each run closure (last update: 2026-09-29). Canonical commitments: the ADR-0002/ADR-0003 review triggers and the evaluation framework's calibration commitment.
 
 | Commitment | Target | Current state | What closes the gap |
 | --- | --- | --- | --- |
-| Completed private pilots | 3 | **4 ✓** (RUN-20260804-0001, RUN-20260810-0001, RUN-20260813-0001, RUN-20260813-0002) | Met; the latest doubled as the prompt-card @0.4.0 comparison run (hypothesis supported, EVAL-2026-0004) |
-| Source packages represented | ≥ 2, or 3 materially distinct candidates from one package recorded as limited evidence | 1 package (SRC-2026-0001); **4 distinct evaluated candidates exist (v2, v4, v5, v6) — fallback satisfiable as limited evidence** | Calibration review may proceed on limited evidence; a second SRC record still strengthens it |
-| Evaluated candidates | 3 | **4 ✓** (EVAL-2026-0001, EVAL-2026-0002, EVAL-2026-0003, EVAL-2026-0004) | Met via the v5 regeneration run; CAN-2026-0002's deferred evaluation (RUN-20260804-0002 Appendix B) remains open — its cross-model comparison objective is unaffected |
+| Completed private pilots | 3 | **14 ✓** — every governed run through RUN-20260929-0001 has closed pilot-complete | Met; the pilot count is no longer a gate limiter |
+| Source packages represented | ≥ 2, or 3 materially distinct candidates from one package recorded as limited evidence | **4 packages** (SRC-2026-0001 linear algebra, SRC-2026-0002 matrix decompositions, SRC-2026-0003 high-dimensional geometry, SRC-2026-0004 multivariate calculus) | Met; calibration review may draw on four distinct sources |
+| Evaluated candidates | 3 | **15 ✓** (EVAL-2026-0001 through EVAL-2026-0015) | Met; CAN-2026-0002's deferred evaluation (RUN-20260804-0002 Appendix B) remains open — its cross-model comparison objective is unaffected |
 | Independent review | Required for any public release | None yet (all reviews non-independent) | External reviewer; not a Stage 1 blocker |
 
 *EVAL-2026-0005 (2026-08-14) is a re-verification audit of the two most recent evaluated candidates and their records — it adds no new candidate to the counts above.*

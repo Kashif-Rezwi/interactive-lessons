@@ -16,10 +16,10 @@ The repository is at **Stage 2 — reproducible workflow automation** on the [ca
 
 What exists and works today:
 
-- A governed **P0–P6 lesson-generation workflow** ([workflow](docs/03-workflows/lesson-generation-workflow.md)) that has produced 13 interactive lesson versions across 3 classes of an AIML-4 module, each with full lineage.
+- A governed **P0–P6 lesson-generation workflow** ([workflow](docs/03-workflows/lesson-generation-workflow.md)) that has produced 15 interactive lesson versions across 4 classes of an AIML-4 module, each with full lineage.
 - An **autonomous agent skill** at [`.agents/skills/generate-lesson/SKILL.md`](.agents/skills/generate-lesson/SKILL.md) that executes the workflow end to end.
-- **69 append-only evidence records** in `records/` — 12 generation runs, 13 evaluations, 11 learning plans, 11 experience specifications, 10 concept models, 6 curated memory items, 1 frozen benchmark — all cross-linked.
-- **13 architecture decision records** in [`docs/adr/`](docs/adr/README.md), 7 versioned prompt cards in `library/prompts/`, an executable QA rubric, and a lesson-pattern catalog.
+- **81 append-only evidence records** in `records/` — 14 generation runs, 15 evaluations, 13 learning plans, 13 experience specifications, 12 concept models, 4 source manifests, 2 experiment records, 7 curated memory items, 1 frozen benchmark — all cross-linked.
+- **14 architecture decision records** in [`docs/adr/`](docs/adr/README.md), 7 versioned prompt cards in `library/prompts/`, an executable QA rubric, and a lesson-pattern catalog.
 - Two dependency-free Python verification tools (see [Tooling](#tooling)).
 
 ## Start here
@@ -60,7 +60,7 @@ Generated lessons are self-contained HTML files with no build step and no extern
 open content/aiml-4/module-02-math-statistics-for-ml/generated/linear-algebra-foundations-v10.html
 ```
 
-The current reference candidate is `linear-algebra-foundations-v10.html`; module navigation and version history live in the [module README](content/aiml-4/module-02-math-statistics-for-ml/README.md). All generated lessons are `private-pilot-complete` under non-independent review — they are not public releases or efficacy claims.
+The module's reference candidate for new authoring is `linear-algebra-foundations-v10.html`; the most recent governed generation is `multivariate-calculus-v2.html`. Module navigation and version history live in the [module README](content/aiml-4/module-02-math-statistics-for-ml/README.md). All generated lessons are `private-pilot-complete` under non-independent review — they are not public releases or efficacy claims.
 
 ## Tooling
 

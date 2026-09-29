@@ -1,0 +1,89 @@
+# RUN-20260929-0001: Multivariate calculus v2 (EVAL-2026-0014 remediation regeneration)
+
+**Status:** Pilot complete  
+**Parent run:** [RUN-20260924-0001](run-20260924-0001-multivariate-calculus-v1.md) (v1 generation; this run is its named successor)  
+**Owner:** Repository maintainer (solo Stage 1 operator)  
+**Objective:** Regenerate the Class 4 interactive lesson as v2 at benchmark-band depth, closing the EVAL-2026-0014 observations: split the merged Jacobian+Hessian unit into U5 (Jacobian, with a new live transformation lab, ladder, unit check, and mastery item) and U6 (Hessian & curvature); tighten the W1 canvas aspect ratio; preserve every v1 depth guarantee (3 gates, 7 widgets + 1 numeric lab, 15 formulas, 44-term glossary, the full claim set, misconception handling, and live-computation discipline); and re-verify everything from scratch on the new hash.  
+**Budget:** One generation; maximum two revision cycles  
+**Iteration counts:** generation = 1; in-generation corrections = 3 artifact corrections + 2 verification-harness corrections (itemized below; all pre-evaluation); revision cycles = 0 (per [ADR-0006](../../docs/adr/0006-record-iteration-accounting.md))  
+**Classification:** production  
+**Operating scope:** Stage 1 private pilot  
+**Review-independence summary:** non-independent  
+**Public-release eligibility:** ineligible
+
+## Input manifest
+
+- Source: [SRC-2026-0004](../sources/src-2026-0004-multivariate-calculus.md), SHA-256 `ab11029313a65ed7892248e9ecca7d26b5f19fe7c79f3cd27f64b98cd138fd3e` (re-verified unchanged at intake)
+- Concept model: [CM-2026-0012](../concepts/cm-2026-0012-multivariate-calculus.md) (iteration of CM-2026-0011; claim set unchanged, re-grounded)
+- Learning plan: [LP-2026-0013](../plans/lp-2026-0013-multivariate-calculus.md) (7 units + orientation; L1–L7; 9-item mastery)
+- Experience specification: [XS-2026-0013](../specifications/xs-2026-0013-multivariate-calculus-v2.md) (8 widgets: W1–W7 canvases + W8 numeric; W6 new; W1 viewport tightened)
+- Candidate: `CAN-2026-0014`, `multivariate-calculus-v2.html`
+- Prompt card: `prm-generator-lesson-standard@0.6.0`, digest `532febec136b` (the card file is the persisted prompt content)
+- Benchmark: [BMK-2026-0001](../benchmarks/bmk-2026-0001-linear-algebra-foundations-v4.md) (calibration exemplar, per [ADR-0011](../../docs/adr/0011-benchmark-definition-and-artifact-change-protocol.md)); implementation reference: CAN-2026-0013 (v1, nearest governed component-contract artifact)
+- Tooling: `scripts/verify-candidate.py` (strict), `scripts/check-repo.py`, Python 3.14.4 recomputation harness (118 checks), Node v22.20.0 (`node --check` + stub-DOM behavioral harness, 48 checks), agent-browser 0.27.0 (CDP; live rendered verification)
+
+## Generation events
+
+| Time | Candidate ID | Model/configuration | Prompt digests | Cost/latency | Warnings/errors |
+| --- | --- | --- | --- | --- | --- |
+| 2026-09-29 | CAN-2026-0014 | Cline (Claude Sonnet 4.6), autonomous orchestrator | prm-generator-lesson-standard@0.6.0 `532febec136b` + prm-orchestrator-autonomous@0.1.0 | single session | 3 in-generation artifact corrections (below); no assembly incidents (deterministic transform assembly per MEM-2026-0007 discipline) |
+
+**Generation method (recorded for honesty and traceability):** v2 is a full regeneration of the governed artifact, authored as a deterministic structural rebuild from the v1 implementation reference (design system, verified readouts, and the unchanged source-grounded content), with the v2 deltas applied and every surface re-verified: new unit boundary U5/U6 and complete renumbering (nav, aria, element ids, answer tables, cross-references), new W6 lab + L5 ladder + c5 check + M9 item, W1 viewport tightening, storage namespace `mvc2-*`, `fmt` negative-zero normalization, and count-bearing meta-text updates. The rebuild script and fragments are session tooling, not repo artifacts; their replacement assertions (exact-count checks) and outputs are fully reproducible from this record and the harnesses.
+
+## Evaluation and defects
+
+### Standing verification audits (P5 Audits 1–6)
+
+- **Audit 1 (Coverage): PASS.** Coverage matrix re-verified against all 31 cells: U0 (1–2), U1 (3–6), U2 (7–14), U3 (15–16), U4 (17–20), U5 (21–23), U6 (24–29), U7 (30–31); dispositions unchanged (corrected chain-rule formula tagged; PART 9/10 numbering recorded; both opaque figures replaced by live contexts, cell 23 additionally by W6). Full matrix in EVAL-2026-0015.
+- **Audit 2 (Mathematical & canvas extrema): PASS.** Independent Python harness: **118 checks, 0 failures** — all 14 ladder keys, 7 numeric checks, and 4 numeric mastery keys recomputed from their definitions (including new L5r2=9, L5r3=0, c5n=6, m9=12); W6 defaults det=6 and (1,1)↦(3,3); flatten/flip/degenerate determinant cases; W1 least-squares (1.7, −0.1, 0.22) and the 5·0.8²⁰ trajectory; wiring for every ladder/check/mastery/gate key; structure counts (7 canvases, 7 ladders, 7 checks, 9 items, 3 gates, 44 glossary entries, 15 formulas, 16 edges); all 41 `data-term` links resolve. Node behavioral harness: **48 checks, 0 failures** (script evaluates in a stub DOM; every draw function runs at defaults and at extrema; W6 flatten/flip/stretch/degenerate/identity classifications; grading boundaries 5.94/6.05 and 12.5/12.6).
+- **Audit 3 (Dependency order): PASS.** Fresh read-in-order pass on the split artifact: U5 introduces the Jacobian only after the gradient (U2) and chain rule (U4); the (outputs × inputs) shape precedes the backprop matrix reading; U6 takes the second-order step after first-order machinery; every "Unit N" cross-reference re-checked after renumbering (U2/U3/U4 connects → U7; Hessian references → U6; M3 → Units 2+6; M6 → Unit 6; M8 stays Unit 5; synthesis says "seven units"). No use-before-explain.
+- **Audit 4 (Pedagogical & depth-calibration contract): PASS.** U5 and U6 each carry lede + intuition + worked example before their widgets, the canonical anatomy, one ladder, one check (numeric + diagnostic MCQ), and a Connect; seven ladders for seven computational skills; 9 mastery items (7+2) with reasoning/transfer/error-identification and confidence routing; 3 gates with commitment-gated unlock and differentiated feedback; at most one callout per unit; the EVAL-2026-0014 density observation is closed structurally (split unit), and the W1 aspect ratio is reduced 21% (0.917 vs 1.167) while keeping all data visible.
+- **Audit 5 (Technical & behavioral simulation): PASS.** `node --check` clean; stub-DOM execution exercises all eight draw functions and their extrema (zero exceptions); per-element slider encapsulation (17 range inputs), option-stack layout, formula/symbol-key pairing, and the canvas engineering contract (7 resize listeners ≥ 7 canvases; `clientWidth` measured at draw time; no hardcoded pixel transforms; `.legend-inline` on multi-entity canvases) verified; storage reads/writes use `mvc2-*`.
+- **Audit 6 (Rendered-output verification per ADR-0010): PASS — live browser, no degraded caps.** agent-browser 0.27.0 (CDP): 0 console messages and 0 page errors on load and after every interaction sequence. Live traces: all 3 gates (refusal → wrong-with-rule → correct → unlock); all 14 ladder keys + a boundary miss (9.5 rejected) + hint toggle + explain reveal; all 14 checks; 9/9 mastery with M3 confident-miss routed and removed on correction and M9 boundary miss routed; `Answered 9/9`; 7/7 nav dots; W6 extrema (flatten/flip/stretch/degenerate all-max/all-min/identity); W1–W5, W7, W8 extrema; reset clears dots and storage; corrupted-storage reload recovers cleanly. Responsive: 320/640/1024px with no page-level horizontal scroll, 16.5px body font, concept map internally scrollable at 320px (592px surface / 294px viewport, overflow-x auto); reduced-motion honored (`scroll-behavior: auto`); print PDF exported (≈1.9MB). Screenshots captured (top 1024; W6 lab; W6 panel-divider zoom confirming clip discipline; U6; U7; 320/640/1024 widths).
+
+### Adversarial re-examination (mandatory gate per ADR-0009)
+
+- **Methods executed:** read-in-order dependency re-pass; handler-level boundary simulation (gate refusal/unlock branches; grading boundaries; confident-miss routing on radio AND numeric items; corrupted-storage reset); canvas-extrema forcing (W6 including degenerate determinants; all other canvases); honesty/provenance scan (every forward promise checked against its payoff unit; the W6 source-matrix claim checked against cell 23).
+- **Elements covered:** 3 gates, 14 ladder keys, 14 checks, 9 mastery items, 8 widgets, sections u1–u7, storage/reset paths, all "Unit N" cross-references.
+- **Findings & severity:** one cosmetic defect found and fixed pre-evaluation (fmt rendered `-0` at θ = 360° — correction 2); one count-bearing meta-text defect found and fixed pre-evaluation ("6 units + mastery" header chip — correction 3); no Major/Critical findings; clean pass after corrections.
+
+### Re-verification pass (WF-008)
+
+- After each correction: full chain re-run (transform assertions → `node --check` → Python harness 118/0 → Node harness 48/0 → `verify-candidate.py` 0 failures → live browser traces on the new hash). The final build was re-verified end-to-end after the last correction; headline claims reproduced (W6 det=6 and (1,1)↦(3,3) live; M3/M9 routing live; 0 console errors).
+
+## Reflection and root-cause hypothesis
+
+v2 closes both EVAL-2026-0014 observations: the density observation structurally (Jacobian and Hessian now have their own units, ladders, checks, and mastery homes, mirroring the source's PART 6 / PART 7 boundary) and the W1 height observation (−21% aspect, all data and the least-squares optimum still visible). Defect classes observed this run: (a) **structural renumbering missed count-bearing meta text** — the header chip "6 units + mastery" survived id/token-level updating and was caught only by rendered review; root cause: sweeps target identifiers, not prose counts; remedy: an explicit meta-text count sweep, added to the QA checklist Audit 6. (b) **float-residue display** — `fmt` rendered `-0` at θ = 360° (a ~10⁻¹⁶ sine residue); caught by the behavioral-extrema trace; remedy: negative-zero normalization in `fmt`. (c) Two **verification-harness expectation errors** (not artifact defects): the W6 all-max/all-min matrices are degenerate (det = 0) so "collapsed" is the correct classification; and an initial misread of `c6m`/`c7m` after renumbering was resolved by direct HTML inspection (c6m is the Hessian dome item; c7m is adaptive scaling). Method reflection: the deterministic transform with exact-count replacement assertions proved reliable for a large structural change — no assembly incidents (contrast RUN-20260924-0001) because every replacement either matched exactly once or failed loudly. Forward-looking risk review (WF-013): (i) unit boundaries could drift from the source's part structure if a future edit re-merges U5/U6 — guard: keep the source-part mapping in the CM/LP; (ii) the two-panel clipped-canvas pattern has a single implementation (W6) — future reuse must re-verify panel clipping at all extremes; (iii) the transform tooling is session-only — future rebuilds must re-derive from the records, which therefore carry the correction list and assertion inventory.
+
+## Revision history and regression checks
+
+- In-generation correction 1: nav-dot unit list `["u1"…"u6"]` omitted `"u7"` — caught by the structural sweep after the transform; fixed in the transform; re-verified live (7/7 dots).
+- In-generation correction 2: `fmt` rendered `-0` for tiny negative residues (θ = 360° trace) — fixed with negative-zero normalization; re-verified live (`(1, 0)`).
+- In-generation correction 3: header chip "6 units + mastery" survived renumbering — caught by rendered screenshot review; fixed; re-verified live ("7 units + mastery").
+- Harness corrections: W6 degenerate-case expectations corrected; `c6m`/`c7m` key mapping confirmed by inspection. No artifact impact.
+- Regression checks: full chain re-run after every correction (transform assertions → syntax → harnesses → verifier → browser); final build verified end-to-end. No post-evaluation revision cycles.
+
+## Decision and approvers
+
+**Final candidate identity at closure:** CAN-2026-0014, `multivariate-calculus-v2.html`, SHA-256 `f8160916b1e8adb5c2e559bdba1152e21bd18e129ebed79d97fa44314d96cc37`, 172,174 bytes  
+**Disposition:** private-pilot-complete  
+**Decision scope:** private pilot  
+**Approvers and limitations:** repository maintainer (solo Stage 1 operator); non-independent review; ineligible for public release; no screen-reader specialist pass; no second evaluator.
+
+## Memory disposition
+
+- **Promoted:** none. (MEM-2026-0007's deterministic-assembly rule was applied as standing memory; no new memory item met the promotion bar from a single run. The count-bearing meta-text observation was actioned directly in the QA checklist.)
+- **Rejected observations:** (a) "the transform-based rebuild method needs its own ADR" — rejected for now: no durable architectural change; the method is described in this record and its outputs are authoritative; revisit if a third lesson uses the path. (b) "move the W6 lab into U4 (backprop context)" — rejected: the Jacobian is first-order matrix machinery; U5-after-U4 matches the source's part order and the JAC→BP dependency edge.
+- **Carried forward:** the two-panel clipped-canvas pattern as a candidate pattern-catalog entry after one more reuse.
+
+## Lineage audit
+
+Source `ab110293…` → SRC-2026-0004 → CM-2026-0012 → LP-2026-0013 → XS-2026-0013 → CAN-2026-0014 (`f8160916…`) → EVAL-2026-0015. The v1 lineage (CM-2026-0011 → LP-2026-0012 → XS-2026-0012 → CAN-2026-0013 (`2edbbbbe…` after the concept-map fix) → EVAL-2026-0014; RUN-20260924-0001) remains intact and is preserved as the previous version. All links resolve in-repo; the prompt snapshot is in the appendix; no session-only knowledge is required to reproduce the run.
+
+## Appendix A: Prompt snapshot
+
+User trigger: "hey there, lets regenerate the 'content/aiml-4/module-02-math-statistics-for-ml/sources/Multivariate_Calculus_for_Machine_Learning.ipynb' interactive lessions again!"
+
+Workflow directive: governed P0–P6 v2 regeneration for the Class 4 source — intake re-verification of SRC-2026-0004 (hash unchanged), CM-2026-0012 (48-claim set re-grounded; lesson-layer deltas recorded), LP-2026-0013 (7 units + orientation; L1–L7; 9-item mastery; split rationale), XS-2026-0013 (8 widgets; W6 new; W1 viewport tightened; assessment keys), deterministic v2 candidate build (CAN-2026-0014), strict verification, six audits, adversarial gate, live rendered verification (agent-browser), evaluation authoring, module README update, repository checker, and compounding updates. Generator prompt card `prm-generator-lesson-standard@0.6.0`, SHA-256 `532febec136b15b4988963ad6c5ffb1477163f45013a81fd47474ab6b24c0506` (the card file at [`library/prompts/prm-generator-lesson-standard@0.6.0.md`](../../library/prompts/prm-generator-lesson-standard@0.6.0.md) is the persisted prompt content); orchestrator skill `prm-orchestrator-autonomous@0.1.0`.
+
+
