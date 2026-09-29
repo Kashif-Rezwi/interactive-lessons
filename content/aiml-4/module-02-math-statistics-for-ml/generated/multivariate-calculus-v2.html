@@ -86,6 +86,11 @@ button.ghost{background:var(--card);color:var(--ink-soft);border:1px solid var(-
 button.ghost:hover{border-color:var(--accent);color:var(--accent-deep);background:var(--card)}
 :focus-visible{outline:none;box-shadow:var(--focus);border-radius:4px}
 .feedback{border-radius:8px;padding:.6rem .8rem;margin:.55rem 0;font-size:.9rem;line-height:1.5}
+.feedback.ok{background:var(--good-soft);border:1px solid var(--good)}
+.feedback.no{background:var(--bad-soft);border:1px solid var(--bad)}
+.feedback.note{background:var(--warn-soft);border:1px solid var(--warn)}
+.feedback.ok::before{content:"✓ "}
+.feedback.no::before{content:"✗ "}
 .ladder{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:.85rem 1rem;margin:1rem 0}
 .rung{border-top:1px dashed var(--line-soft);padding:.75rem 0 .35rem}
 .rung:first-of-type{border-top:none}
@@ -108,6 +113,7 @@ table.apptable,table.looptable{border-collapse:collapse;width:100%;font-size:.88
 table.apptable th,table.apptable td,table.looptable th,table.looptable td{border:1px solid var(--line);padding:.45rem .6rem;text-align:left;vertical-align:top}
 table.apptable th,table.looptable th{background:var(--accent-soft);color:var(--accent-deep)}
 .matblock{display:inline-block;font-family:var(--mono);font-size:.9rem;border:1px solid var(--line);border-radius:6px;padding:.4rem .55rem;margin:.3rem .45rem .3rem 0;background:var(--card);vertical-align:middle}
+.gloss-list{margin:.5rem 0}
 .gitem{border-top:1px solid var(--line-soft);padding:.6rem 0}
 .gitem dt{font-weight:700;color:var(--accent-deep);font-size:.95rem}
 .gitem dd{margin:.15rem 0 0;font-size:.86rem;line-height:1.55}
@@ -116,8 +122,9 @@ table.apptable th,table.looptable th{background:var(--accent-soft);color:var(--a
 footer.colophon{text-align:center;color:var(--ink-faint);font-size:.78rem;margin-top:2.4rem;border-top:1px solid var(--line-soft);padding:1rem 0 .2rem}
 footer.colophon .heart{color:var(--bad)}
 @media (max-width:640px){h1{font-size:1.5rem}h2{font-size:1.22rem}.wrap{padding:0 .75rem 2.5rem}.map svg{min-width:560px}}
-@media print{.topnav,.ctrl-grid,.numin,button,canvas.viz,.slider-track{display:none!important}.hint,.modelanswer{display:block!important}body{background:#fff;font-size:12px}.wrap{max-width:none}section{page-break-inside:avoid}}
+@media print{.topnav,.ctrl-grid,.numin,button,canvas.viz,.slider-track{display:none!important}.hint,.modelanswer{display:block!important}body{background:#fff;font-size:12px}.wrap{max-width:none}section{page-break-inside:avoid}.callout,.formula,.readout{border:1px solid #999;background:#fff}}
 @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}*,*::before,*::after{transition:none!important;animation:none!important}}
+.callout{border-radius:var(--radius);border:1px solid var(--warn);background:var(--warn-soft);padding:.7rem .95rem;margin:1rem 0;font-size:.92rem;line-height:1.55}
 .callout.good{border-color:var(--good);background:var(--good-soft)}
 .callout.info{border-color:var(--accent);background:var(--accent-soft)}
 </style>
@@ -768,6 +775,7 @@ footer.colophon .heart{color:var(--bad)}
 <section id="mastery" aria-labelledby="mast">
 <div class="label">MASTERY CHECK · 9 ITEMS, CONFIDENCE-TAGGED</div>
 <h2 id="mast">Can you use it cold?</h2>
+<div class="mastery">
 <div class="mitem">
 <p><b>M1 · numeric (Unit 2).</b> For f(x, y) = 3x²y, enter ∂f/∂x at (2, 3).</p>
 <div class="numin"><input type="number" id="m1in" step="0.1" aria-label="Partial derivative of 3x squared y with respect to x at (2,3)"><button type="button" data-masteryn="m1" data-target="m1fb">Check</button></div>
@@ -848,6 +856,7 @@ footer.colophon .heart{color:var(--bad)}
 <div class="feedback" id="m9fb" aria-live="polite"></div>
 </div>
 <div class="msum" id="msum">Answer items and tag confidence — a summary appears here.</div>
+</div>
 </section>
 <section id="review" aria-labelledby="revt">
 <div class="label">YOUR REVIEW LIST</div>
@@ -1029,7 +1038,7 @@ function bindGates(){
       var G=GATES[key];
       var fb=document.getElementById(G.fb);
       var choice=document.querySelector('input[name="'+key+'"]:checked');
-      if(!choice){ fb.className="feedback no"; fb.textContent="Commit to an answer first — that commitment is what makes the reveal worth it."; return; }
+      if(!choice){ fb.className="feedback note"; fb.textContent="Commit to an answer first — that commitment is what makes the reveal worth it."; return; }
       fb.className="feedback "+(choice.value===gAnswer(key)?"ok":"no");
       fb.innerHTML=G.opts[choice.value]+"<br><b>"+G.rule+"</b>";
       var w=document.getElementById(G.target);
@@ -1423,7 +1432,7 @@ function bindLadders(){
       var inp=document.getElementById(key+"in");
       var fb=document.getElementById(key+"fb");
       var v=parseFloat(inp.value);
-      if(isNaN(v)){ fb.className="feedback no"; fb.textContent="Enter a number first."; return; }
+      if(isNaN(v)){ fb.className="feedback note"; fb.textContent="Enter a number first."; return; }
       var ok=Math.abs(v-L.ans)<=L.tol+1e-9;
       fb.className="feedback "+(ok?"ok":"no");
       fb.textContent=ok?L.ok:L.no;
@@ -1496,7 +1505,7 @@ function bindChecks(){
       var inp=document.getElementById(key);
       var fb=document.getElementById(this.getAttribute("data-target"));
       var v=parseFloat(inp.value);
-      if(isNaN(v)){ fb.className="feedback no"; fb.textContent="Enter a number first."; return; }
+      if(isNaN(v)){ fb.className="feedback note"; fb.textContent="Enter a number first."; return; }
       var ok=Math.abs(v-C.ans)<=C.tol+1e-9;
       fb.className="feedback "+(ok?"ok":"no");
       fb.textContent=ok?C.ok:C.no;
@@ -1510,7 +1519,7 @@ function bindChecks(){
       var M=MCS[key];
       var fb=document.getElementById(this.getAttribute("data-target"));
       var choice=document.querySelector('input[name="'+key+'"]:checked');
-      if(!choice){ fb.className="feedback no"; fb.textContent="Pick an option first."; return; }
+      if(!choice){ fb.className="feedback note"; fb.textContent="Pick an option first."; return; }
       var ok=choice.value===M.ans;
       fb.className="feedback "+(ok?"ok":"no");
       fb.innerHTML=M.fb[choice.value]+"<br><b>Governing rule: "+M.rule+".</b>";
@@ -1569,8 +1578,8 @@ function bindMastery(){
       var fb=document.getElementById(this.getAttribute("data-target"));
       var choice=document.querySelector('input[name="'+key+'"]:checked');
       var conf=confOf(key);
-      if(!choice){ fb.className="feedback no"; fb.textContent="Pick an option first."; return; }
-      if(!conf){ fb.className="feedback no"; fb.textContent="Also tag your confidence (sure / think so / guessing) — that is what routes misses to your review list."; return; }
+      if(!choice){ fb.className="feedback note"; fb.textContent="Pick an option first."; return; }
+      if(!conf){ fb.className="feedback note"; fb.textContent="Also tag your confidence (sure / think so / guessing) — that is what routes misses to your review list."; return; }
       var ok=choice.value===M.ans;
       fb.className="feedback "+(ok?"ok":"no");
       fb.innerHTML=M.fb[choice.value];
@@ -1589,8 +1598,8 @@ function bindMastery(){
       var fb=document.getElementById(this.getAttribute("data-target"));
       var conf=confOf(key);
       var v=parseFloat(inp.value);
-      if(isNaN(v)){ fb.className="feedback no"; fb.textContent="Enter a number first."; return; }
-      if(!conf){ fb.className="feedback no"; fb.textContent="Also tag your confidence (sure / think so / guessing)."; return; }
+      if(isNaN(v)){ fb.className="feedback note"; fb.textContent="Enter a number first."; return; }
+      if(!conf){ fb.className="feedback note"; fb.textContent="Also tag your confidence (sure / think so / guessing)."; return; }
       var ok=Math.abs(v-M.ans)<=M.tol+1e-9;
       fb.className="feedback "+(ok?"ok":"no");
       fb.textContent=ok?M.ok:M.no;
