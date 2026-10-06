@@ -1,6 +1,6 @@
 # EVAL-2026-0016: Candidate evaluation — probability basics v1
 
-**Candidate ID/version:** CAN-2026-0015, `probability-basics-v1.html`, SHA-256 `fa438356badf5b0e40d3929d7ac8317cbaa2e6b6ba4d270e4121cc307991c35d`, 145,525 bytes (1,411 lines)  
+**Candidate ID/version:** CAN-2026-0015, `probability-basics-v1.html`, evaluated build SHA-256 `fa438356badf5b0e40d3929d7ac8317cbaa2e6b6ba4d270e4121cc307991c35d`, 145,525 bytes (1,411 lines); post-review revision 1 (remediated) SHA-256 `bf034f11315ea1efce64397fd9a8641a727b645318fc3672232a0cecd3e96dc9`, 147,134 bytes (1,429 lines)  
 **Rubric version:** [evaluation-framework.md](../../docs/06-evaluation/evaluation-framework.md) (Stage 1 anchors, WF-007) against [BMK-2026-0001](../benchmarks/bmk-2026-0001-linear-algebra-foundations-v4.md) and the [depth-calibration contract](../../docs/01-product/depth-calibration-contract.md)  
 **Evaluator role/identity:** Repository maintainer (solo Stage 1 operator), generator of the same candidate  
 **Evaluation mode:** automated checks + agent-performed specialist review + stub-DOM behavioral execution (no live browser)  
@@ -10,7 +10,7 @@
 **Public-release eligibility:** ineligible  
 **Confidence:** high  
 **Recommendation:** private-pilot-complete  
-**Iterations reviewed:** builds = 1 (`fa438356…`); revision cycles = 0 (3 in-generation corrections itemized in [RUN-20261006-0001](../runs/run-20261006-0001-probability-basics-v1.md); per [ADR-0006](../../docs/adr/0006-record-iteration-accounting.md))
+**Iterations reviewed:** builds = 1 (`fa438356…`); revision cycles = 1 post-review (learner-reported skeleton-drift remediation, `fa438356…` → `bf034f11…`; 3 in-generation corrections itemized in [RUN-20261006-0001](../runs/run-20261006-0001-probability-basics-v1.md); per [ADR-0006](../../docs/adr/0006-record-iteration-accounting.md))
 
 ## Scope and evidence inspected
 
@@ -59,6 +59,10 @@ Weights sum to 100%; with the evaluator's scores the unrounded weighted result i
 
 Gate check against the default learner-release conditions (used diagnostically for a private pilot): hard-gate dimensions ≥ 3.5 — educational quality 4.0, factual/mathematical accuracy 4.0, source grounding 4.0, accessibility 3.5 → **met**; weighted score ≥ 3.5 — met (3.63); no score of 0–1 — met; no unassessed dimension — met; no unresolved critical defect — met; source status approved — met; complete lineage — met. Three non-hard-gate dimensions (visual, UX, technical) sit at 2.5 **solely because of the degraded-mode cap** (no live browser), not from artifact defects; the other dimensions ≥ 3 condition is therefore not met on the rendered-evidence path. Independently, **independent review — NOT met** (non-independent). Because freedom-from-independent-review fails, a public `released` decision is unavailable regardless of the score; the candidate closes as `private-pilot-complete`.
 
+## Post-review remediation
+
+**Revision 1 (2026-10-06, learner-reported).** The learner reported that Unit 0 "is not well structured, feels unfinished and misaligned" next to the module's other interactive lessons. Investigation confirmed five skeleton defects that every presence-level check had passed: (1) nav completion dots consumed but never created (§10.2's dots silently never rendered); (2) the U0 loop table and the U8 covariance table used `class="apptable"` with no CSS rule for it (the "unfinished" look — the references style `table.apptable,table.looptable` and use `looptable` with a caption for the loop table); (3) no `<main id="main">` landmark; (4) header/U0 drift (bare topic `h1`, non-canonical kicker, storage note in the header, missing loop-intro paragraph); (5) the mastery summary used the mono `.readout` style instead of `.msum`. Remediation restored all five from the sibling reference implementations and aligned the print and reduced-motion blocks. Re-verified on the remediated hash `bf034f11…`: `verify-candidate.py --strict` 0 failures (including the new skeleton check, added 2026-10-06, which reproduces all three mechanical defect classes on a simulated pre-fix build), Python harness 0 failures, `node --check` clean, stub-DOM draw smoke 0 exceptions. No assessed behavior, number, answer key, or content claim changed, so the dimension scorecard and weighted result stand; the skeleton defects are presentation/structure defects within the already-degraded visual/UX/technical caps. Root cause and pipeline remediation: [MEM-2026-0009](../memory/mem-2026-0009-reference-skeleton-drift.md).
+
 ## Disagreement or uncertainty
 
 No reviewer disagreement (single reviewer). Uncertainty is concentrated in the degraded-mode caps: once Audit 6 runs live, the visual/UX/technical dimensions are expected to rise toward 4.0 (the construction is verified), moving the weighted result to roughly 3.83. The accessibility Minor items are judgment calls a human reviewer may move ±0.5.
@@ -69,4 +73,4 @@ None. (Public release remains blocked by the review-independence condition and t
 
 ## Reviewer sign-off
 
-Reviewed and closed by the repository maintainer as a non-independent Stage 1 private pilot; artifacts, audits, adversarial findings, and execution evidence are recorded in [RUN-20261006-0001](../runs/run-20261006-0001-probability-basics-v1.md). Public-release eligibility is `ineligible`, consistent with the non-independent review. Live rendered verification (ADR-0010) is recorded as deferred (degraded mode); when performed it will be appended as a dated re-verification note.
+Reviewed and closed by the repository maintainer as a non-independent Stage 1 private pilot; artifacts, audits, adversarial findings, and execution evidence are recorded in [RUN-20261006-0001](../runs/run-20261006-0001-probability-basics-v1.md). Public-release eligibility is `ineligible`, consistent with the non-independent review. Live rendered verification (ADR-0010) is recorded as deferred (degraded mode); when performed it will be appended as a dated re-verification note. Revision 1 (learner-reported skeleton-drift remediation) was re-verified on the remediated hash `bf034f11…` and is recorded in the run ledger; this sign-off stands for the remediated candidate.

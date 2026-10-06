@@ -73,6 +73,9 @@ canvas.viz{width:100%;height:auto;border:1px solid var(--line);border-radius:8px
 .lg-c::before{background:var(--good)}
 .lg-d::before{background:var(--warn)}
 .lg-e::before{background:var(--ext)}
+table.apptable,table.looptable{border-collapse:collapse;width:100%;font-size:.88rem;margin:.7rem 0;display:block;overflow-x:auto}
+table.apptable th,table.apptable td,table.looptable th,table.looptable td{border:1px solid var(--line);padding:.45rem .6rem;text-align:left;vertical-align:top}
+table.apptable th,table.looptable th{background:var(--accent-soft);color:var(--accent-deep)}
 .predict{border:1.5px dashed var(--accent);border-radius:var(--radius);padding:.85rem 1rem;margin:1rem 0;background:rgba(232,238,250,.4)}
 .option-stack{display:flex;flex-direction:column;gap:.55rem;width:100%;margin:.75rem 0}
 .option-item{display:flex;align-items:flex-start;gap:.75rem;padding:.65rem .9rem;border:1.5px solid var(--line);border-radius:8px;background:var(--card);cursor:pointer}
@@ -106,7 +109,8 @@ button:focus-visible,input:focus-visible,a:focus-visible{outline:none;box-shadow
 .callout.good{background:var(--good-soft);border-color:#bfe3cd;border-left-color:var(--good)}
 .mastery{background:var(--card);border:1.5px solid var(--ml);border-radius:var(--radius);padding:.95rem 1.05rem;margin:1.1rem 0}
 .storage-note{font-size:.82rem;color:var(--ink-faint)}
-.conf{display:flex;flex-wrap:wrap;gap:.6rem;margin:.4rem 0;font-size:.84rem;color:var(--ink-soft)}
+.conf{display:flex;flex-wrap:wrap;gap:.8rem;font-size:.84rem;color:var(--ink-soft);margin:.3rem 0}
+.msum{background:var(--good-soft);border:1px solid var(--good);border-radius:8px;padding:.6rem .85rem;margin:.6rem 0;font-size:.92rem}
 .gloss-list{margin:.5rem 0}
 .gitem{border-top:1px solid var(--line-soft);padding:.55rem 0}
 .gitem dt{font-weight:700;color:var(--accent-deep)}
@@ -114,34 +118,34 @@ button:focus-visible,input:focus-visible,a:focus-visible{outline:none;box-shadow
 footer.colophon{text-align:center;color:var(--ink-faint);font-size:.78rem;margin-top:2.4rem;border-top:1px solid var(--line-soft);padding:1rem 0 .2rem}
 footer.colophon .heart{color:var(--bad)}
 @media (max-width:640px){h1{font-size:1.6rem}h2{font-size:1.25rem}.formula .fx{white-space:normal}}
-@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
-@media print{.topnav,.widget,.predict,.check,.ladder{break-inside:avoid}.feedback,.hint,.modelanswer{border-color:#999}.topnav{display:none}}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}*,*::before,*::after{transition:none!important;animation:none!important}}
+@media print{.topnav,.ctrl-grid,.numin,button,canvas.viz,.slider-track{display:none!important}.hint,.modelanswer{display:block!important}body{background:#fff;font-size:12px}.wrap{max-width:none}section{page-break-inside:avoid}.callout,.formula,.readout{border:1px solid #999;background:#fff}}
 
 </style>
 </head>
 <body>
 <nav class="topnav" aria-label="Lesson units"><div class="navin"><a href="#u0" aria-current="true">00 Start</a><a href="#u1">01 Random vars</a><a href="#u2">02 PMF</a><a href="#u3">03 PDF</a><a href="#u4">04 CDF</a><a href="#u5">05 Conversion</a><a href="#u6">06 Expectation</a><a href="#u7">07 Variance</a><a href="#u8">08 Covariance</a><a href="#u9">09 ML links</a><a href="#synthesis">Synthesis</a><a href="#mastery">Mastery</a><a href="#glossary">Glossary</a></div></nav>
-<div class="wrap">
+<main id="main" class="wrap">
 <header class="pagehead">
-<div class="kicker">Interactive Lessons · AIML-4 Module 2 · Class 5</div>
-<h1>Probability Basics for Machine Learning</h1>
-<p class="sub">Random variables, PMF, PDF, CDF, the CDF ↔ PDF conversion, expectation, variance, and covariance — the language every model speaks when it says "probably."</p>
+<div class="kicker">AIML-4 · Class 5 · Probability basics</div>
+<h1>The mathematics of "probably"</h1>
+<p class="sub">A hands-on route from "a model is never certain" to random variables, PMF, PDF, CDF, the CDF ↔ PDF conversion, expectation, variance, and covariance — every number you see is computed live in your browser.</p>
 <div class="head-meta"><span class="chip">⏱ 60–75 minutes</span><span class="chip">9 units + mastery</span><span class="chip">Works offline</span><span class="chip">Progress saved locally</span></div>
-<p class="storage-note" id="storageNote">Progress (dots and review list) is saved in this browser only. </p>
 </header>
-<section id="u0" class="unit" aria-labelledby="u0t">
+<section id="u0" aria-labelledby="u0t">
 <div class="label">UNIT 0 · ORIENTATION</div>
-<h2 id="u0t">How this page teaches</h2>
-<p>Every teaching unit runs the same six beats, so you always know where you are:</p>
-<table class="apptable"><tr><th>Beat</th><th>What it is</th><th>Why it is here</th></tr>
-<tr><td>Learn</td><td>Intuition first, then the precise definition and a worked number.</td><td>Meaning before notation.</td></tr>
-<tr><td>Predict</td><td>A commitment question before a reveal opens.</td><td>Committed guesses correct hardest.</td></tr>
-<tr><td>Explore</td><td>A goal-directed interactive you manipulate.</td><td>Build a causal model by testing it.</td></tr>
+<h2 id="u0t">How to learn with this page</h2>
+<p>Each unit follows the same loop: build intuition, <b>commit to a prediction</b> before the reveal, explore a live model, practice with fading help, then check yourself. Checks fill the dots in the top navigation; misses go to your personal review list at the end.</p>
+<table class="looptable"><caption class="label">The learning loop</caption><tr><th>Step</th><th>What you do</th><th>Why it works</th></tr>
+<tr><td>Learn</td><td>Read a short explanation with a worked number first.</td><td>Intuition before notation.</td></tr>
+<tr><td>Predict</td><td>Commit to an answer <i>before</i> the model reveals it.</td><td>Predictions make errors correctable.</td></tr>
+<tr><td>Explore</td><td>Move a slider, watch the geometry respond.</td><td>Causal feedback beats passive reading.</td></tr>
 <tr><td>Practice</td><td>Three-rung ladders: worked → completion → independent.</td><td>Support fades as you gain skill.</td></tr>
 <tr><td>Check</td><td>Auto-graded numeric + diagnostic choice questions.</td><td>Retrieval strengthens memory.</td></tr>
 <tr><td>Connect</td><td>See where each idea runs inside real ML systems.</td><td>Transfer, not trivia.</td></tr></table>
 <p>Content is labeled so you always know where you are: <span class="badge core">CLASS CORE</span> from the source notes · <span class="badge foundation">FOUNDATION</span> a prerequisite the notes assumed · <span class="badge deep">DEEP DIVE</span> added intuition · <span class="badge ml">ML LINK</span> application · <span class="badge ext">EXTENSION</span> optional, beyond the source. A small tag like <span class="ptag">constructed example</span> marks material invented for this lesson; <span class="ptag">source</span> marks the notes' own claims; <span class="ptag">supplemental</span> marks verified additions. Dotted-underlined terms link to the glossary without leaving your place.</p>
 <p><b>Prerequisites:</b> summation Σ, the slope of a line, and the idea that an <a class="term" href="#g-integral" data-term="g-integral">integral</a> is an accumulated area (Class 1); the <a class="term" href="#g-eig" data-term="g-eig">eigenvector</a> one-liner from Class 2 (reused only in Unit 9, never re-derived). No prior probability is assumed.</p>
+<p class="storage-note" id="storageNote">Progress (dots and review list) is saved in this browser only. </p>
 <h3>The map of this lesson</h3>
 <div class="map"><svg viewBox="0 0 720 370" role="img" aria-label="Concept map with 16 directed relationships: probability leads to the random variable; the random variable splits into discrete and continuous; discrete builds the PMF and continuous builds the PDF; both PMF and PDF build the CDF; the CDF leads to conversion and the dashed conversion edge returns to the PDF as the derivative; the random variable leads to expectation; expectation leads to variance and to covariance; variance leads to covariance and to the Gaussian; covariance leads to PCA and to the Gaussian.">
 <defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#66727f"/></marker></defs>
@@ -877,7 +881,7 @@ footer.colophon .heart{color:var(--bad)}
 <div class="feedback" id="m11fb" aria-live="polite"></div>
 
 </div>
-<div id="msum" class="readout" aria-live="polite"></div>
+<div class="msum" id="msum" aria-live="polite">Answer items and tag confidence — a summary appears here.</div>
 </section>
 <section id="review" aria-labelledby="revt">
 <div class="label">YOUR REVIEW LIST</div>
@@ -935,7 +939,7 @@ footer.colophon .heart{color:var(--bad)}
 </section>
 <footer class="colophon">Built with <span class="heart">♥</span> using Interactive Lessons<br>AI-generated, so mistakes can sneak in — double-check what matters.</footer>
 
-</div>
+</main>
 <script>
 /* ===== helpers ===== */
 function fmt(n,d){ if(!isFinite(n)){ return "—"; } return (+n).toFixed(d); }
@@ -989,6 +993,20 @@ function markCheck(unit,part,ok,label){
   setDot(unit,all);
   if(ok){ removeReview(reviewId); } else { addReview(reviewId,label); }
 }
+/* ===== nav dots (created at load; .done filled when the unit's checks clear) ===== */
+(function(){
+  var links=document.querySelectorAll(".topnav a");
+  var units=["u1","u2","u3","u4","u5","u6","u7","u8","u9"];
+  for(var i=0;i<links.length;i++){
+    var href=links[i].getAttribute("href").slice(1);
+    if(units.indexOf(href)>=0){
+      var d=document.createElement("span");
+      var st=dots[href];
+      d.className="dot"+(st&&Object.keys(st).length&&Object.keys(st).every(function(k){return st[k];})?" done":"");
+      links[i].appendChild(d);
+    }
+  }
+})();
 /* ===== W1: random-variable lab (fair n-sided die) ===== */
 function draw_w1(){ drawW1(); }
 function drawW1(){

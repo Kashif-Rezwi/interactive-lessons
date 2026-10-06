@@ -149,6 +149,7 @@ This skill guides an AI agent to execute the governed **P0–P6 lesson-generatio
    - Verify every slider is encapsulated in `.slider-control` with tabular `.slider-val` (standard §10.6).
    - Verify all options in `.predict` and `.check` use `.option-stack` and `.option-item` (standard §10.7).
    - Verify zero `<textarea>` in checks and callout density $\le 1$ per unit (standard §1.4, §10.8).
+   - Verify the **canonical skeleton** against the module's sibling reference artifact (P-18): content wrapped in `<main id="main">`; nav completion dots **created** (markup or JS), not merely consumed; every `<table>` class has a CSS rule (`.looptable` + caption for the U0 loop table, `.apptable` for application tables); the `.msum` mastery summary styled; header kicker `AIML-4 · Class N · Topic` with a narrative `h1` and the `storage-note` at the end of U0. `scripts/verify-candidate.py`'s skeleton check enforces the mechanical subset (MEM-2026-0009).
    - If any check fails, fix immediately (counted as in-generation correction per ADR-0006).
 
 ---

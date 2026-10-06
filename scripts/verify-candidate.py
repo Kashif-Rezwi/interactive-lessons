@@ -460,6 +460,76 @@ def check_jargon_and_glossary_resolution(content: str, parser: CandidateHTMLPars
         fail(f"glossary: data-term targets nonexistent glossary element: {', '.join(missing_gterms)}")
 
 
+def check_skeleton_conformance(content: str, is_strict: bool) -> None:
+    """Verify canonical lesson-skeleton conformance items that presence-only
+    text checks missed before (standard §1.1, §10.1, §10.2).
+
+    Added 2026-10-06 after the learner-reported revision 1 of RUN-20261006-0001
+    (CAN-2026-0015) shipped an artifact whose nav completion dots were never
+    created (dot-consuming selectors with no dot source, so §10.2's completion
+    dots silently never rendered), with no <main> landmark, with unstyled
+    <table class="apptable"> markup, and with an unstyled mastery summary:
+
+    1. main-landmark: a <main> element is present (§1.1 semantic landmarks).
+    2. nav-dots wiring: any '.topnav … .dot' selector (dot consumption) requires
+       a dot source — a class="dot" markup element or a className=…dot… creation.
+    3. table styling: every class on a <table> element resolves to a CSS rule.
+    4. msum styling: the mastery summary (id="msum") carries a class with a CSS rule.
+    """
+    problems = []
+
+    if not re.search(r"<main\b", content, re.IGNORECASE):
+        problems.append(
+            'main-landmark: no <main> element found (standard §1.1 semantic landmarks; '
+            'the canonical skeleton wraps the page in <main id="main" class="wrap">)'
+        )
+
+    consumes_dot = re.search(r"\.topnav[^\n]{0,120}?\.dot", content)
+    has_dot_source = re.search(r'class="dot"', content, re.IGNORECASE) or re.search(
+        r'className\s*=\s*"[^"]*\bdot\b', content
+    )
+    if consumes_dot and not has_dot_source:
+        problems.append(
+            "nav-dots: dot-consuming '.topnav … .dot' selector found but no dot source "
+            '(no class="dot" markup and no className=…dot… creation) — completion dots '
+            "can never render (standard §10.2)"
+        )
+
+    style_match = re.search(r"<style[^>]*>(.*?)</style>", content, re.DOTALL | re.IGNORECASE)
+    css = style_match.group(1) if style_match else ""
+    css_classes = set(re.findall(r"\.([A-Za-z][\w-]*)", css))
+
+    table_classes = set()
+    for m in re.finditer(r'<table[^>]*class="([^"]+)"', content, re.IGNORECASE):
+        table_classes.update(t for t in m.group(1).split() if t)
+    unstyled_tables = sorted(t for t in table_classes if t not in css_classes)
+    if unstyled_tables:
+        problems.append(
+            "table-styling: <table> classes without a CSS rule: "
+            + ", ".join(unstyled_tables)
+            + " (tables render unstyled; standard §10.1 component styling)"
+        )
+
+    msum = re.search(r'<[^>]*id="msum"[^>]*>', content)
+    if msum:
+        cls = re.search(r'class="([^"]+)"', msum.group(0))
+        styled = cls and any(t in css_classes for t in cls.group(1).split())
+        if not styled:
+            problems.append(
+                'msum-styling: the mastery summary (id="msum") carries no class with a '
+                "CSS rule — it renders as unstyled text"
+            )
+
+    if problems:
+        msg = "skeleton: " + "; ".join(problems)
+        if is_strict:
+            fail(msg)
+        else:
+            note(f"[LEGACY] {msg}")
+    else:
+        note("skeleton: main landmark, nav-dot wiring, table styling, and msum styling verified")
+
+
 def verify_file(filepath: Path, force_strict: bool = False) -> int:
     if not filepath.exists() or not filepath.is_file():
         print(f"[FAIL] Candidate file not found: {filepath}")
@@ -497,6 +567,7 @@ def verify_file(filepath: Path, force_strict: bool = False) -> int:
     check_callout_density(content, is_strict)
     check_interaction_state_styles(content, is_strict)
     check_jargon_and_glossary_resolution(content, parser, is_strict)
+    check_skeleton_conformance(content, is_strict)
 
     # Print Report
     mode_str = "STRICT (v0.6.0 contract)" if is_strict else "COMPATIBILITY (legacy)"

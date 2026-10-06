@@ -202,6 +202,19 @@ Patterns are **implementation techniques**, not principles. The principles they 
 
 ---
 
+## P-18 Canonical orientation-unit skeleton (Explain/Compare) — *Established across three references; defect-evidenced*
+
+- **Problem:** the orientation unit (U0) and page header are the first thing a learner sees and the easiest place to drift: a generator writing from partial reference reads quietly drops structural elements (the `<main>` landmark, the nav-dot creation, the loop-table caption, the storage-note placement) and reshapes the header (bare topic title, non-canonical kicker), producing an artifact that passes every presence check yet looks unfinished next to its siblings.
+- **Applicability:** every lesson's header + U0. The canonical skeleton, shared byte-for-byte in spirit by CAN-2026-0011 (md v2), CAN-2026-0012 (hdg v1), and CAN-2026-0014 (mvc v2): `<main id="main" class="wrap">` wrapper → left-aligned header (`.kicker` `AIML-4 · Class N · Topic`, narrative `h1`, `.sub` with the live-computation promise, `.head-meta` chips; **no** storage note here) → U0 (label, `How to learn with this page` h2, loop-intro paragraph naming the dots + review-list mechanics, `.looptable` with `<caption class="label">The learning loop</caption>` and Step/What you do/Why it works rows, labels paragraph, prerequisites paragraph, `storage-note` at the unit's end, `The map of this lesson` h3 + branched SVG map + dashed-promise close).
+- **Learner benefit:** the first screen sets expectations for the mechanics (dots, review list, loop) and orients the learner in the module sequence (Class N kicker) and the lesson (narrative title).
+- **Trade-offs:** none material; the skeleton is a copy-adapt, not a design decision per lesson.
+- **Accessibility:** the `<main>` landmark is the semantic entry point; the loop table uses a programmatic caption.
+- **Evidence/confidence:** three consecutive governed artifacts share the skeleton (RUN-20260906-0002, RUN-20260907-0001, RUN-20260929-0001); the negative evidence is CAN-2026-0015's initial build (RUN-20261006-0001 revision 1, learner-reported): unstyled tables, no dots, no `<main>`, drifted header — every presence-level check passed. Codified 2026-10-06 in the QA checklist (Audit 4 orientation-unit anatomy; Audit 5 skeleton conformance) and mechanically in `scripts/verify-candidate.py`'s skeleton check. **Established** (three confirming references; the drift case is the contrast evidence).
+- **Anti-patterns:** writing U0 from memory instead of diffing against the sibling reference; keeping the storage note in the header; using a bare topic title as `h1`; using `apptable` for the learning-loop table (it is the application-table class).
+- **Do not use when:** never — this skeleton ships with every lesson.
+
+---
+
 ## Curation rule
 
 After each governed lesson (workflow P6): patterns observed working are strengthened (evidence links added), new reusable patterns are drafted, and any pattern observed failing is marked with the failure evidence. A pattern promoted to `Established` requires the review policy's memory-promotion review.

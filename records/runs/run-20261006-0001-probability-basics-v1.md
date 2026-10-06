@@ -5,7 +5,7 @@
 **Owner:** Repository maintainer (solo Stage 1 operator)  
 **Objective:** Generate the Class 5 interactive lesson (probability basics, CDF ↔ PDF conversion) at benchmark-band depth from [SRC-2026-0005](../sources/src-2026-0005-probability-basics.md): nine teaching units (random variables → PMF → PDF → CDF → conversion → expectation → variance → covariance → ML connections), a signature conversion lab, three prediction gates, six faded ladders, nine unit checks, an 11-item interleaved mastery check, two explain-in-own-words items, a ~40-term glossary, and a branched concept map; all readouts computed live; nothing hard-codes what can be computed.  
 **Budget:** One generation; maximum two revision cycles  
-**Iteration counts:** generation = 1; in-generation corrections = 3 (one shell-heredoc mangling during harness authoring, re-authored as a file; one harness case-sensitivity defect corrected; one answer-position variety fix reordering six options and their keys); revision cycles = 0 (per [ADR-0006](../../docs/adr/0006-record-iteration-accounting.md))  
+**Iteration counts:** generation = 1; in-generation corrections = 3 (one shell-heredoc mangling during harness authoring, re-authored as a file; one harness case-sensitivity defect corrected; one answer-position variety fix reordering six options and their keys); revision cycles = 1 (learner-reported skeleton-drift remediation, itemized below) (per [ADR-0006](../../docs/adr/0006-record-iteration-accounting.md))  
 **Classification:** production  
 **Operating scope:** Stage 1 private pilot  
 **Review-independence summary:** non-independent  
@@ -55,24 +55,26 @@ The source is unusually "clean" for a notebook (no code, only prose plus five op
 
 ## Revision history and regression checks
 
-No post-evaluation revision cycles. In-generation corrections (all pre-evaluation): (1) harness heredoc mangled by the shell → re-authored the harness as a file; (2) harness case-sensitivity false positives → fixed the harness (not the artifact); (3) answer-position variety → reordered six options and their keys, then re-ran the full suite (0 failures).
+**Revision 1 (2026-10-06, learner-reported — skeleton-drift remediation).** The learner reported that Unit 0 "is not well structured, feels unfinished and misaligned" next to the other interactive lessons. Investigation by diffing against the three sibling reference artifacts (CAN-2026-0011/0012/0014) confirmed five skeleton defects, all invisible to the presence-level checks that had passed: (1) **nav completion dots were consumed but never created** — `setDot` queried `.topnav a .dot` while nothing (markup or JS) created the spans, so §10.2's completion dots silently never rendered; (2) the U0 learning-loop table and the U8 covariance table used `class="apptable"` with **no CSS rule** for it (the references style `table.apptable,table.looptable` and use `looptable` with a `caption` for the loop table) — the direct cause of the "unfinished" U0; (3) no `<main id="main">` landmark; (4) header drift — bare topic `h1`, non-canonical kicker, storage note in the header rather than at U0's end, missing loop-intro paragraph; (5) the mastery summary used the mono `.readout` style instead of the `.msum` summary box. Remediation restored all five from the reference implementations (dot-creation JS, `table.apptable`/`looptable` CSS verbatim, `<main>` wrapper, canonical header + U0 anatomy with `.looptable` + caption, `.msum`), and aligned the print and reduced-motion blocks. Regression checks: `verify-candidate.py --strict` 0 failures; Python harness 0 failures; `node --check` clean; stub-DOM draw smoke 0 exceptions; the new skeleton check passes on the remediated build and **fails on a simulated pre-fix build** (all three mechanical defect classes reproduced); all seven sibling strict artifacts also pass the new check. Root cause and pipeline remediation are recorded in [MEM-2026-0009](../memory/mem-2026-0009-reference-skeleton-drift.md) (checklist items, P-18, `verify-candidate.py` skeleton check).
+
+In-generation corrections (all pre-evaluation): (1) harness heredoc mangled by the shell → re-authored the harness as a file; (2) harness case-sensitivity false positives → fixed the harness (not the artifact); (3) answer-position variety → reordered six options and their keys, then re-ran the full suite (0 failures).
 
 ## Decision and approvers
 
-**Final candidate identity at closure:** CAN-2026-0015, `probability-basics-v1.html`, SHA-256 `fa438356badf5b0e40d3929d7ac8317cbaa2e6b6ba4d270e4121cc307991c35d`, 145,525 bytes (1,411 lines)  
+**Final candidate identity at closure:** CAN-2026-0015, `probability-basics-v1.html`, SHA-256 `bf034f11315ea1efce64397fd9a8641a727b645318fc3672232a0cecd3e96dc9`, 147,134 bytes (1,429 lines) — post-review revision 1; the originally evaluated build was `fa438356…`, 145,525 bytes  
 **Disposition:** private-pilot-complete  
 **Decision scope:** private pilot  
 **Approvers and limitations:** repository maintainer (solo Stage 1 operator); non-independent review; ineligible for public release; **degraded-mode Audit 6 (no browser)** — live rendered verification deferred; no screen-reader specialist pass; no second evaluator.
 
 ## Memory disposition
 
-- **Promoted:** [MEM-2026-0008](../memory/mem-2026-0008-answer-position-variety.md) — MCQ/gate correct-answer position should vary; a single-session generator reliably parks the correct option at one position. Evidence: this run's Minor defect and in-generation fix.
+- **Promoted:** [MEM-2026-0008](../memory/mem-2026-0008-answer-position-variety.md) — MCQ/gate correct-answer position should vary; a single-session generator reliably parks the correct option at one position. Evidence: this run's Minor defect and in-generation fix. **Revision 1 promoted [MEM-2026-0009](../memory/mem-2026-0009-reference-skeleton-drift.md)** — diff the candidate against the sibling reference's canonical skeleton (P-18), not against memory; the five skeleton defects (dots never created, unstyled tables, missing `<main>`, header/U0 drift, unstyled `msum`) all passed presence-level checks.
 - **Rejected observations:** (a) "the seeded-cloud widget (W8/W9) deserves its own pattern entry now" — deferred: it reuses P-16's seeded-deterministic discipline; promote after one more reuse. (b) "split U4 (CDF) into the conversion unit" — rejected: the CDF's four properties need their own home before the conversion arc pays off.
 - **Carried forward:** the two-panel "area ↔ height" conversion lab as a candidate pattern (P-17) after one more reuse.
 
 ## Lineage audit
 
-Source `837a1736…` → SRC-2026-0005 → CM-2026-0013 → LP-2026-0014 → XS-2026-0014 → CAN-2026-0015 (`fa438356…`) → EVAL-2026-0016. All links resolve in-repo; the prompt snapshot is in the appendix; no session-only knowledge is required to reproduce the run.
+Source `837a1736…` → SRC-2026-0005 → CM-2026-0013 → LP-2026-0014 → XS-2026-0014 → CAN-2026-0015 (`fa438356…`; post-review revision 1 `bf034f11…`) → EVAL-2026-0016. All links resolve in-repo; the prompt snapshot is in the appendix; no session-only knowledge is required to reproduce the run.
 
 ## Appendix A: Prompt snapshot
 
