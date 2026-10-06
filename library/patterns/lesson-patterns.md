@@ -17,7 +17,7 @@ Patterns are **implementation techniques**, not principles. The principles they 
 - **Trade-offs:** gate fatigue if overused; adds a click before play.
 - **Accessibility:** native radio + button; the gated content must be hidden by JS (not markup) so no-JS readers still see it.
 - **Evidence/confidence:** MEM-2026-0001 (Supported); implemented ×3 in v4; Bjork Lab / Dunlosky et al. 2013; hollow-gate contrast in CAN-2026-0004 (RUN-20260813-0001).
-- **Anti-patterns:** gating on correctness; gating every widget; punishment framing; **gates that reveal only explanatory text while the manipulable stays visible, and feedback identical for every choice (both in CAN-2026-0004) — the commitment must have consequences or the gate teaches nothing.**
+- **Anti-patterns:** gating on correctness; gating every widget; punishment framing; **gates that reveal only explanatory text while the manipulable stays visible, and feedback identical for every choice (both in CAN-2026-0004) — the commitment must have consequences or the gate teaches nothing**; **parking the correct option at the same position across every gate and MCQ (CAN-2026-0015, MEM-2026-0008) — vary the correct-option position.**
 - **Do not use when:** the widget is for open-ended exploration with no single surprise, or the prediction options would give away the reveal.
 
 ## P-02 Faded worked-example ladder (Practice)
@@ -186,6 +186,19 @@ Patterns are **implementation techniques**, not principles. The principles they 
 - **Evidence/confidence:** introduced in CAN-2026-0012 (`high-dimensional-geometry-v1.html`, RUN-20260907-0001): mulberry32 verified canonical (Node-executed page core identical to an independent Python reimplementation, 2 keys × 8 samples); all live readouts matched the fixed harness bit-for-bit (W3 d=1000 contrast 0.098; W5 σ/μ 2.2% vs theory 2.24%); confidence Candidate pending a second lesson.
 - **Anti-patterns:** consuming PRNG draws differently in the harness than in the page (an early RUN-20260907-0001 harness driver did exactly this and initially misread the widget — replicate the page's draw code exactly); seeding from `Date.now()`; presenting a single seeded draw as proof of a distribution without quoting the closed-form expected value alongside.
 - **Do not use when:** the claim is deterministic (compute it directly), or genuine unpredictability is the pedagogical point (then label it as unrepeatable).
+
+---
+
+## P-17 Paired area↔height panels for an integral/derivative relationship (Reveal/Compare) — *Candidate*
+
+- **Problem:** a relationship between a rate and its accumulation (the CDF is the area under the PDF; the PDF is the slope of the CDF) is easy to state and easy to misread — learners conflate the density height with the probability.
+- **Applicability:** any pair where one quantity is the accumulated area of the other and a single control should show the equivalence: PDF↔CDF, marginal↔cumulative, velocity↔distance, gradient↔potential.
+- **Learner benefit:** a single slider drives both panels at once, so the shaded area on the top panel and the marker height on the bottom panel are visibly the same number — the identity is demonstrated, not asserted, and the "height ≠ probability" misconception is refuted by the readout.
+- **Trade-offs:** two panels in one canvas need per-panel viewports and a shared x-mapping; authoring cost is higher than a single curve.
+- **Accessibility:** the same-numbers readout states both quantities in text; both panels are described in the canvas aria-label.
+- **Evidence/confidence:** introduced in CAN-2026-0015 (`probability-basics-v1.html`, RUN-20261006-0001) as the signature U5 conversion lab (area = F(x) = x² read live against the shaded slice); construction verified by the stub-DOM draw smoke test; confidence Candidate pending a second lesson.
+- **Anti-patterns:** showing the two panels at different x-scales (breaks the visual equivalence); hard-coding the "equal" readout instead of computing both from the same x.
+- **Do not use when:** the relationship is purely discrete (use a summation/staircase instead), or the concept has no single driving variable.
 
 ---
 

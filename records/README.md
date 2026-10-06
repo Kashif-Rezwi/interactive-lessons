@@ -28,13 +28,13 @@
 
 ## Stage 1 progress scoreboard
 
-Updated at each run closure (last update: 2026-09-29). Canonical commitments: the ADR-0002/ADR-0003 review triggers and the evaluation framework's calibration commitment.
+Updated at each run closure (last update: 2026-10-06). Canonical commitments: the ADR-0002/ADR-0003 review triggers and the evaluation framework's calibration commitment.
 
 | Commitment | Target | Current state | What closes the gap |
 | --- | --- | --- | --- |
-| Completed private pilots | 3 | **14 ✓** — every governed run through RUN-20260929-0001 has closed pilot-complete | Met; the pilot count is no longer a gate limiter |
-| Source packages represented | ≥ 2, or 3 materially distinct candidates from one package recorded as limited evidence | **4 packages** (SRC-2026-0001 linear algebra, SRC-2026-0002 matrix decompositions, SRC-2026-0003 high-dimensional geometry, SRC-2026-0004 multivariate calculus) | Met; calibration review may draw on four distinct sources |
-| Evaluated candidates | 3 | **15 ✓** (EVAL-2026-0001 through EVAL-2026-0015) | Met; CAN-2026-0002's deferred evaluation (RUN-20260804-0002 Appendix B) remains open — its cross-model comparison objective is unaffected |
+| Completed private pilots | 3 | **15 ✓** — every governed run through RUN-20261006-0001 has closed pilot-complete | Met; the pilot count is no longer a gate limiter |
+| Source packages represented | ≥ 2, or 3 materially distinct candidates from one package recorded as limited evidence | **5 packages** (SRC-2026-0001 linear algebra, SRC-2026-0002 matrix decompositions, SRC-2026-0003 high-dimensional geometry, SRC-2026-0004 multivariate calculus, SRC-2026-0005 probability basics) | Met; calibration review may draw on five distinct sources |
+| Evaluated candidates | 3 | **16 ✓** (EVAL-2026-0001 through EVAL-2026-0016) | Met; CAN-2026-0002's deferred evaluation (RUN-20260804-0002 Appendix B) remains open — its cross-model comparison objective is unaffected |
 | Independent review | Required for any public release | None yet (all reviews non-independent) | External reviewer; not a Stage 1 blocker |
 
 *EVAL-2026-0005 (2026-08-14) is a re-verification audit of the two most recent evaluated candidates and their records — it adds no new candidate to the counts above.*

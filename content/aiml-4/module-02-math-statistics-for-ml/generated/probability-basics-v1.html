@@ -1,0 +1,1411 @@
+<!-- candidate: CAN-2026-0015 | model: Cline (Claude Sonnet 4.6) | date: 2026-10-06 | run: RUN-20261006-0001 | source: SRC-2026-0005 | prompt card: prm-generator-lesson-standard@0.6.0 digest 532febec136b | inputs: CM-2026-0013 / LP-2026-0014 / XS-2026-0014 -->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Probability Basics for Machine Learning · Interactive Lessons v1</title>
+<style>
+:root{--ink:#1c2430;--ink-soft:#3d4a5a;--ink-faint:#66727f;--paper:#f7f6f2;--card:#fff;--line:#e3e0d8;--line-soft:#eeece5;--accent:#2f5fd0;--accent-soft:#e8eefa;--accent-deep:#1e3f8f;--good:#1e7a46;--good-soft:#e4f3ea;--bad:#b3382e;--bad-soft:#fae9e7;--warn:#8a6116;--warn-soft:#faf3e2;--core:#2f5fd0;--foundation:#8a6116;--deep:#0f6f6a;--ml:#1e7a46;--ext:#6d4fa3;--mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;--sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;--radius:10px;--maxw:48rem;--space:1rem;--shadow:0 1px 2px rgba(28,36,48,.08);--focus:0 0 0 3px rgba(47,95,208,.25)}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:16.5px;line-height:1.65;-webkit-font-smoothing:antialiased}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 1.1rem 3rem}
+h1{font-size:1.9rem;line-height:1.25;margin:.3rem 0 .4rem}
+h2{font-size:1.42rem;line-height:1.3;margin:1.6rem 0 .5rem}
+h3{font-size:1.12rem;margin:1.2rem 0 .35rem}
+p{margin:.55rem 0}
+a{color:var(--accent-deep)}
+.topnav{position:sticky;top:0;z-index:40;background:rgba(247,246,242,.94);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border-bottom:1px solid var(--line)}
+.navin{max-width:var(--maxw);margin:0 auto;padding:.45rem 1.1rem;overflow-x:auto;scrollbar-width:thin;white-space:nowrap}
+.topnav a{display:inline-flex;align-items:center;gap:.32rem;border-radius:999px;border:1px solid transparent;padding:.32rem .6rem;margin-right:.25rem;text-decoration:none;color:var(--ink-soft);font-size:.82rem}
+.topnav a:hover{border-color:var(--line)}
+.topnav a[aria-current="true"]{background:var(--accent-soft);color:var(--accent-deep);border-color:var(--accent-soft);font-weight:600}
+.dot{width:.5rem;height:.5rem;border-radius:50%;background:var(--line);display:inline-block;flex-shrink:0}
+.dot.done{background:var(--good)}
+header.pagehead{padding:1.6rem 0 .4rem}
+.kicker{text-transform:uppercase;letter-spacing:.12em;font-size:.74rem;font-weight:700;color:var(--accent)}
+.sub{color:var(--ink-soft);font-size:1.02rem}
+.head-meta{display:flex;flex-wrap:wrap;gap:.45rem;margin:.7rem 0 .2rem}
+.chip{font-size:.74rem;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:.22rem .65rem;color:var(--ink-soft)}
+section{margin:1.7rem 0}
+.label{font-size:.7rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-faint);margin:.1rem 0 .25rem}
+.badge{display:inline-block;font-size:.68rem;font-weight:700;letter-spacing:.09em;border-radius:5px;padding:.14rem .5rem;margin-bottom:.3rem}
+.badge.core{background:var(--accent-soft);color:var(--core)}
+.badge.foundation{background:var(--warn-soft);color:var(--foundation)}
+.badge.deep{background:#e2f2f0;color:var(--deep)}
+.badge.ml{background:var(--good-soft);color:var(--ml)}
+.badge.ext{background:#efe9f6;color:var(--ext)}
+.ptag{display:inline-block;font-size:.66rem;border:1px solid var(--line);border-radius:4px;padding:.05rem .4rem;color:var(--ink-faint);margin-left:.35rem;vertical-align:1px}
+.term{border-bottom:1px dotted var(--accent);text-decoration:none;color:inherit}
+.map{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:1rem;box-shadow:var(--shadow);overflow-x:auto}
+.map svg{width:100%;height:auto;display:block}
+.map .node{fill:var(--accent-soft);stroke:var(--accent);stroke-width:1.2}
+.map .node2{fill:var(--good-soft);stroke:var(--ml)}
+.map .nodef{fill:var(--warn-soft);stroke:var(--foundation)}
+.map .noded{fill:#e2f2f0;stroke:var(--deep)}
+.map text{font-size:11px;fill:var(--ink-soft);font-family:var(--sans)}
+.map .edge{stroke:var(--ink-faint);stroke-width:1.1;fill:none;marker-end:url(#arrow)}
+.map .edge.promise{stroke-dasharray:4 3}
+.formula{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:8px;padding:.7rem .9rem;margin:.8rem 0;font-family:var(--mono);font-size:1.02rem;overflow-x:auto}
+.formula .fx{white-space:nowrap}
+.symkey{margin:.45rem 0 0;font-family:var(--sans);font-size:.82rem;color:var(--ink-soft);line-height:1.5;list-style:none;padding-left:0}
+.symkey li{margin:.12rem 0;padding-left:1rem;position:relative}
+.symkey li::before{content:"–";position:absolute;left:0;color:var(--ink-faint)}
+.widget{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:.95rem 1rem;margin:.9rem 0;box-shadow:var(--shadow)}
+.widget .label{color:var(--accent)}
+.goal{background:var(--accent-soft);border-radius:6px;padding:.4rem .7rem;font-size:.9rem;margin:.3rem 0 .6rem}
+.ctrl-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:.85rem 1.25rem;width:100%;margin:.55rem 0}
+.slider-control{display:flex;flex-direction:column;gap:.35rem;min-width:0}
+.slider-head{display:flex;justify-content:space-between;align-items:baseline;gap:.5rem}
+.slider-label{font-size:.84rem;color:var(--ink-soft)}
+.slider-val{font-family:var(--mono);font-variant-numeric:tabular-nums;min-width:4.5ch;text-align:right;font-size:.88rem;color:var(--ink)}
+.slider-track{display:block}
+.slider-track input[type=range]{width:100%;margin:0}
+.readout{font-family:var(--mono);font-size:.86rem;background:var(--paper);border:1px solid var(--line-soft);border-radius:8px;padding:.6rem .75rem;margin:.6rem 0;line-height:1.6;overflow-x:auto}
+.readout b{color:var(--accent-deep)}
+.readout .ok{color:var(--good);font-weight:700}
+.readout .no{color:var(--bad);font-weight:700}
+canvas.viz{width:100%;height:auto;border:1px solid var(--line);border-radius:8px;background:#fff;display:block;margin:.4rem 0}
+.legend-inline{font-size:.78rem;color:var(--ink-soft);display:flex;flex-wrap:wrap;gap:.9rem;margin:.2rem 0 .4rem}
+.legend-inline span::before{content:"";display:inline-block;width:.7rem;height:.7rem;border-radius:2px;margin-right:.3rem;vertical-align:-1px}
+.lg-a::before{background:var(--accent)}
+.lg-b::before{background:var(--bad)}
+.lg-c::before{background:var(--good)}
+.lg-d::before{background:var(--warn)}
+.lg-e::before{background:var(--ext)}
+.predict{border:1.5px dashed var(--accent);border-radius:var(--radius);padding:.85rem 1rem;margin:1rem 0;background:rgba(232,238,250,.4)}
+.option-stack{display:flex;flex-direction:column;gap:.55rem;width:100%;margin:.75rem 0}
+.option-item{display:flex;align-items:flex-start;gap:.75rem;padding:.65rem .9rem;border:1.5px solid var(--line);border-radius:8px;background:var(--card);cursor:pointer}
+.option-item:hover{border-color:var(--accent)}
+.option-item input{margin-top:.2rem;flex-shrink:0}
+.option-text{font-size:.92rem;line-height:1.45}
+button{font-family:var(--sans);font-size:.88rem;background:var(--accent);color:#fff;border:none;border-radius:7px;padding:.5rem .95rem;cursor:pointer}
+button:hover{background:var(--accent-deep)}
+button.ghost{background:var(--card);color:var(--ink-soft);border:1.5px solid var(--line)}
+button.ghost:hover{background:var(--accent-soft);color:var(--accent-deep);border-color:var(--accent)}
+button:focus-visible,input:focus-visible,a:focus-visible{outline:none;box-shadow:var(--focus)}
+.numin{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;margin:.5rem 0}
+.numin input[type=number]{font-family:var(--mono);font-size:.9rem;padding:.42rem .55rem;border:1.5px solid var(--line);border-radius:7px;width:9rem;background:var(--card);color:var(--ink)}
+.feedback{font-size:.9rem;border-radius:8px;padding:.55rem .75rem;margin:.5rem 0;border:1px solid transparent;min-height:0}
+.feedback.ok{background:var(--good-soft);border-color:#bfe3cd;color:#155e37}
+.feedback.no{background:var(--bad-soft);border-color:#f0c9c4;color:#8f2c23}
+.feedback.note{background:var(--warn-soft);border-color:#eadfb6;color:#6d4d10}
+.feedback.ok::before{content:"✓ ";font-weight:700}
+.feedback.no::before{content:"✗ ";font-weight:700}
+.feedback b{color:inherit}
+.hint{font-size:.86rem;color:var(--ink-soft);background:var(--paper);border-left:3px solid var(--line);padding:.45rem .7rem;margin:.4rem 0}
+.modelanswer{font-size:.9rem;background:#eef7f0;border:1px solid #cfe7d6;border-radius:8px;padding:.6rem .8rem;margin:.5rem 0;color:#1c3a28}
+.ladder{border:1px solid var(--line);border-radius:var(--radius);background:var(--card);padding:.9rem 1rem;margin:.9rem 0}
+.rung{margin:.6rem 0;padding:.6rem .75rem;border:1px solid var(--line-soft);border-radius:8px;background:var(--paper)}
+.rung .label{color:var(--ink-faint)}
+.worked{font-family:var(--mono);font-size:.84rem;background:#fff;border:1px solid var(--line-soft);border-radius:7px;padding:.5rem .65rem;margin:.4rem 0;line-height:1.55}
+.check{border:1px solid var(--line);border-radius:var(--radius);background:var(--card);padding:.9rem 1rem;margin:.9rem 0}
+.check .label{color:var(--accent)}
+.callout{background:var(--warn-soft);border:1px solid #eadfb6;border-left:4px solid var(--warn);border-radius:8px;padding:.7rem .9rem;margin:.9rem 0;font-size:.92rem}
+.callout.info{background:var(--accent-soft);border-color:var(--accent-soft);border-left-color:var(--accent)}
+.callout.good{background:var(--good-soft);border-color:#bfe3cd;border-left-color:var(--good)}
+.mastery{background:var(--card);border:1.5px solid var(--ml);border-radius:var(--radius);padding:.95rem 1.05rem;margin:1.1rem 0}
+.storage-note{font-size:.82rem;color:var(--ink-faint)}
+.conf{display:flex;flex-wrap:wrap;gap:.6rem;margin:.4rem 0;font-size:.84rem;color:var(--ink-soft)}
+.gloss-list{margin:.5rem 0}
+.gitem{border-top:1px solid var(--line-soft);padding:.55rem 0}
+.gitem dt{font-weight:700;color:var(--accent-deep)}
+.gitem dd{margin:.2rem 0 0;font-size:.9rem;color:var(--ink-soft)}
+footer.colophon{text-align:center;color:var(--ink-faint);font-size:.78rem;margin-top:2.4rem;border-top:1px solid var(--line-soft);padding:1rem 0 .2rem}
+footer.colophon .heart{color:var(--bad)}
+@media (max-width:640px){h1{font-size:1.6rem}h2{font-size:1.25rem}.formula .fx{white-space:normal}}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+@media print{.topnav,.widget,.predict,.check,.ladder{break-inside:avoid}.feedback,.hint,.modelanswer{border-color:#999}.topnav{display:none}}
+
+</style>
+</head>
+<body>
+<nav class="topnav" aria-label="Lesson units"><div class="navin"><a href="#u0" aria-current="true">00 Start</a><a href="#u1">01 Random vars</a><a href="#u2">02 PMF</a><a href="#u3">03 PDF</a><a href="#u4">04 CDF</a><a href="#u5">05 Conversion</a><a href="#u6">06 Expectation</a><a href="#u7">07 Variance</a><a href="#u8">08 Covariance</a><a href="#u9">09 ML links</a><a href="#synthesis">Synthesis</a><a href="#mastery">Mastery</a><a href="#glossary">Glossary</a></div></nav>
+<div class="wrap">
+<header class="pagehead">
+<div class="kicker">Interactive Lessons · AIML-4 Module 2 · Class 5</div>
+<h1>Probability Basics for Machine Learning</h1>
+<p class="sub">Random variables, PMF, PDF, CDF, the CDF ↔ PDF conversion, expectation, variance, and covariance — the language every model speaks when it says "probably."</p>
+<div class="head-meta"><span class="chip">⏱ 60–75 minutes</span><span class="chip">9 units + mastery</span><span class="chip">Works offline</span><span class="chip">Progress saved locally</span></div>
+<p class="storage-note" id="storageNote">Progress (dots and review list) is saved in this browser only. </p>
+</header>
+<section id="u0" class="unit" aria-labelledby="u0t">
+<div class="label">UNIT 0 · ORIENTATION</div>
+<h2 id="u0t">How this page teaches</h2>
+<p>Every teaching unit runs the same six beats, so you always know where you are:</p>
+<table class="apptable"><tr><th>Beat</th><th>What it is</th><th>Why it is here</th></tr>
+<tr><td>Learn</td><td>Intuition first, then the precise definition and a worked number.</td><td>Meaning before notation.</td></tr>
+<tr><td>Predict</td><td>A commitment question before a reveal opens.</td><td>Committed guesses correct hardest.</td></tr>
+<tr><td>Explore</td><td>A goal-directed interactive you manipulate.</td><td>Build a causal model by testing it.</td></tr>
+<tr><td>Practice</td><td>Three-rung ladders: worked → completion → independent.</td><td>Support fades as you gain skill.</td></tr>
+<tr><td>Check</td><td>Auto-graded numeric + diagnostic choice questions.</td><td>Retrieval strengthens memory.</td></tr>
+<tr><td>Connect</td><td>See where each idea runs inside real ML systems.</td><td>Transfer, not trivia.</td></tr></table>
+<p>Content is labeled so you always know where you are: <span class="badge core">CLASS CORE</span> from the source notes · <span class="badge foundation">FOUNDATION</span> a prerequisite the notes assumed · <span class="badge deep">DEEP DIVE</span> added intuition · <span class="badge ml">ML LINK</span> application · <span class="badge ext">EXTENSION</span> optional, beyond the source. A small tag like <span class="ptag">constructed example</span> marks material invented for this lesson; <span class="ptag">source</span> marks the notes' own claims; <span class="ptag">supplemental</span> marks verified additions. Dotted-underlined terms link to the glossary without leaving your place.</p>
+<p><b>Prerequisites:</b> summation Σ, the slope of a line, and the idea that an <a class="term" href="#g-integral" data-term="g-integral">integral</a> is an accumulated area (Class 1); the <a class="term" href="#g-eig" data-term="g-eig">eigenvector</a> one-liner from Class 2 (reused only in Unit 9, never re-derived). No prior probability is assumed.</p>
+<h3>The map of this lesson</h3>
+<div class="map"><svg viewBox="0 0 720 370" role="img" aria-label="Concept map with 16 directed relationships: probability leads to the random variable; the random variable splits into discrete and continuous; discrete builds the PMF and continuous builds the PDF; both PMF and PDF build the CDF; the CDF leads to conversion and the dashed conversion edge returns to the PDF as the derivative; the random variable leads to expectation; expectation leads to variance and to covariance; variance leads to covariance and to the Gaussian; covariance leads to PCA and to the Gaussian.">
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#66727f"/></marker></defs>
+<g class="nodes">
+<rect id="node-prob" class="node" x="20" y="20" width="130" height="30" rx="7"/><text x="85" y="40" text-anchor="middle">probability</text>
+<rect id="node-rv" class="node" x="20" y="90" width="130" height="30" rx="7"/><text x="85" y="110" text-anchor="middle">random variable</text>
+<rect id="node-disc" class="node" x="20" y="160" width="130" height="30" rx="7"/><text x="85" y="180" text-anchor="middle">discrete</text>
+<rect id="node-cont" class="node" x="20" y="230" width="130" height="30" rx="7"/><text x="85" y="250" text-anchor="middle">continuous</text>
+<rect id="node-pmf" class="node" x="200" y="160" width="110" height="30" rx="7"/><text x="255" y="180" text-anchor="middle">PMF</text>
+<rect id="node-pdf" class="node" x="200" y="230" width="110" height="30" rx="7"/><text x="255" y="250" text-anchor="middle">PDF</text>
+<rect id="node-cdf" class="node" x="380" y="195" width="110" height="30" rx="7"/><text x="435" y="215" text-anchor="middle">CDF</text>
+<rect id="node-conv" class="noded" x="380" y="118" width="120" height="30" rx="7"/><text x="440" y="138" text-anchor="middle">conversion</text>
+<rect id="node-expect" class="node" x="200" y="312" width="120" height="30" rx="7"/><text x="260" y="332" text-anchor="middle">expectation</text>
+<rect id="node-variance" class="node" x="380" y="312" width="110" height="30" rx="7"/><text x="435" y="332" text-anchor="middle">variance</text>
+<rect id="node-covariance" class="node" x="540" y="312" width="120" height="30" rx="7"/><text x="600" y="332" text-anchor="middle">covariance</text>
+<rect id="node-pca" class="node2" x="560" y="230" width="120" height="30" rx="7"/><text x="620" y="250" text-anchor="middle">PCA</text>
+<rect id="node-gaussian" class="node2" x="560" y="160" width="120" height="30" rx="7"/><text x="620" y="180" text-anchor="middle">Gaussian</text>
+</g>
+<g class="edges">
+<path data-edge="PROB-RV" class="edge" d="M85,50 L85,90"/>
+<path data-edge="RV-DISC" class="edge" d="M85,120 L85,160"/>
+<path data-edge="RV-CONT" class="edge" d="M150,105 C200,105 200,245 150,245"/>
+<path data-edge="DISC-PMF" class="edge" d="M150,175 L200,175"/>
+<path data-edge="CONT-PDF" class="edge" d="M150,245 L200,245"/>
+<path data-edge="PMF-CDF" class="edge" d="M310,175 C345,175 350,205 380,210"/>
+<path data-edge="PDF-CDF" class="edge" d="M310,245 C345,245 350,220 380,213"/>
+<path data-edge="CDF-CONV" class="edge" d="M435,195 L438,148"/>
+<path data-edge="CONV-PDF" class="edge promise" d="M420,148 C360,190 330,225 310,240"/>
+<path data-edge="RV-EXPECT" class="edge" d="M85,120 C85,300 140,327 200,327"/>
+<path data-edge="EXPECT-VARIANCE" class="edge" d="M320,327 L380,327"/>
+<path data-edge="VARIANCE-COV" class="edge" d="M490,327 L540,327"/>
+<path data-edge="EXPECT-COV" class="edge" d="M320,322 C420,305 480,305 540,320"/>
+<path data-edge="COV-PCA" class="edge" d="M600,312 L615,260"/>
+<path data-edge="VARIANCE-GAUSSIAN" class="edge" d="M435,312 C435,240 555,205 560,192"/>
+<path data-edge="COV-GAUSSIAN" class="edge" d="M600,312 C600,250 600,205 620,190"/>
+</g>
+</svg></div>
+<p>The dashed edge is this lesson's one big promise: Units 1–4 build the random variable, the PMF, the PDF, and the CDF; Unit 5 <i>proves</i> that the CDF is the area under the PDF and the PDF is its slope — the conversion at the heart of the source's title. Everything in the right column is where this probability actually runs in modern ML.</p>
+
+</section>
+<section id="u1" class="unit" aria-labelledby="u1t">
+<div class="label">UNIT 1 · PROBABILITY &amp; RANDOM VARIABLES</div>
+<h2 id="u1t">A random variable labels every outcome with a number</h2>
+<p><span class="badge core">CLASS CORE</span> <a class="term" href="#g-prob" data-term="g-prob">Probability</a> is the mathematical language of <a class="term" href="#g-uncert" data-term="g-uncert">uncertainty</a>. Modern AI systems do not make "certain" decisions — they make probabilistic predictions. Every model answers questions like: how likely is this email to be spam? what is the probability this transaction is fraud? which next token is most probable? what is the likelihood this user clicks? <span class="ptag">source</span></p>
+<p><span class="badge ml">ML LINK</span> Three concrete uses the source names. <b>Large language models:</b> when ChatGPT predicts the next word it outputs a probability distribution over the vocabulary — the source's example gives "world" 0.41, "everyone" 0.22, "people" 0.18 — and the most probable token is sampled/generated. <b>Fraud detection:</b> banks compute P(Fraud | transaction features); ≈0.02 reads as a safe transaction, ≈0.95 as highly suspicious. <b>Recommendation:</b> Netflix or Amazon estimate P(User Likes Item); ranking recommendations is fundamentally probability ranking. <span class="ptag">source</span></p>
+<p><span class="badge foundation">FOUNDATION</span> A <a class="term" href="#g-rv" data-term="g-rv">random variable</a> maps the outcomes of a random process to numerical values — "a numerical representation of randomness." Formally:</p>
+<div class="formula"><div class="fx">X: Ω → ℝ</div>
+<ul class="symkey">
+<li><b>X</b> — the random variable: a rule that assigns a number to each outcome</li>
+<li><b>Ω</b> — the <a class="term" href="#g-samplespace" data-term="g-samplespace">sample space</a>: every possible outcome of the process</li>
+<li><b>ℝ</b> — the real numbers: the labels it maps to</li>
+<li><b>Why it makes sense:</b> to do math on randomness we need numbers, not raw outcomes — a random variable is the bridge. <b>How to read the result:</b> for any outcome you can name, X hands you a number.</li>
+</ul></div>
+<p><span class="badge core">CLASS CORE</span> <b>Dice:</b> the sample space is Ω = {1, 2, 3, 4, 5, 6}, and X = the number showing on the die, so X ∈ {1, 2, 3, 4, 5, 6}. <b>Rainfall:</b> X = rainfall in millimetres tomorrow, so X ∈ [0, ∞) — it can take any value in a range. <span class="ptag">source</span></p>
+<p><span class="badge core">CLASS CORE</span> That last example is the great divide. A <a class="term" href="#g-discrete" data-term="g-discrete">discrete random variable</a> takes countable values — a die roll, the number of customers, emails, or defective products — and probabilities attach to exact values, so P(X = 3) is meaningful. A <a class="term" href="#g-continuous" data-term="g-continuous">continuous random variable</a> takes infinitely many values in an interval — height, weight, temperature, time, voltage — so the probability of any single exact point is zero, P(X = x) = 0, and instead we ask P(a ≤ X ≤ b). <span class="ptag">source</span></p>
+<div class="callout"><b>Beginner trap.</b> "The random variable <i>is</i> the outcome." No — the outcome is what happens (rain fell); the random variable is the <b>number you attach to it</b> (3.2 mm). Two different random variables can label the same process (millimetres or inches), and the math follows the label. Keep them separate and everything downstream gets easier.</div>
+<div class="widget" id="w1">
+<div class="label">EXPLORE · RANDOM-VARIABLE LAB (A FAIR n-SIDED DIE)</div>
+<p class="goal">🎯 Goal: change the number of sides and watch a discrete random variable share its probability — every value gets exactly 1/n.</p>
+<canvas class="viz" id="cv1" role="img" aria-label="Bar chart of a fair n-sided die: n equal bars, each of height one over n, with a text readout giving the same probabilities and their sum."></canvas>
+<div class="legend-inline"><span class="lg-a">probability of each value (1/n)</span></div>
+<div class="ctrl-grid">
+<div class="slider-control"><div class="slider-head"><span class="slider-label">n — number of sides</span><output class="slider-val" id="nVal">6</output></div><div class="slider-track"><input id="nsides" type="range" min="2" max="12" step="1" value="6" aria-label="Number of sides of the fair die"></div></div>
+</div>
+<div class="readout" id="r1" aria-live="polite"></div>
+</div>
+<div class="check" id="chk1">
+<div class="label">CHECK · UNIT 1</div>
+<p><b>1. Numeric.</b> A fair 10-sided die (values 1–10) is rolled. Enter P(X = 7).</p>
+<div class="numin"><input type="number" id="c1n" step="0.01" aria-label="Probability of rolling a 7 on a fair 10-sided die"><button type="button" data-check="c1n" data-target="c1nfb">Check</button></div>
+<div class="feedback" id="c1nfb" aria-live="polite"></div>
+<p><b>2. Diagnostic choice.</b> X = tomorrow's rainfall in millimetres. Which classification is correct?</p>
+<div class="option-stack">
+<label class="option-item"><input type="radio" name="c1m" value="a"><span class="option-text">Continuous — it can take any value in an interval like [0, ∞), so P(X = x) = 0 and we ask about ranges.</span></label>
+<label class="option-item"><input type="radio" name="c1m" value="b"><span class="option-text">Discrete — you can always write the number down.</span></label>
+<label class="option-item"><input type="radio" name="c1m" value="c"><span class="option-text">Neither — rainfall is not a random variable.</span></label>
+</div>
+<button type="button" data-mcq="c1m" data-target="c1mfb">Check choice</button>
+<div class="feedback" id="c1mfb" aria-live="polite"></div>
+</div>
+<div class="label">CONNECT · WHERE THIS RUNS <span class="badge ml">ML LINK</span></div>
+<p>Every model output is a random variable. A classifier's spam score is a continuous random variable in [0, 1]; a language model's next-token choice is a discrete one over the vocabulary; a recommender's predicted click is a continuous one. Naming which kind you have decides whether you ask for a value's probability (discrete) or a range's (continuous) — the whole rest of this lesson. <span class="ptag">source</span></p>
+
+</section>
+<section id="u2" class="unit" aria-labelledby="u2t">
+<div class="label">UNIT 2 · PMF (PROBABILITY MASS FUNCTION)</div>
+<h2 id="u2t">The PMF hands out the budget in lumps</h2>
+<p><span class="badge core">CLASS CORE</span> A <a class="term" href="#g-dist" data-term="g-dist">probability distribution</a> describes how probability is distributed over a random variable's values. For a discrete variable the rule is the <a class="term" href="#g-pmf" data-term="g-pmf">probability mass function</a> (PMF): it gives the probability at each exact value. <span class="ptag">source</span></p>
+<div class="formula"><div class="fx">P(X = x)</div>
+<ul class="symkey">
+<li><b>X</b> — the discrete random variable</li>
+<li><b>x</b> — one specific value it can take</li>
+<li><b>Why it makes sense:</b> a discrete variable spends its probability in lumps at exact values, so a table or bar chart of P(X=x) is the complete description. <b>How to read the result:</b> P(X = 3) = 0.2 means a 20% chance of the value exactly 3.</li>
+</ul></div>
+<p><span class="badge core">CLASS CORE</span> The source's dice example: a fair die has P(X = x) = 1/6 for x ∈ {1, 2, 3, 4, 5, 6}. Two properties make any PMF valid — the source shows them as a figure (opaque in the notebook); we state them plainly: <span class="ptag">source (figure recovered)</span></p>
+<div class="formula"><div class="fx">0 ≤ P(X = x) ≤ 1 &nbsp;&nbsp; and &nbsp;&nbsp; Σₓ P(X = x) = 1</div>
+<ul class="symkey">
+<li><b>0 ≤ P(X = x) ≤ 1</b> — every mass is a genuine probability, between impossible and certain</li>
+<li><b>Σₓ</b> — the sum over every value the variable can take</li>
+<li><b>= 1</b> — the total budget is spent exactly once: the masses account for all certainty</li>
+<li><b>Why it makes sense:</b> something must happen, so the masses cannot total less than 1; and no single value can exceed certainty. <b>How to read the result:</b> if your masses sum to 0.9, you have missed a value; if they sum to 1.1, you double-counted.</li>
+</ul></div>
+<div class="callout"><b>Beginner trap.</b> "The masses don't have to sum to 1." They must. A PMF is a <b>budget of exactly 1.0</b> shared among the values; the sum-to-1 rule is not a nicety but the definition. A common slip is a die with sides 1–6 but masses that total 5/6 — that die is missing a side's worth of probability.</div>
+<div class="widget" id="w2">
+<div class="label">EXPLORE · PMF LAB (DICE, WITH CUMULATIVE SHADING)</div>
+<p class="goal">🎯 Goal: pick a target k and watch the PMF hand out its lumps — the shaded bars are the probability accumulated up to k.</p>
+<canvas class="viz" id="cv2" role="img" aria-label="Dice PMF bar chart: six bars of height one sixth; bars up to the chosen k are shaded as accumulated probability; a text readout gives P(X=k) and the running total."></canvas>
+<div class="legend-inline"><span class="lg-a">PMF mass P(X=x)</span><span class="lg-c">accumulated up to k</span></div>
+<div class="ctrl-grid">
+<div class="slider-control"><div class="slider-head"><span class="slider-label">k — target value</span><output class="slider-val" id="kVal">3</output></div><div class="slider-track"><input id="ksel" type="range" min="1" max="6" step="1" value="3" aria-label="Target value k for the dice PMF"></div></div>
+</div>
+<div class="readout" id="r2" aria-live="polite"></div>
+</div>
+<div class="ladder" id="lad1">
+<div class="label">PRACTICE · LADDER 1 — PMF ARITHMETIC (3 RUNGS)</div>
+<div class="rung">
+<div class="label">RUNG 1 · WORKED EXAMPLE</div>
+<p>A fair 6-sided die. Find P(X = 3) and confirm the masses sum to 1.</p>
+<div class="worked">Each of the six values is equally likely, so P(X = 3) = 1/6 ≈ <b>0.167</b>.<br>Sum check: 6 × (1/6) = 1 — the whole budget is spent.</div>
+</div>
+<div class="rung">
+<div class="label">RUNG 2 · COMPLETION — FILL THE BLANK</div>
+<p>A fair 4-sided die (values 1–4). Enter P(X = 2).</p>
+<div class="numin"><input type="number" id="l1r2in" step="0.01" aria-label="Probability of rolling a 2 on a fair 4-sided die"><button type="button" class="ghost" data-ladder="l1r2">Check</button><button type="button" class="ghost" data-hint="l1r2h">Hint</button></div>
+<div class="hint" id="l1r2h" hidden>Four equally likely values share the budget of 1.</div>
+<div class="feedback" id="l1r2fb" aria-live="polite"></div>
+</div>
+<div class="rung">
+<div class="label">RUNG 3 · INDEPENDENT</div>
+<p>A loaded 6-sided die has masses 0.1, 0.1, 0.1, 0.1, 0.1, and an unknown mass for 6. It is a valid PMF. Enter P(X = 6).</p>
+<div class="numin"><input type="number" id="l1r3in" step="0.01" aria-label="Probability of rolling a 6 on the loaded die"><button type="button" class="ghost" data-ladder="l1r3">Check</button><button type="button" class="ghost" data-hint="l1r3h">Hint</button></div>
+<div class="hint" id="l1r3h" hidden>Five values already spend 0.5 of the budget; the total must be 1.</div>
+<div class="feedback" id="l1r3fb" aria-live="polite"></div>
+</div>
+</div>
+<div class="check" id="chk2">
+<div class="label">CHECK · UNIT 2</div>
+<p><b>1. Numeric.</b> A fair 8-sided die (values 1–8). Enter P(X ≤ 2).</p>
+<div class="numin"><input type="number" id="c2n" step="0.01" aria-label="Probability of rolling 1 or 2 on a fair 8-sided die"><button type="button" data-check="c2n" data-target="c2nfb">Check</button></div>
+<div class="feedback" id="c2nfb" aria-live="polite"></div>
+<p><b>2. Diagnostic choice.</b> A 3-value random variable has masses (0.4, 0.3, 0.3). A classmate says it is invalid because "the masses are not all equal." Who is right?</p>
+<div class="option-stack">
+<label class="option-item"><input type="radio" name="c2m" value="a"><span class="option-text">The classmate — a PMF must have equal masses.</span></label>
+<label class="option-item"><input type="radio" name="c2m" value="b"><span class="option-text">It is valid — masses need not be equal; they must each be in [0,1] and sum to 1, and 0.4 + 0.3 + 0.3 = 1.</span></label>
+<label class="option-item"><input type="radio" name="c2m" value="c"><span class="option-text">It is invalid — the largest mass must be 1/3.</span></label>
+</div>
+<button type="button" data-mcq="c2m" data-target="c2mfb">Check choice</button>
+<div class="feedback" id="c2mfb" aria-live="polite"></div>
+</div>
+<div class="label">CONNECT · WHERE THIS RUNS <span class="badge ml">ML LINK</span></div>
+<p>A language model's next-token distribution <i>is</i> a PMF over the vocabulary: the token probabilities are masses that sum to 1 (the "world" 0.41 + "everyone" 0.22 + … example). Sampling a token is drawing from that PMF; temperature reshapes the masses. A classifier over k classes is also a PMF over {1, …, k}. <span class="ptag">source</span></p>
+
+</section>
+<section id="u3" class="unit" aria-labelledby="u3t">
+<div class="label">UNIT 3 · PDF (PROBABILITY DENSITY FUNCTION)</div>
+<h2 id="u3t">The PDF is a density: only its area is probability</h2>
+<p><span class="badge core">CLASS CORE</span> For a continuous variable the rule is the <a class="term" href="#g-pdf" data-term="g-pdf">probability density function</a> (PDF), f(x). The source's central line: <b>probability is the area under the curve</b>, not the height. So we never read a probability off a single point — we measure a slice. <span class="ptag">source</span></p>
+<div class="formula"><div class="fx">P(a ≤ X ≤ b) = ∫ₐᵇ f(x) dx</div>
+<ul class="symkey">
+<li><b>f(x)</b> — the <a class="term" href="#g-density" data-term="g-density">density</a>: how thickly probability is packed near x (a height, not a probability)</li>
+<li><b>∫ₐᵇ … dx</b> — the <a class="term" href="#g-integral" data-term="g-integral">integral</a>: the <a class="term" href="#g-area" data-term="g-area">area under the curve</a> between a and b</li>
+<li><b>a, b</b> — the ends of the interval you care about</li>
+<li><b>Why it makes sense:</b> a continuous variable spreads its budget over infinitely many points, so no single point can hold any of it — only a stretch of the axis can. <b>How to read the result:</b> a wider or taller region captures more probability; the total area over the whole support is 1.</li>
+</ul></div>
+<p><span class="badge core">CLASS CORE</span> Two consequences the source stresses. First, for a continuous variable f(x) ≠ P(X = x); in fact P(X = x) = 0, because a single point has zero area. Second, the simplest example: <a class="term" href="#g-uniform" data-term="g-uniform">uniform distribution</a> X ~ U(0, 1) has</p>
+<div class="formula"><div class="fx">f(x) = 1 &nbsp; for &nbsp; 0 ≤ x ≤ 1</div>
+<ul class="symkey">
+<li><b>f(x) = 1</b> — a flat density of height 1 across the unit interval</li>
+<li><b>0 ≤ x ≤ 1</b> — the <a class="term" href="#g-support" data-term="g-support">support</a>: outside it the density is 0</li>
+<li><b>Why it makes sense:</b> a rectangle of width 1 and height 1 has area 1, so every equal-length sub-interval gets equal probability. <b>How to read the result:</b> P(0.2 ≤ X ≤ 0.7) = 0.5, the rectangle's width × height.</li>
+</ul></div>
+<div class="callout"><b>Beginner trap.</b> "f(0.5) = 2 means a 200% chance." No — a density is not a probability and can exceed 1. The density f(x) = 2x at x = 0.9 equals 1.8, yet every probability it produces is a valid area ≤ 1. Only the <b>area</b> is a probability; the height is free to be any non-negative number.</div>
+<div class="predict">
+<div class="label">PREDICT · GATE 1 (commit before the area lab opens)</div>
+<p>For a continuous variable, is f(x) the probability that X equals x?</p>
+<div class="option-stack">
+<label class="option-item"><input type="radio" name="g1" value="a"><span class="option-text">Yes — f(x) is the probability of the value x.</span></label>
+<label class="option-item"><input type="radio" name="g1" value="b"><span class="option-text">No — f(x) is a density; only its area is a probability, and P(X = x) = 0 for every single point.</span></label>
+<label class="option-item"><input type="radio" name="g1" value="c"><span class="option-text">Only when f(x) is less than 1.</span></label>
+</div>
+<button type="button" data-gate="g1" data-target="w3">Commit answer</button>
+<div class="feedback" id="g1fb" aria-live="polite"></div>
+</div>
+<div class="widget" id="w3" data-locked="true">
+<div class="label">EXPLORE · PDF AREA LAB (f(x) = 2x ON [0,1])</div>
+<p class="goal">🎯 Goal: drag a and b and watch the shaded area — the probability — grow and shrink with the slice, never with the height.</p>
+<canvas class="viz" id="cv3" role="img" aria-label="The density f of x equals 2x on the unit interval as a rising line, with the region between the chosen lower and upper bounds shaded; a text readout gives the same area."></canvas>
+<div class="legend-inline"><span class="lg-a">density f(x) = 2x</span><span class="lg-d">shaded area = P(a ≤ X ≤ b)</span></div>
+<div class="ctrl-grid">
+<div class="slider-control"><div class="slider-head"><span class="slider-label">a — lower bound</span><output class="slider-val" id="aVal">0.20</output></div><div class="slider-track"><input id="pdfa" type="range" min="0" max="1" step="0.01" value="0.2" aria-label="Lower bound a of the interval"></div></div>
+<div class="slider-control"><div class="slider-head"><span class="slider-label">b — upper bound</span><output class="slider-val" id="bVal">0.70</output></div><div class="slider-track"><input id="pdfb" type="range" min="0" max="1" step="0.01" value="0.7" aria-label="Upper bound b of the interval"></div></div>
+</div>
+<div class="readout" id="r3" aria-live="polite"></div>
+</div>
+<div class="ladder" id="lad2">
+<div class="label">PRACTICE · LADDER 2 — AREA UNDER A PDF (3 RUNGS)</div>
+<div class="rung">
+<div class="label">RUNG 1 · WORKED EXAMPLE</div>
+<p>For f(x) = 2x on [0, 1], find P(0 ≤ X ≤ 0.5).</p>
+<div class="worked">Area = ∫₀^{0.5} 2x dx = [x²]₀^{0.5} = 0.5² − 0² = <b>0.25</b>.<br>Rule used: integrate the density between the bounds.</div>
+</div>
+<div class="rung">
+<div class="label">RUNG 2 · COMPLETION — FILL THE BLANK</div>
+<p>For f(x) = 2x on [0, 1], enter P(0.5 ≤ X ≤ 1).</p>
+<div class="numin"><input type="number" id="l2r2in" step="0.01" aria-label="Probability that X lies between 0.5 and 1 under f of x equals 2x"><button type="button" class="ghost" data-ladder="l2r2">Check</button><button type="button" class="ghost" data-hint="l2r2h">Hint</button></div>
+<div class="hint" id="l2r2h" hidden>The total area is 1; the lower half you already found is 0.25.</div>
+<div class="feedback" id="l2r2fb" aria-live="polite"></div>
+</div>
+<div class="rung">
+<div class="label">RUNG 3 · INDEPENDENT</div>
+<p>For the uniform density f(x) = 1 on [0, 1], enter P(0.25 ≤ X ≤ 0.75).</p>
+<div class="numin"><input type="number" id="l2r3in" step="0.01" aria-label="Probability that X lies between 0.25 and 0.75 under the uniform density"><button type="button" class="ghost" data-ladder="l2r3">Check</button><button type="button" class="ghost" data-hint="l2r3h">Hint</button></div>
+<div class="hint" id="l2r3h" hidden>It is a rectangle: area = width × height.</div>
+<div class="feedback" id="l2r3fb" aria-live="polite"></div>
+</div>
+</div>
+<div class="check" id="chk3">
+<div class="label">CHECK · UNIT 3</div>
+<p><b>1. Numeric.</b> For f(x) = 2x on [0, 1], enter P(X ≤ 0.3).</p>
+<div class="numin"><input type="number" id="c3n" step="0.001" aria-label="Probability that X is at most 0.3 under f of x equals 2x"><button type="button" data-check="c3n" data-target="c3nfb">Check</button></div>
+<div class="feedback" id="c3nfb" aria-live="polite"></div>
+<p><b>2. Diagnostic choice.</b> A continuous variable has density f(x) = 3 at some point x. Is that allowed?</p>
+<div class="option-stack">
+<label class="option-item"><input type="radio" name="c3m" value="a"><span class="option-text">No — a density can never exceed 1, because probabilities cannot exceed 1.</span></label>
+<label class="option-item"><input type="radio" name="c3m" value="b"><span class="option-text">Yes — f(x) is a density, not a probability; it may exceed 1 as long as its total area is 1 and it is never negative.</span></label>
+<label class="option-item"><input type="radio" name="c3m" value="c"><span class="option-text">Yes — but only for discrete variables.</span></label>
+</div>
+<button type="button" data-mcq="c3m" data-target="c3mfb">Check choice</button>
+<div class="feedback" id="c3mfb" aria-live="polite"></div>
+</div>
+<div class="label">CONNECT · WHERE THIS RUNS <span class="badge ml">ML LINK</span></div>
+<p>Densities are everywhere in ML. A Gaussian's density height is not a probability, but the area between two values is the probability a measurement lands there — which is exactly how anomaly thresholds and confidence intervals are read. The classifier's continuous spam score has a density per class, and P(score in a range | class) is an area. <span class="ptag">source</span></p>
+
+</section>
+<section id="u4" class="unit" aria-labelledby="u4t">
+<div class="label">UNIT 4 · CDF (CUMULATIVE DISTRIBUTION FUNCTION)</div>
+<h2 id="u4t">The CDF is a running total</h2>
+<p><span class="badge core">CLASS CORE</span> The <a class="term" href="#g-cdf" data-term="g-cdf">cumulative distribution function</a> (CDF) works for <b>both</b> discrete and continuous variables. It answers one question: how much probability has accumulated so far? <span class="ptag">source</span></p>
+<div class="formula"><div class="fx">F(x) = P(X ≤ x)</div>
+<ul class="symkey">
+<li><b>F(x)</b> — the running total of probability up to the value x</li>
+<li><b>X ≤ x</b> — the event "the outcome is at most x"</li>
+<li><b>Why it makes sense:</b> instead of asking about one value, the CDF sweeps the axis and reports the budget spent so far — a single function that works for both variable types. <b>How to read the result:</b> F(x) = 0.7 means 70% of the probability lies at or below x.</li>
+</ul></div>
+<p><span class="badge core">CLASS CORE</span> The source's example: X ~ U(0, 1) has F(x) = x on [0, 1], so at x = 0.2, 20% of the probability has accumulated, and at x = 0.7, 70%. For our toy density f(x) = 2x, the running total is F(x) = x². <span class="ptag">source</span></p>
+<div class="formula"><div class="fx">0 ≤ F(x) ≤ 1; &nbsp; F(x) → 0 as x → −∞; &nbsp; F(x) → 1 as x → +∞</div>
+<ul class="symkey">
+<li><b>non-decreasing</b> — F(a) ≤ F(b) whenever a &lt; b: probability only accumulates, never un-accumulates</li>
+<li><b>range 0 ≤ F(x) ≤ 1</b> — a running total is a probability</li>
+<li><b>right-continuous</b> — the CDF does not jump unexpectedly from the right</li>
+<li><b>limits</b> — far left, nothing has accumulated (0); far right, everything has (1)</li>
+<li><b>Why it makes sense:</b> these four properties are the fingerprint of any valid CDF, discrete or continuous. <b>How to read the result:</b> if F ever decreases, or never reaches 1, it is not a CDF. <span class="ptag">source (upper limit corrected)</span></li>
+</ul></div>
+<div class="callout"><b>Beginner trap.</b> "F(x) is the probability that X equals x." No — that is the PMF/PDF's job. F(x) = P(X ≤ x) is a <b>cumulative</b> total: F(3) = 1/2 for a fair die means a 50% chance of rolling 3 <i>or less</i>, not a 50% chance of exactly 3. The source's cell even prints the upper limit as 0; the correct limit is 1, and we use 1 throughout.</div>
+<div class="widget" id="w4">
+<div class="label">EXPLORE · CDF LAB (RUNNING TOTAL OF f(x) = 2x)</div>
+<p class="goal">🎯 Goal: slide x and watch the running total F(x) = x² climb from 0 to 1 — the marker shows exactly how much budget is spent by x.</p>
+<canvas class="viz" id="cv4" role="img" aria-label="The cumulative distribution function F of x equals x squared on the unit interval as a rising curve, with the chosen x and its height marked; a text readout gives F of x."></canvas>
+<div class="legend-inline"><span class="lg-a">CDF F(x) = x²</span><span class="lg-c">marker at (x, F(x))</span></div>
+<div class="ctrl-grid">
+<div class="slider-control"><div class="slider-head"><span class="slider-label">x — evaluation point</span><output class="slider-val" id="xVal">0.50</output></div><div class="slider-track"><input id="cdfx" type="range" min="0" max="1" step="0.01" value="0.5" aria-label="Point x at which to read the CDF"></div></div>
+</div>
+<div class="readout" id="r4" aria-live="polite"></div>
+</div>
+<div class="check" id="chk4">
+<div class="label">CHECK · UNIT 4</div>
+<p><b>1. Numeric.</b> For f(x) = 2x on [0, 1], the CDF is F(x) = x². Enter F(0.7).</p>
+<div class="numin"><input type="number" id="c4n" step="0.01" aria-label="Value of the CDF F of x equals x squared at x equals 0.7"><button type="button" data-check="c4n" data-target="c4nfb">Check</button></div>
+<div class="feedback" id="c4nfb" aria-live="polite"></div>
+<p><b>2. Diagnostic choice.</b> Which statement about a CDF is correct?</p>
+<div class="option-stack">
+<label class="option-item"><input type="radio" name="c4m" value="a"><span class="option-text">F(x) = P(X = x), and both limits (x → ±∞) equal 0.</span></label>
+<label class="option-item"><input type="radio" name="c4m" value="b"><span class="option-text">F(x) can decrease as x grows, because probability can be removed.</span></label>
+<label class="option-item"><input type="radio" name="c4m" value="c"><span class="option-text">F(x) = P(X ≤ x), it is non-decreasing, ranges in [0,1], and tends to 0 on the left and 1 on the right.</span></label>
+</div>
+<button type="button" data-mcq="c4m" data-target="c4mfb">Check choice</button>
+<div class="feedback" id="c4mfb" aria-live="polite"></div>
+</div>
+<div class="label">CONNECT · WHERE THIS RUNS <span class="badge ml">ML LINK</span></div>
+<p>The CDF is the working tool for thresholds. "What fraction of users will we capture if we set the score cut-off here?" is F(cut-off). Calibration curves, quantile mapping, and the inverse-CDF sampling used to draw random numbers all read a CDF. It is also the bridge to Unit 5: the CDF of a density is exactly its accumulated area. <span class="ptag">source</span></p>
+
+</section>
+<section id="u5" class="unit" aria-labelledby="u5t">
+<div class="label">UNIT 5 · CDF ↔ PDF CONVERSION (THE HEART OF THIS LESSON)</div>
+<h2 id="u5t">The CDF is the area; the PDF is the slope</h2>
+<p><span class="badge core">CLASS CORE</span> The source's title idea: the PDF is <b>local</b> probability density, the CDF is <b>total accumulated</b> probability, and the two are two views of the same thing. The CDF is the area under the PDF; the PDF is the slope (derivative) of the CDF. <span class="ptag">source</span></p>
+<div class="formula"><div class="fx">F(x) = ∫_{−∞}^{x} f(t) dt &nbsp;&nbsp;⇔&nbsp;&nbsp; f(x) = dF(x)/dx</div>
+<ul class="symkey">
+<li><b>∫_{−∞}^{x} f(t) dt</b> — accumulate the density from far left up to x (the area so far)</li>
+<li><b>dF(x)/dx</b> — the local slope of that running total (the density at x)</li>
+<li><b>t</b> — a dummy variable that sweeps the axis while x stays fixed as the upper limit</li>
+<li><b>Why it makes sense:</b> accumulating a rate gives a total; taking the slope of a total gives back the rate. <b>How to read the result:</b> start with either function and you can recover the other — integrate to go PDF → CDF, differentiate to go CDF → PDF.</li>
+</ul></div>
+<p><span class="badge core">CLASS CORE</span> Because the CDF already holds all the accumulation, the probability of an interval is a subtraction — no integral needed:</p>
+<div class="formula"><div class="fx">P(a ≤ X ≤ b) = F(b) − F(a) = ∫ₐᵇ f(x) dx</div>
+<ul class="symkey">
+<li><b>F(b) − F(a)</b> — the probability accumulated up to b minus that up to a — the slice between them</li>
+<li><b>∫ₐᵇ f(x) dx</b> — the same slice measured as area under the density</li>
+<li><b>Why it makes sense:</b> "how much by b" minus "how much by a" isolates the interval. <b>How to read the result:</b> the fundamental theorem of probability — area and CDF-difference always agree.</li>
+</ul></div>
+<p><span class="badge core">CLASS CORE</span> <b>Worked example (the source's).</b> Let f(x) = 2x on [0, 1]. Integrate to get the CDF: F(x) = ∫₀^{x} 2t dt = x². Check the far end: F(1) = 1² = 1 ✓. Reverse-check by differentiating: d/dx(x²) = 2x, recovering the original PDF. <span class="ptag">source</span></p>
+<p><span class="badge core">CLASS CORE</span> <b>Discrete variables use the same idea with sums.</b> The discrete CDF is F(x) = Σ_{xᵢ ≤ x} P(X = xᵢ) — add up the masses up to x (the source's dice example: F(3) = 1/6 + 1/6 + 1/6 = 1/2). To go back, recover each mass as the jump in the CDF: <span class="ptag">source</span></p>
+<div class="formula"><div class="fx">P(X = x) = F(x) − F(x⁻)</div>
+<ul class="symkey">
+<li><b>F(x)</b> — the running total including the mass at x</li>
+<li><b>F(x⁻)</b> — the <a class="term" href="#g-leftlimit" data-term="g-leftlimit">left limit</a>: the total just before x</li>
+<li><b>Why it makes sense:</b> the CDF steps up by exactly one mass at each value, so the step size is the mass. <b>How to read the result:</b> P(X=3) for a fair die = F(3) − F(2) = 1/2 − 1/3 = 1/6 ✓.</li>
+</ul></div>
+<div class="callout"><b>Beginner trap.</b> "To get the PDF you integrate; to get the CDF you differentiate." It is the reverse. <b>CDF = integral of PDF</b> (accumulate), <b>PDF = derivative of CDF</b> (slope). A quick sanity check: a CDF must climb to 1, which only an accumulation does; a PDF can be any non-negative shape, which is what a slope can be.</div>
+<div class="predict">
+<div class="label">PREDICT · GATE 2 (commit before the conversion lab opens)</div>
+<p>For f(x) = 2x on [0, 1] the CDF is F(x) = x². You want P(0.2 ≤ X ≤ 0.7). Which is the fastest correct route?</p>
+<div class="option-stack">
+<label class="option-item"><input type="radio" name="g2" value="a"><span class="option-text">Subtract CDF values: F(0.7) − F(0.2) = 0.49 − 0.04 = 0.45.</span></label>
+<label class="option-item"><input type="radio" name="g2" value="b"><span class="option-text">Read the PDF height f(0.7) = 1.4 — that is the probability.</span></label>
+<label class="option-item"><input type="radio" name="g2" value="c"><span class="option-text">Add the two CDF values: F(0.7) + F(0.2) = 0.53.</span></label>
+</div>
+<button type="button" data-gate="g2" data-target="w5">Commit answer</button>
+<div class="feedback" id="g2fb" aria-live="polite"></div>
+</div>
+<div class="widget" id="w5" data-locked="true">
+<div class="label">EXPLORE · CONVERSION LAB (AREA ↔ HEIGHT, TWO PANELS)</div>
+<p class="goal">🎯 Goal: slide x and watch the shaded area under the PDF on top become exactly the CDF height below — the same number, two views.</p>
+<canvas class="viz" id="cv5" role="img" aria-label="Two stacked panels: the top shows the density f of x equals 2x with the area from 0 to x shaded; the bottom shows the CDF F of x equals x squared with the height at x marked. A text readout gives the same area and the same CDF value."></canvas>
+<div class="legend-inline"><span class="lg-a">density f(x) = 2x</span><span class="lg-d">area [0, x] = F(x)</span><span class="lg-c">CDF F(x) = x²</span></div>
+<div class="ctrl-grid">
+<div class="slider-control"><div class="slider-head"><span class="slider-label">x — cut point</span><output class="slider-val" id="cxVal">0.60</output></div><div class="slider-track"><input id="convx" type="range" min="0" max="1" step="0.01" value="0.6" aria-label="Cut point x for the area and CDF link"></div></div>
+</div>
+<div class="readout" id="r5" aria-live="polite"></div>
+</div>
+<div class="ladder" id="lad3">
+<div class="label">PRACTICE · LADDER 3 — PDF ↔ CDF CONVERSION (3 RUNGS)</div>
+<div class="rung">
+<div class="label">RUNG 1 · WORKED EXAMPLE</div>
+<p>For f(x) = 3x² on [0, 1], find the CDF and evaluate it at 0.5.</p>
+<div class="worked">Integrate: F(x) = ∫₀^{x} 3t² dt = x³. Then F(0.5) = 0.5³ = <b>0.125</b>.<br>Rule used: CDF = integral of the PDF.</div>
+</div>
+<div class="rung">
+<div class="label">RUNG 2 · COMPLETION — FILL THE BLANK</div>
+<p>A variable has CDF F(x) = x³ on [0, 1]. Enter its density f(x) at x = 0.5.</p>
+<div class="numin"><input type="number" id="l3r2in" step="0.01" aria-label="Density f of x at x equals 0.5 when the CDF is x cubed"><button type="button" class="ghost" data-ladder="l3r2">Check</button><button type="button" class="ghost" data-hint="l3r2h">Hint</button></div>
+<div class="hint" id="l3r2h" hidden>Differentiate the CDF to get the density, then substitute.</div>
+<div class="feedback" id="l3r2fb" aria-live="polite"></div>
+</div>
+<div class="rung">
+<div class="label">RUNG 3 · INDEPENDENT</div>
+<p>For f(x) = 2x on [0, 1], enter P(0.5 ≤ X ≤ 1) using the CDF.</p>
+<div class="numin"><input type="number" id="l3r3in" step="0.01" aria-label="Probability that X is between 0.5 and 1 under f of x equals 2x"><button type="button" class="ghost" data-ladder="l3r3">Check</button><button type="button" class="ghost" data-hint="l3r3h">Hint</button></div>
+<div class="hint" id="l3r3h" hidden>F(1) − F(0.5), and F(x) = x².</div>
+<div class="feedback" id="l3r3fb" aria-live="polite"></div>
+</div>
+</div>
+<div class="check" id="chk5">
+<div class="label">CHECK · UNIT 5</div>
+<p><b>1. Numeric.</b> A variable has CDF F(x) = x² on [0, 1]. Enter its density f(x) at x = 0.5.</p>
+<div class="numin"><input type="number" id="c5n" step="0.01" aria-label="Density at x equals 0.5 when the CDF is x squared"><button type="button" data-check="c5n" data-target="c5nfb">Check</button></div>
+<div class="feedback" id="c5nfb" aria-live="polite"></div>
+<p><b>2. Explain in your own words</b> (out loud or on paper first): why is the CDF the integral of the PDF and the PDF the derivative of the CDF?</p>
+<div class="numin"><button type="button" class="ghost" data-explain="e1">Reveal a model answer</button></div>
+<div class="modelanswer" id="e1" hidden><b>Model answer (grade yourself honestly):</b> the CDF at x is the probability mass at or below x, which for a continuous variable is the area under the density from the left up to x — that accumulation is exactly an integral, so CDF = ∫f. Conversely, the density at x is how fast that accumulated total is growing as x moves: the derivative of the total. They are inverse operations, so f = dF/dx. Every conversion in this lesson is one of those two moves.</div>
+<p><b>3. Diagnostic choice.</b> Which conversion rule is correct?</p>
+<div class="option-stack">
+<label class="option-item"><input type="radio" name="c5m" value="a"><span class="option-text">CDF = derivative of PDF; PDF = integral of CDF.</span></label>
+<label class="option-item"><input type="radio" name="c5m" value="b"><span class="option-text">CDF = integral of PDF; PDF = derivative of CDF.</span></label>
+<label class="option-item"><input type="radio" name="c5m" value="c"><span class="option-text">The PDF is the derivative of the PMF.</span></label>
+</div>
+<button type="button" data-mcq="c5m" data-target="c5mfb">Check choice</button>
+<div class="feedback" id="c5mfb" aria-live="polite"></div>
+</div>
+<div class="label">CONNECT · WHERE THIS RUNS <span class="badge ml">ML LINK</span></div>
+<p>This one relationship powers a surprising amount of ML. Sampling from any distribution is done by inverting its CDF; normalizing flows are built from invertible PDF↔CDF maps (and track the density change with a derivative); survival and reliability models read intervals as F(b) − F(a). If you can move between density and accumulation, you can move between any two of these. <span class="ptag">source</span></p>
+
+</section>
+<section id="u6" class="unit" aria-labelledby="u6t">
+<div class="label">UNIT 6 · EXPECTATION</div>
+<h2 id="u6t">Expectation is the balance point of the budget</h2>
+<p><span class="badge core">CLASS CORE</span> <a class="term" href="#g-expect" data-term="g-expect">Expectation</a> is the long-run average outcome — equivalently, the probability-weighted average. For a discrete variable it is a weighted sum, and for a continuous one a weighted integral: <span class="ptag">source</span></p>
+<div class="formula"><div class="fx">E[X] = Σₓ x · P(X = x) &nbsp;&nbsp; (discrete) &nbsp;&nbsp;&nbsp; E[X] = ∫_{−∞}^{∞} x · f(x) dx &nbsp; (continuous)</div>
+<ul class="symkey">
+<li><b>x</b> — each value the variable can take</li>
+<li><b>P(X = x)</b> or <b>f(x) dx</b> — how much weight (probability) that value carries</li>
+<li><b>Σ / ∫</b> — sum (discrete) or accumulate (continuous) value × weight</li>
+<li><b>Why it makes sense:</b> the mean is the balance point of the distribution — where the probability mass would balance on a pivot. <b>How to read the result:</b> E[X] = 3.5 for a fair die means the long-run average of many rolls is 3.5.</li>
+</ul></div>
+<p><span class="badge core">CLASS CORE</span> The source's dice example: E[X] = 1·(1/6) + 2·(1/6) + … + 6·(1/6) = 21/6 = <b>3.5</b>. Note that 3.5 is never rolled — the expectation is not required to be an attainable outcome. For our continuous toy f(x) = 2x on [0, 1]: E[X] = ∫₀¹ x·2x dx = 2∫₀¹ x² dx = 2·(1/3) = <b>2/3</b>. <span class="ptag">source</span></p>
+<div class="formula"><div class="fx">E[aX + b] = a·E[X] + b &nbsp;&nbsp; E[c] = c &nbsp;&nbsp; E[X + Y] = E[X] + E[Y]</div>
+<ul class="symkey">
+<li><b>linearity</b> — scaling shifts the balance point by the same scale and offset; this is used constantly in ML</li>
+<li><b>E[c] = c</b> — a constant is its own average</li>
+<li><b>sum rule</b> — expectations add, <b>even if X and Y are dependent</b> (no independence needed)</li>
+<li><b>Why it makes sense:</b> averaging is linear, so it passes through sums and scalings. <b>How to read the result:</b> if a reward is 2×score + 5, its expected value is 2·E[score] + 5.</li>
+</ul></div>
+<div class="callout"><b>Beginner trap.</b> "3.5 is impossible on a die, so the expectation must be wrong." Expectation is a <b>balance point</b>, not a prediction of a single outcome. A die's outcomes are 1–6, but its long-run average is 3.5 — perfectly correct, and never rolled. The same happens in ML: the expected loss need not be any single example's loss.</div>
+<div class="widget" id="w6">
+<div class="label">EXPLORE · EXPECTATION LAB (BALANCE POINT OF A UNIFORM DIE)</div>
+<p class="goal">🎯 Goal: change n and watch the balance point E[X] = (n + 1)/2 move — the pivot where the bars would balance.</p>
+<canvas class="viz" id="cv6" role="img" aria-label="Bar chart of a uniform discrete variable on one to n, with a vertical marker at the balance point E of X equals n plus one over two; a text readout gives the same mean."></canvas>
+<div class="legend-inline"><span class="lg-a">uniform mass 1/n</span><span class="lg-b">balance point E[X]</span></div>
+<div class="ctrl-grid">
+<div class="slider-control"><div class="slider-head"><span class="slider-label">n — number of values</span><output class="slider-val" id="enVal">6</output></div><div class="slider-track"><input id="esn" type="range" min="1" max="10" step="1" value="6" aria-label="Number of equally likely values from 1 to n"></div></div>
+</div>
+<div class="readout" id="r6" aria-live="polite"></div>
+</div>
+<div class="ladder" id="lad4">
+<div class="label">PRACTICE · LADDER 4 — EXPECTATION (3 RUNGS)</div>
+<div class="rung">
+<div class="label">RUNG 1 · WORKED EXAMPLE</div>
+<p>A fair 6-sided die. Find E[X].</p>
+<div class="worked">E[X] = (1 + 2 + 3 + 4 + 5 + 6)/6 = 21/6 = <b>3.5</b>.<br>Rule used: sum value × probability over all values.</div>
+</div>
+<div class="rung">
+<div class="label">RUNG 2 · COMPLETION — FILL THE BLANK</div>
+<p>A fair 4-sided die (values 1–4). Enter E[X].</p>
+<div class="numin"><input type="number" id="l4r2in" step="0.01" aria-label="Expected value of a fair 4-sided die"><button type="button" class="ghost" data-ladder="l4r2">Check</button><button type="button" class="ghost" data-hint="l4r2h">Hint</button></div>
+<div class="hint" id="l4r2h" hidden>Average the four equally likely values.</div>
+<div class="feedback" id="l4r2fb" aria-live="polite"></div>
+</div>
+<div class="rung">
+<div class="label">RUNG 3 · INDEPENDENT</div>
+<p>A loaded 6-sided die has masses 0.1 for 1–5 and 0.5 for 6. Enter E[X].</p>
+<div class="numin"><input type="number" id="l4r3in" step="0.01" aria-label="Expected value of the loaded die"><button type="button" class="ghost" data-ladder="l4r3">Check</button><button type="button" class="ghost" data-hint="l4r3h">Hint</button></div>
+<div class="hint" id="l4r3h" hidden>Weight each value by its own mass; the 6 carries half the budget.</div>
+<div class="feedback" id="l4r3fb" aria-live="polite"></div>
+</div>
+</div>
+<div class="check" id="chk6">
+<div class="label">CHECK · UNIT 6</div>
+<p><b>1. Numeric.</b> A uniform discrete variable takes values 1–10 with equal probability. Enter E[X].</p>
+<div class="numin"><input type="number" id="c6n" step="0.1" aria-label="Expected value of a uniform discrete variable on 1 to 10"><button type="button" data-check="c6n" data-target="c6nfb">Check</button></div>
+<div class="feedback" id="c6nfb" aria-live="polite"></div>
+<p><b>2. Diagnostic choice.</b> A classmate computes E[X] = 3.5 for a fair die and says "impossible — 3.5 is not on the die." What is the correct response?</p>
+<div class="option-stack">
+<label class="option-item"><input type="radio" name="c6m" value="a"><span class="option-text">They are right; the expectation must be an attainable value.</span></label>
+<label class="option-item"><input type="radio" name="c6m" value="b"><span class="option-text">The expectation is a balance point / long-run average and need not be an attainable outcome — 3.5 is correct.</span></label>
+<label class="option-item"><input type="radio" name="c6m" value="c"><span class="option-text">The expectation should be rounded to 3 or 4 to be valid.</span></label>
+</div>
+<button type="button" data-mcq="c6m" data-target="c6mfb">Check choice</button>
+<div class="feedback" id="c6mfb" aria-live="polite"></div>
+</div>
+<div class="label">CONNECT · WHERE THIS RUNS <span class="badge ml">ML LINK</span></div>
+<p>Expectation is the target of most training. The loss we minimize is an expected loss over the data distribution; the average reward in reinforcement learning is an expectation; a model's "mean prediction" is E[Y | X]. The linearity and sum rules are what let us decompose complex expected losses into simple pieces. <span class="ptag">source</span></p>
+
+</section>
+<section id="u7" class="unit" aria-labelledby="u7t">
+<div class="label">UNIT 7 · VARIANCE</div>
+<h2 id="u7t">Variance is the spread around the balance point</h2>
+<p><span class="badge core">CLASS CORE</span> <a class="term" href="#g-variance" data-term="g-variance">Variance</a> measures uncertainty — how far values deviate from the mean. It is the expected squared distance from the balance point: <span class="ptag">source</span></p>
+<div class="formula"><div class="fx">Var(X) = E[(X − μ)²] &nbsp; where μ = E[X]</div>
+<ul class="symkey">
+<li><b>X − μ</b> — each value's deviation from the mean</li>
+<li><b>(X − μ)²</b> — squared so that deviations on both sides add instead of cancelling</li>
+<li><b>E[·]</b> — the probability-weighted average of those squared deviations</li>
+<li><b>Why it makes sense:</b> squaring punishes large deviations more than small ones and makes everything positive. <b>How to read the result:</b> a small variance means values hug the mean; a large one means they scatter.</li>
+</ul></div>
+<p><span class="badge core">CLASS CORE</span> Squaring is awkward to compute, so the source gives the computational form — important for interviews:</p>
+<div class="formula"><div class="fx">Var(X) = E[X²] − (E[X])²</div>
+<ul class="symkey">
+<li><b>E[X²]</b> — the average of the squared values (the second moment)</li>
+<li><b>(E[X])²</b> — the square of the mean</li>
+<li><b>Why it makes sense:</b> expanding E[(X−μ)²] gives E[X²] − 2μE[X] + μ² = E[X²] − μ². <b>How to read the result:</b> compute two averages instead of a sum of squared deviations.</li>
+</ul></div>
+<p><span class="badge core">CLASS CORE</span> The source's dice example: E[X] = 3.5, and E[X²] = (1² + 2² + … + 6²)/6 = 91/6 ≈ 15.167, so Var(X) = 91/6 − (3.5)² = 15.167 − 12.25 ≈ <b>2.92</b>. The <a class="term" href="#g-sd" data-term="g-sd">standard deviation</a> is σ = √Var(X) ≈ 1.71, back in the original units. <span class="ptag">source</span></p>
+<div class="formula"><div class="fx">σ = √Var(X)</div>
+<ul class="symkey">
+<li><b>σ</b> — the standard deviation: spread in the same units as X</li>
+<li><b>√Var(X)</b> — undo the squaring that variance introduced</li>
+<li><b>Why it makes sense:</b> variance is in squared units (a "squared die" makes no sense), so we take a square root to return to the data's units. <b>How to read the result:</b> σ ≈ 1.71 means a typical roll sits about 1.7 away from 3.5.</li>
+</ul></div>
+<div class="callout"><b>Beginner trap.</b> "Variance ≈ 2.92 means values are about ±2.92 from the mean." No — variance is in <b>squared</b> units. The quantity in X's units is the standard deviation, σ ≈ 1.71. Reporting the variance when you mean the spread-in-units is the classic units error.</div>
+<div class="predict">
+<div class="label">PREDICT · GATE 3 (commit before the spread lab opens)</div>
+<p>Two distributions have the same mean but one is much more spread out. Which quantity grows?</p>
+<div class="option-stack">
+<label class="option-item"><input type="radio" name="g3" value="a"><span class="option-text">The mean changes; spread does not affect variance.</span></label>
+<label class="option-item"><input type="radio" name="g3" value="b"><span class="option-text">The variance shrinks, because values move away from the mean.</span></label>
+<label class="option-item"><input type="radio" name="g3" value="c"><span class="option-text">The variance (and the standard deviation) grow — they measure exactly this spread around the shared mean.</span></label>
+</div>
+<button type="button" data-gate="g3" data-target="w7">Commit answer</button>
+<div class="feedback" id="g3fb" aria-live="polite"></div>
+</div>
+<div class="widget" id="w7" data-locked="true">
+<div class="label">EXPLORE · SPREAD LAB (SAME MEAN, GROWING VARIANCE)</div>
+<p class="goal">🎯 Goal: increase the spread and watch the variance climb while the mean stays put — spread is not about where the centre is.</p>
+<canvas class="viz" id="cv7" role="img" aria-label="A symmetric discrete distribution on minus s, zero, plus s with masses one quarter, one half, one quarter; widening the spread slider moves the outer bars out while the mean stays at zero; a text readout gives the variance and standard deviation."></canvas>
+<div class="legend-inline"><span class="lg-a">mass (mean fixed at 0)</span><span class="lg-b">spread ±s</span></div>
+<div class="ctrl-grid">
+<div class="slider-control"><div class="slider-head"><span class="slider-label">s — spread</span><output class="slider-val" id="spVal">1.0</output></div><div class="slider-track"><input id="spread" type="range" min="0" max="3" step="0.1" value="1" aria-label="Spread of the symmetric distribution"></div></div>
+</div>
+<div class="readout" id="r7" aria-live="polite"></div>
+</div>
+<div class="ladder" id="lad5">
+<div class="label">PRACTICE · LADDER 5 — VARIANCE (3 RUNGS)</div>
+<div class="rung">
+<div class="label">RUNG 1 · WORKED EXAMPLE</div>
+<p>A fair 6-sided die. Find Var(X) using the computational formula.</p>
+<div class="worked">E[X] = 3.5; E[X²] = 91/6 ≈ 15.167. Var(X) = 15.167 − 12.25 = <b>≈ 2.92</b>.<br>Rule used: Var = E[X²] − (E[X])².</div>
+</div>
+<div class="rung">
+<div class="label">RUNG 2 · COMPLETION — FILL THE BLANK</div>
+<p>A fair 3-sided die (values 1–3). Enter Var(X) (two decimals).</p>
+<div class="numin"><input type="number" id="l5r2in" step="0.01" aria-label="Variance of a fair 3-sided die"><button type="button" class="ghost" data-ladder="l5r2">Check</button><button type="button" class="ghost" data-hint="l5r2h">Hint</button></div>
+<div class="hint" id="l5r2h" hidden>Mean is 2; E[X²] = (1 + 4 + 9)/3.</div>
+<div class="feedback" id="l5r2fb" aria-live="polite"></div>
+</div>
+<div class="rung">
+<div class="label">RUNG 3 · INDEPENDENT</div>
+<p>A fair 4-sided die (values 1–4). Enter Var(X) (two decimals).</p>
+<div class="numin"><input type="number" id="l5r3in" step="0.01" aria-label="Variance of a fair 4-sided die"><button type="button" class="ghost" data-ladder="l5r3">Check</button><button type="button" class="ghost" data-hint="l5r3h">Hint</button></div>
+<div class="hint" id="l5r3h" hidden>Mean is 2.5; E[X²] = (1 + 4 + 9 + 16)/4.</div>
+<div class="feedback" id="l5r3fb" aria-live="polite"></div>
+</div>
+</div>
+<div class="check" id="chk7">
+<div class="label">CHECK · UNIT 7</div>
+<p><b>1. Numeric.</b> A fair 4-sided die (values 1–4). Enter Var(X) (two decimals).</p>
+<div class="numin"><input type="number" id="c7n" step="0.01" aria-label="Variance of a fair 4-sided die"><button type="button" data-check="c7n" data-target="c7nfb">Check</button></div>
+<div class="feedback" id="c7nfb" aria-live="polite"></div>
+<p><b>2. Explain in your own words</b> (out loud or on paper first): what does variance measure, and why do we also want the standard deviation?</p>
+<div class="numin"><button type="button" class="ghost" data-explain="e2">Reveal a model answer</button></div>
+<div class="modelanswer" id="e2" hidden><b>Model answer (grade yourself honestly):</b> variance measures the typical squared distance of the values from their mean — how spread out the probability budget is. Because it squares, its units are squared (a die's variance is in "squared pips"), so we take the square root to get the standard deviation, which is in the same units as the data and therefore directly interpretable. Variance is preferred in algebra (it is additive for independent variables); standard deviation is preferred when you need to say "about this far from the mean."</div>
+<p><b>3. Diagnostic choice.</b> A variable has Var(X) = 4 with X measured in metres. What are the correct units and interpretation?</p>
+<div class="option-stack">
+<label class="option-item"><input type="radio" name="c7m" value="a"><span class="option-text">Variance is 4 square metres; the standard deviation is 2 metres, so values are typically about 2 m from the mean.</span></label>
+<label class="option-item"><input type="radio" name="c7m" value="b"><span class="option-text">Variance is 4 metres; values are about 4 m from the mean.</span></label>
+<label class="option-item"><input type="radio" name="c7m" value="c"><span class="option-text">Variance is dimensionless, so the units do not matter.</span></label>
+</div>
+<button type="button" data-mcq="c7m" data-target="c7mfb">Check choice</button>
+<div class="feedback" id="c7mfb" aria-live="polite"></div>
+</div>
+<div class="label">CONNECT · WHERE THIS RUNS <span class="badge ml">ML LINK</span></div>
+<p>Variance is the heart of the <a class="term" href="#g-biasvar" data-term="g-biasvar">bias–variance tradeoff</a>. High variance means unstable predictions: small data changes swing the model (overfitting). Regularization, ensembling, and dropout all trade a little bias for less variance. The standard deviation is also the scale of the noise you assume when you write a Gaussian likelihood. <span class="ptag">source</span></p>
+
+</section>
+<section id="u8" class="unit" aria-labelledby="u8t">
+<div class="label">UNIT 8 · COVARIANCE &amp; CORRELATION</div>
+<h2 id="u8t">Covariance asks whether two budgets move together</h2>
+<p><span class="badge core">CLASS CORE</span> <a class="term" href="#g-cov" data-term="g-cov">Covariance</a> measures whether two variables move together. It averages the product of their deviations from their own means: <span class="ptag">source</span></p>
+<div class="formula"><div class="fx">Cov(X, Y) = E[(X − E[X])(Y − E[Y])]</div>
+<ul class="symkey">
+<li><b>X − E[X]</b> — how far X sits above or below its mean</li>
+<li><b>Y − E[Y]</b> — the same for Y</li>
+<li><b>product</b> — positive when both are above (or both below) their means; negative when they disagree</li>
+<li><b>Why it makes sense:</b> averaging that product turns "do they move together?" into a single number. <b>How to read the result:</b> positive → move together; negative → move oppositely; near zero → little linear relationship.</li>
+</ul></div>
+<table class="apptable"><tr><th>Covariance</th><th>Meaning</th><th>Example</th></tr>
+<tr><td>Positive</td><td>Move together</td><td>More study hours → higher scores</td></tr>
+<tr><td>Negative</td><td>Move oppositely</td><td>More speed → less travel time</td></tr>
+<tr><td>Zero</td><td>No linear relation</td><td>See the trap below</td></tr></table>
+<p><span class="badge core">CLASS CORE</span> Covariance's size depends on the units (change one variable to different units and the covariance changes), so the source normalizes it into <a class="term" href="#g-corr" data-term="g-corr">correlation</a>: <span class="ptag">source</span></p>
+<div class="formula"><div class="fx">Corr(X, Y) = Cov(X, Y) / (σ_X · σ_Y) &nbsp; ∈ [−1, 1]</div>
+<ul class="symkey">
+<li><b>Cov(X, Y)</b> — the raw joint movement</li>
+<li><b>σ_X, σ_Y</b> — the two standard deviations, which set the natural scale</li>
+<li><b>[−1, 1]</b> — after dividing by the scales, the result is unit-free: −1 is perfect opposition, +1 perfect agreement, 0 no linear relation</li>
+<li><b>Why it makes sense:</b> dividing out the two spreads removes the units and makes comparisons fair. <b>How to read the result:</b> ρ = 0.8 is a strong positive linear relationship regardless of the variables' units.</li>
+</ul></div>
+<div class="callout"><b>Beginner trap.</b> "Cov(X, Y) = 0 means X and Y are independent." No — zero covariance means <b>no linear</b> relationship, not no relationship. The source's counterexample: let Y = X² with X symmetric around zero. Then X and Y are clearly dependent (Y is determined by X), yet their covariance is exactly 0. <a class="term" href="#g-uncorr" data-term="g-uncorr">Uncorrelated</a> is weaker than <a class="term" href="#g-indep" data-term="g-indep">independent</a>.</div>
+<div class="widget" id="w8">
+<div class="label">EXPLORE · COVARIANCE LAB (A POINT CLOUD THAT TILTS)</div>
+<p class="goal">🎯 Goal: slide the correlation and watch the cloud tilt — a rising cloud is positive covariance, a falling cloud negative, a round blob near zero.</p>
+<canvas class="viz" id="cv8" role="img" aria-label="A scatter plot of a deterministic point cloud whose tilt follows the chosen correlation from minus one to plus one; a text readout gives the sample covariance and correlation."></canvas>
+<div class="legend-inline"><span class="lg-a">data points</span><span class="lg-b">mean crosshair</span></div>
+<div class="ctrl-grid">
+<div class="slider-control"><div class="slider-head"><span class="slider-label">ρ — target correlation</span><output class="slider-val" id="crVal">0.60</output></div><div class="slider-track"><input id="corr" type="range" min="-1" max="1" step="0.05" value="0.6" aria-label="Target correlation of the point cloud"></div></div>
+</div>
+<div class="readout" id="r8" aria-live="polite"></div>
+</div>
+<div class="ladder" id="lad6">
+<div class="label">PRACTICE · LADDER 6 — COVARIANCE &amp; CORRELATION (3 RUNGS)</div>
+<div class="rung">
+<div class="label">RUNG 1 · WORKED EXAMPLE</div>
+<p>Three equally likely outcomes (1, 2), (2, 4), (3, 6). Find Cov(X, Y).</p>
+<div class="worked">E[X] = 2, E[Y] = 4. Products of deviations: (1−2)(2−4) = 2, (2−2)(4−4) = 0, (3−2)(6−4) = 2. Average: (2 + 0 + 2)/3 = <b>4/3 ≈ 1.33</b>.<br>Rule used: Cov = average of the products of deviations.</div>
+</div>
+<div class="rung">
+<div class="label">RUNG 2 · COMPLETION — FILL THE BLANK</div>
+<p>Cov(X, Y) = 6, σ_X = 2, σ_Y = 3. Enter Corr(X, Y).</p>
+<div class="numin"><input type="number" id="l6r2in" step="0.01" aria-label="Correlation given covariance 6 and standard deviations 2 and 3"><button type="button" class="ghost" data-ladder="l6r2">Check</button><button type="button" class="ghost" data-hint="l6r2h">Hint</button></div>
+<div class="hint" id="l6r2h" hidden>Divide the covariance by the product of the two standard deviations.</div>
+<div class="feedback" id="l6r2fb" aria-live="polite"></div>
+</div>
+<div class="rung">
+<div class="label">RUNG 3 · INDEPENDENT</div>
+<p>Corr(X, Y) = 0.5, σ_X = 2, σ_Y = 4. Enter Cov(X, Y).</p>
+<div class="numin"><input type="number" id="l6r3in" step="0.1" aria-label="Covariance given correlation 0.5 and standard deviations 2 and 4"><button type="button" class="ghost" data-ladder="l6r3">Check</button><button type="button" class="ghost" data-hint="l6r3h">Hint</button></div>
+<div class="hint" id="l6r3h" hidden>Rearrange Corr = Cov/(σ_X σ_Y).</div>
+<div class="feedback" id="l6r3fb" aria-live="polite"></div>
+</div>
+</div>
+<div class="check" id="chk8">
+<div class="label">CHECK · UNIT 8</div>
+<p><b>1. Numeric.</b> Cov(X, Y) = 6, σ_X = 2, σ_Y = 3. Enter Corr(X, Y).</p>
+<div class="numin"><input type="number" id="c8n" step="0.01" aria-label="Correlation given covariance 6 and standard deviations 2 and 3"><button type="button" data-check="c8n" data-target="c8nfb">Check</button></div>
+<div class="feedback" id="c8nfb" aria-live="polite"></div>
+<p><b>2. Diagnostic choice.</b> A colleague measures Cov(X, Y) = 0 and concludes "X and Y are independent." What is the correct response?</p>
+<div class="option-stack">
+<label class="option-item"><input type="radio" name="c8m" value="a"><span class="option-text">Correct — zero covariance proves independence.</span></label>
+<label class="option-item"><input type="radio" name="c8m" value="b"><span class="option-text">Not necessarily — zero covariance means no linear relation; variables like Y = X² can be dependent with zero covariance.</span></label>
+<label class="option-item"><input type="radio" name="c8m" value="c"><span class="option-text">Zero covariance is impossible for real variables.</span></label>
+</div>
+<button type="button" data-mcq="c8m" data-target="c8mfb">Check choice</button>
+<div class="feedback" id="c8mfb" aria-live="polite"></div>
+</div>
+<div class="label">CONNECT · WHERE THIS RUNS <span class="badge ml">ML LINK</span></div>
+<p>Covariance is the raw material of dependence modelling. The covariance matrix (next unit) collects all pairwise covariances; feature selection drops near-zero-covariance features; PCA diagonalizes the covariance to find independent directions; and the "uncorrelated ≠ independent" caution is why decorrelating features (whitening) does not automatically make them independent. <span class="ptag">source</span></p>
+
+</section>
+<section id="u9" class="unit" aria-labelledby="u9t">
+<div class="label">UNIT 9 · ML CONNECTIONS (PCA &amp; GAUSSIAN MODELS)</div>
+<h2 id="u9t">Where probability runs in real ML</h2>
+<p><span class="badge ml">ML LINK</span> The source closes with two systems built directly on this unit's ideas. <b>PCA (Principal Component Analysis)</b> uses the <a class="term" href="#g-covmat" data-term="g-covmat">covariance matrix</a> to find the directions of maximum variance; the <a class="term" href="#g-eig" data-term="g-eig">eigenvectors</a> of that matrix are the <a class="term" href="#g-pc" data-term="g-pc">principal components</a>. <b>Gaussian models</b> depend on mean and variance, and a multivariate Gaussian additionally uses the covariance. <span class="ptag">source</span></p>
+<div class="formula"><div class="fx">Σ = [[ Var(X), Cov(X, Y) ], [ Cov(X, Y), Var(Y) ]]</div>
+<ul class="symkey">
+<li><b>diagonal entries</b> — the variances of each variable (how spread each is on its own)</li>
+<li><b>off-diagonal entries</b> — the covariance (how the two move together); the matrix is symmetric</li>
+<li><b>Why it makes sense:</b> a single matrix stores every pairwise spread and joint movement, which is exactly what PCA and multivariate Gaussians need. <b>How to read the result:</b> a large off-diagonal (relative to the diagonal) means the two variables are strongly coupled. <span class="ptag">source (figure recovered)</span></li>
+</ul></div>
+<div class="formula"><div class="fx">f(x) = (1 / (σ√(2π))) · e^{ −(x − μ)² / (2σ²) }</div>
+<ul class="symkey">
+<li><b>μ</b> — the mean: where the bell is centred</li>
+<li><b>σ</b> — the standard deviation: how wide the bell is</li>
+<li><b>e^{…}</b> — the bell shape; the exponent is the negative squared distance from the mean, scaled by σ²</li>
+<li><b>Why it makes sense:</b> this is the density whose CDF underlies the classic bell curve; its whole shape is fixed by the two numbers you have been computing all lesson. <b>How to read the result:</b> the area between μ − σ and μ + σ is about 0.68; between μ − 2σ and μ + 2σ about 0.95. <span class="ptag">source (one-line, could-add)</span></li>
+</ul></div>
+<div class="callout good"><b>What you have built.</b> Mean (Unit 6), variance (Unit 7), and covariance (Unit 8) are exactly the ingredients of the covariance matrix and the Gaussian. PCA is then one step of linear algebra (Class 2's eigenvectors) applied to that matrix — you have been assembling this the whole lesson.</div>
+<div class="widget" id="w9">
+<div class="label">EXPLORE · PCA LAB (COVARIANCE ELLIPSE &amp; PRINCIPAL AXES)</div>
+<p class="goal">🎯 Goal: slide the correlation and watch the ellipse stretch — its long axis (the first principal component) is the direction of maximum variance.</p>
+<canvas class="viz" id="cv9" role="img" aria-label="A point cloud with unit variances, a covariance ellipse, and two principal axes; increasing the correlation stretches the ellipse along the rising diagonal; a text readout gives the two eigenvalues (variances along the axes)."></canvas>
+<div class="legend-inline"><span class="lg-a">data points</span><span class="lg-c">1st principal axis</span><span class="lg-d">2nd principal axis</span></div>
+<div class="ctrl-grid">
+<div class="slider-control"><div class="slider-head"><span class="slider-label">ρ — correlation</span><output class="slider-val" id="prVal">0.70</output></div><div class="slider-track"><input id="pcaRho" type="range" min="-1" max="1" step="0.05" value="0.7" aria-label="Correlation of the point cloud for PCA"></div></div>
+</div>
+<div class="readout" id="r9" aria-live="polite"></div>
+</div>
+<div class="check" id="chk9">
+<div class="label">CHECK · UNIT 9</div>
+<p><b>1. Numeric.</b> A covariance matrix is [[2, 1], [1, 2]]. Enter the <i>larger</i> eigenvalue (the variance along the first principal component).</p>
+<div class="numin"><input type="number" id="c9n" step="0.1" aria-label="Larger eigenvalue of the covariance matrix 2 1 1 2"><button type="button" data-check="c9n" data-target="c9nfb">Check</button></div>
+<div class="feedback" id="c9nfb" aria-live="polite"></div>
+<p><b>2. Diagnostic choice.</b> In PCA, what exactly are the principal components?</p>
+<div class="option-stack">
+<label class="option-item"><input type="radio" name="c9m" value="a"><span class="option-text">The variances along the diagonal of the covariance matrix.</span></label>
+<label class="option-item"><input type="radio" name="c9m" value="b"><span class="option-text">The eigenvectors of the covariance matrix — the directions of maximum variance.</span></label>
+<label class="option-item"><input type="radio" name="c9m" value="c"><span class="option-text">The original features, reordered by size.</span></label>
+</div>
+<button type="button" data-mcq="c9m" data-target="c9mfb">Check choice</button>
+<div class="feedback" id="c9mfb" aria-live="polite"></div>
+</div>
+<div class="label">CONNECT · WHERE THIS RUNS <span class="badge ml">ML LINK</span></div>
+<p>PCA is everywhere: dimensionality reduction before a classifier, visualization of high-dimensional embeddings, and whitening. Multivariate Gaussians (Gaussian mixture models, Kalman filters, the latent space of a VAE) store a mean vector and a covariance matrix — the direct generalization of the mean and variance you computed by hand. One unit of probability, a whole family of models. <span class="ptag">source</span></p>
+
+</section>
+<section id="synthesis" aria-labelledby="synt">
+<div class="label">SYNTHESIS</div>
+<h2 id="synt">The whole lesson in one arc</h2>
+<p>Look back at the concept map. A <b>random variable</b> labels outcomes with numbers; it is <b>discrete</b> (a PMF hands out lumps) or <b>continuous</b> (a PDF packs density, and only areas are probabilities). The <b>CDF</b> is the running total of either, and the conversion at the centre of the lesson says the CDF is the <b>area</b> under the PDF while the PDF is the <b>slope</b> of the CDF. From there, the <b>expectation</b> is the balance point, the <b>variance</b> is the spread around it, and the <b>covariance</b> says whether two variables move together. Put variance and covariance in a matrix and you have PCA and the multivariate Gaussian.</p>
+<p>Three threads to carry forward: (1) <b>area and accumulation</b> — probability for continuous variables is area, and the CDF is accumulated area; (2) <b>summary numbers</b> — mean, variance, and covariance compress a whole distribution into a few interpretable values; (3) <b>the linear view</b> — covariance is linear dependence, which is why PCA (linear) can miss non-linear structure and why "uncorrelated" is weaker than "independent."</p>
+<p>Now prove it to yourself — the mastery check below interleaves all nine units, asks you to tag your confidence on each item, and routes anything you miss <i>while sure</i> to your review list. No number it uses appeared earlier in this lesson.</p>
+</section>
+<section id="mastery" aria-labelledby="mast">
+<div class="label">MASTERY CHECK · 11 ITEMS, CONFIDENCE-TAGGED</div>
+<h2 id="mast">Interleaved retrieval</h2>
+<div class="mastery">
+<p><b>M1 (Unit 1).</b> A fair 5-sided die (values 1–5) is rolled. Enter P(X = 3).</p>
+<div class="numin"><input type="number" id="m1in" step="0.01" aria-label="Probability of a 3 on a fair 5-sided die"><button type="button" data-masteryn="m1" data-target="m1fb">Check</button></div>
+<div class="conf">Confidence: <label><input type="radio" name="m1c" value="sure"> sure</label><label><input type="radio" name="m1c" value="think"> think so</label><label><input type="radio" name="m1c" value="guess"> guessing</label></div>
+<div class="feedback" id="m1fb" aria-live="polite"></div>
+<p><b>M2 (Unit 3).</b> Which statement about a PDF is true?</p>
+<div class="option-stack">
+<label class="option-item"><input type="radio" name="m2" value="a"><span class="option-text">A density value can exceed 1, because only its area is a probability.</span></label>
+<label class="option-item"><input type="radio" name="m2" value="b"><span class="option-text">A density value is the probability of that exact point.</span></label>
+<label class="option-item"><input type="radio" name="m2" value="c"><span class="option-text">A density must always be less than 1.</span></label>
+</div>
+<div class="conf">Confidence: <label><input type="radio" name="m2c" value="sure"> sure</label><label><input type="radio" name="m2c" value="think"> think so</label><label><input type="radio" name="m2c" value="guess"> guessing</label></div>
+<button type="button" data-mastery="m2" data-target="m2fb">Check</button>
+<div class="feedback" id="m2fb" aria-live="polite"></div>
+<p><b>M3 (Unit 5).</b> A variable has CDF F(x) = x³ on [0, 1]. Enter P(0.2 ≤ X ≤ 0.6).</p>
+<div class="numin"><input type="number" id="m3in" step="0.001" aria-label="Probability between 0.2 and 0.6 when the CDF is x cubed"><button type="button" data-masteryn="m3" data-target="m3fb">Check</button></div>
+<div class="conf">Confidence: <label><input type="radio" name="m3c" value="sure"> sure</label><label><input type="radio" name="m3c" value="think"> think so</label><label><input type="radio" name="m3c" value="guess"> guessing</label></div>
+<div class="feedback" id="m3fb" aria-live="polite"></div>
+<p><b>M4 (Unit 4).</b> As x → +∞, what value does any CDF F(x) approach?</p>
+<div class="option-stack">
+<label class="option-item"><input type="radio" name="m4" value="a"><span class="option-text">0</span></label>
+<label class="option-item"><input type="radio" name="m4" value="b"><span class="option-text">1</span></label>
+<label class="option-item"><input type="radio" name="m4" value="c"><span class="option-text">It has no limit.</span></label>
+</div>
+<div class="conf">Confidence: <label><input type="radio" name="m4c" value="sure"> sure</label><label><input type="radio" name="m4c" value="think"> think so</label><label><input type="radio" name="m4c" value="guess"> guessing</label></div>
+<button type="button" data-mastery="m4" data-target="m4fb">Check</button>
+<div class="feedback" id="m4fb" aria-live="polite"></div>
+<p><b>M5 (Unit 6).</b> A uniform discrete variable takes values 1–7 with equal probability. Enter E[X].</p>
+<div class="numin"><input type="number" id="m5in" step="0.1" aria-label="Expected value of a uniform discrete variable on 1 to 7"><button type="button" data-masteryn="m5" data-target="m5fb">Check</button></div>
+<div class="conf">Confidence: <label><input type="radio" name="m5c" value="sure"> sure</label><label><input type="radio" name="m5c" value="think"> think so</label><label><input type="radio" name="m5c" value="guess"> guessing</label></div>
+<div class="feedback" id="m5fb" aria-live="polite"></div>
+<p><b>M6 (Unit 7).</b> A fair 5-sided die (values 1–5). Enter Var(X).</p>
+<div class="numin"><input type="number" id="m6in" step="0.01" aria-label="Variance of a fair 5-sided die"><button type="button" data-masteryn="m6" data-target="m6fb">Check</button></div>
+<div class="conf">Confidence: <label><input type="radio" name="m6c" value="sure"> sure</label><label><input type="radio" name="m6c" value="think"> think so</label><label><input type="radio" name="m6c" value="guess"> guessing</label></div>
+<div class="feedback" id="m6fb" aria-live="polite"></div>
+<p><b>M7 (Unit 8).</b> Two variables have Cov(X, Y) = 0. What can you conclude?</p>
+<div class="option-stack">
+<label class="option-item"><input type="radio" name="m7" value="a"><span class="option-text">There is no linear relationship, but they may still be dependent (e.g. Y = X²).</span></label>
+<label class="option-item"><input type="radio" name="m7" value="b"><span class="option-text">X and Y are independent.</span></label>
+<label class="option-item"><input type="radio" name="m7" value="c"><span class="option-text">X and Y are definitely unrelated in every sense.</span></label>
+</div>
+<div class="conf">Confidence: <label><input type="radio" name="m7c" value="sure"> sure</label><label><input type="radio" name="m7c" value="think"> think so</label><label><input type="radio" name="m7c" value="guess"> guessing</label></div>
+<button type="button" data-mastery="m7" data-target="m7fb">Check</button>
+<div class="feedback" id="m7fb" aria-live="polite"></div>
+<p><b>M8 (Unit 8).</b> Cov(X, Y) = 8, σ_X = 2, σ_Y = 4. Enter Corr(X, Y).</p>
+<div class="numin"><input type="number" id="m8in" step="0.01" aria-label="Correlation given covariance 8 and standard deviations 2 and 4"><button type="button" data-masteryn="m8" data-target="m8fb">Check</button></div>
+<div class="conf">Confidence: <label><input type="radio" name="m8c" value="sure"> sure</label><label><input type="radio" name="m8c" value="think"> think so</label><label><input type="radio" name="m8c" value="guess"> guessing</label></div>
+<div class="feedback" id="m8fb" aria-live="polite"></div>
+<p><b>M9 (transfer — Unit 3/5).</b> A density you have not seen: f(x) = 3x² on [0, 1] (so F(x) = x³). Enter P(X ≤ 0.5).</p>
+<div class="numin"><input type="number" id="m9in" step="0.001" aria-label="Probability that X is at most 0.5 when the density is 3 x squared"><button type="button" data-masteryn="m9" data-target="m9fb">Check</button></div>
+<div class="conf">Confidence: <label><input type="radio" name="m9c" value="sure"> sure</label><label><input type="radio" name="m9c" value="think"> think so</label><label><input type="radio" name="m9c" value="guess"> guessing</label></div>
+<div class="feedback" id="m9fb" aria-live="polite"></div>
+<p><b>M10 (error-identification).</b> A student writes: "The CDF is the derivative of the PDF, so to get the CDF from the PDF I differentiate it." What is the error?</p>
+<div class="option-stack">
+<label class="option-item"><input type="radio" name="m10" value="a"><span class="option-text">No error — that is the correct rule.</span></label>
+<label class="option-item"><input type="radio" name="m10" value="b"><span class="option-text">The directions are reversed: the CDF is the integral of the PDF; the PDF is the derivative of the CDF.</span></label>
+<label class="option-item"><input type="radio" name="m10" value="c"><span class="option-text">The error is that PDFs cannot be differentiated.</span></label>
+</div>
+<div class="conf">Confidence: <label><input type="radio" name="m10c" value="sure"> sure</label><label><input type="radio" name="m10c" value="think"> think so</label><label><input type="radio" name="m10c" value="guess"> guessing</label></div>
+<button type="button" data-mastery="m10" data-target="m10fb">Check</button>
+<div class="feedback" id="m10fb" aria-live="polite"></div>
+<p><b>M11 (reasoning — Unit 9).</b> Why does a Gaussian model need both a mean and a variance (and a covariance in the multivariate case)?</p>
+<div class="option-stack">
+<label class="option-item"><input type="radio" name="m11" value="a"><span class="option-text">The mean fixes the centre and the variance fixes the width (and covariance the tilt) — together they determine the whole shape.</span></label>
+<label class="option-item"><input type="radio" name="m11" value="b"><span class="option-text">The variance is optional; the mean alone describes a Gaussian.</span></label>
+<label class="option-item"><input type="radio" name="m11" value="c"><span class="option-text">The covariance replaces the mean in higher dimensions.</span></label>
+</div>
+<div class="conf">Confidence: <label><input type="radio" name="m11c" value="sure"> sure</label><label><input type="radio" name="m11c" value="think"> think so</label><label><input type="radio" name="m11c" value="guess"> guessing</label></div>
+<button type="button" data-mastery="m11" data-target="m11fb">Check</button>
+<div class="feedback" id="m11fb" aria-live="polite"></div>
+
+</div>
+<div id="msum" class="readout" aria-live="polite"></div>
+</section>
+<section id="review" aria-labelledby="revt">
+<div class="label">YOUR REVIEW LIST</div>
+<h2 id="revt">What to revisit</h2>
+<p>Every check you miss, and every mastery item you miss <i>while sure</i>, lands here automatically (saved in this browser). Come back after a break — spaced retrieval is the cheapest memory upgrade there is.</p>
+<div id="reviewList" aria-live="polite"></div>
+<p><button type="button" id="resetProgress" class="ghost">Reset all saved progress</button></p>
+</section>
+<section id="glossary" aria-labelledby="glost">
+<div class="label">GLOSSARY</div>
+<h2 id="glost">Every term, six ways</h2>
+<dl class="gloss-list">
+<div class="gitem"><dt id="g-prob">probability</dt><dd><b>Simple:</b> how likely something is, on a scale from 0 to 1. <b>Precise:</b> a number in [0,1] assigned to an event measuring its chance of occurring. <b>Intuition:</b> a budget of certainty shared out over outcomes. <b>Example:</b> a fair coin has P(heads) = 0.5. <b>Related:</b> uncertainty, random variable, distribution. <b>In practice/ML:</b> every model's output is a probability (spam score, next-token, click).</dd></div>
+<div class="gitem"><dt id="g-uncert">uncertainty</dt><dd><b>Simple:</b> not knowing the outcome for sure. <b>Precise:</b> the condition modelled by a probability distribution over outcomes. <b>Intuition:</b> the reason probability exists. <b>Example:</b> tomorrow's rainfall is uncertain. <b>Related:</b> probability, random variable. <b>In practice/ML:</b> predictive uncertainty drives when a model abstains or flags risk.</dd></div>
+<div class="gitem"><dt id="g-rv">random variable</dt><dd><b>Simple:</b> a rule that turns an outcome into a number. <b>Precise:</b> a function X: Ω → ℝ mapping each outcome to a real value. <b>Intuition:</b> a numerical label for randomness. <b>Example:</b> X = the number on a rolled die. <b>Related:</b> discrete, continuous, sample space. <b>In practice/ML:</b> every feature and every prediction is a random variable.</dd></div>
+<div class="gitem"><dt id="g-samplespace">sample space</dt><dd><b>Simple:</b> all the things that could happen. <b>Precise:</b> the set Ω of all possible outcomes of a random process. <b>Intuition:</b> the menu before you order. <b>Example:</b> Ω = {1, 2, 3, 4, 5, 6} for a die. <b>Related:</b> outcome, random variable. <b>In practice/ML:</b> the set of possible labels or classes.</dd></div>
+<div class="gitem"><dt id="g-outcome">outcome</dt><dd><b>Simple:</b> a single result. <b>Precise:</b> one element of the sample space; an event is a set of outcomes. <b>Intuition:</b> what actually happened. <b>Example:</b> rolling a 4. <b>Related:</b> sample space, event. <b>In practice/ML:</b> one observed data point or one generated token.</dd></div>
+<div class="gitem"><dt id="g-discrete">discrete random variable</dt><dd><b>Simple:</b> a variable with countable values. <b>Precise:</b> an RV taking finitely or countably many values, with probability attached to exact values. <b>Intuition:</b> values you can list. <b>Example:</b> number of emails received. <b>Related:</b> PMF, continuous. <b>In practice/ML:</b> class labels, token indices, counts.</dd></div>
+<div class="gitem"><dt id="g-continuous">continuous random variable</dt><dd><b>Simple:</b> a variable that can take any value in a range. <b>Precise:</b> an RV over an interval, where P(X = x) = 0 for every single point. <b>Intuition:</b> values you measure, not count. <b>Example:</b> height, temperature, time. <b>Related:</b> PDF, CDF. <b>In practice/ML:</b> scores, embeddings, physical measurements.</dd></div>
+<div class="gitem"><dt id="g-dist">probability distribution</dt><dd><b>Simple:</b> how probability is shared over a variable's values. <b>Precise:</b> the function (PMF, PDF, or CDF) describing the probabilities of an RV's values. <b>Intuition:</b> the shape of the uncertainty. <b>Example:</b> the uniform, Gaussian, or dice distribution. <b>Related:</b> PMF, PDF, CDF. <b>In practice/ML:</b> the output layer's softmax is a distribution.</dd></div>
+<div class="gitem"><dt id="g-pmf">probability mass function (PMF)</dt><dd><b>Simple:</b> the probability of each exact value of a discrete variable. <b>Precise:</b> P(X = x) for each value, with masses in [0,1] summing to 1. <b>Intuition:</b> lumps of probability at the values. <b>Example:</b> P(X = x) = 1/6 for a fair die. <b>Related:</b> discrete, PDF, CDF. <b>In practice/ML:</b> the next-token distribution is a PMF.</dd></div>
+<div class="gitem"><dt id="g-pdf">probability density function (PDF)</dt><dd><b>Simple:</b> a curve whose area gives probability for a continuous variable. <b>Precise:</b> a non-negative f with ∫f = 1, where P(a ≤ X ≤ b) = ∫ₐᵇ f. <b>Intuition:</b> how thickly probability is packed. <b>Example:</b> U(0,1) has f(x) = 1; f(x) = 2x is another. <b>Related:</b> continuous, density, CDF. <b>In practice/ML:</b> Gaussian likelihoods are densities.</dd></div>
+<div class="gitem"><dt id="g-cdf">cumulative distribution function (CDF)</dt><dd><b>Simple:</b> the running total of probability up to x. <b>Precise:</b> F(x) = P(X ≤ x); non-decreasing, in [0,1], →0 left and →1 right. <b>Intuition:</b> how much budget is spent by x. <b>Example:</b> U(0,1) has F(x) = x. <b>Related:</b> PMF, PDF, fundamental theorem. <b>In practice/ML:</b> thresholds, calibration, inverse-CDF sampling.</dd></div>
+<div class="gitem"><dt id="g-density">density</dt><dd><b>Simple:</b> the height of a PDF. <b>Precise:</b> the value f(x) of a density at x; not a probability and may exceed 1. <b>Intuition:</b> concentration, not amount. <b>Example:</b> f(x) = 2x reaches 2 at x = 1. <b>Related:</b> PDF, area under the curve. <b>In practice/ML:</b> likelihood values are densities.</dd></div>
+<div class="gitem"><dt id="g-area">area under the curve</dt><dd><b>Simple:</b> the probability captured by a slice of a density. <b>Precise:</b> ∫ₐᵇ f(x) dx = P(a ≤ X ≤ b). <b>Intuition:</b> how much of the density sits over the interval. <b>Example:</b> ∫₀^{0.5} 2x dx = 0.25. <b>Related:</b> PDF, integral, CDF. <b>In practice/ML:</b> the area beyond a threshold is an error rate.</dd></div>
+<div class="gitem"><dt id="g-support">support</dt><dd><b>Simple:</b> where a distribution is not zero. <b>Precise:</b> the set of values with non-zero mass or density. <b>Intuition:</b> the region the variable can occupy. <b>Example:</b> [0, 1] for U(0,1). <b>Related:</b> PDF, PMF. <b>In practice/ML:</b> bounded supports motivate logit transforms.</dd></div>
+<div class="gitem"><dt id="g-uniform">uniform distribution</dt><dd><b>Simple:</b> every value in a range is equally likely. <b>Precise:</b> U(0,1) has f(x) = 1 on [0,1] and F(x) = x. <b>Intuition:</b> a flat density. <b>Example:</b> a random number generator. <b>Related:</b> PDF, CDF. <b>In practice/ML:</b> random initialization uses uniforms.</dd></div>
+<div class="gitem"><dt id="g-fundamental">fundamental theorem (of probability conversion)</dt><dd><b>Simple:</b> the CDF is the area under the PDF; the PDF is the slope of the CDF. <b>Precise:</b> F(x) = ∫_{−∞}^{x} f(t) dt and f(x) = dF/dx; hence P(a ≤ X ≤ b) = F(b) − F(a). <b>Intuition:</b> accumulate a rate to get a total, differentiate a total to get the rate. <b>Example:</b> f = 2x ⇔ F = x². <b>Related:</b> integral, derivative, CDF. <b>In practice/ML:</b> inverse-CDF sampling and normalizing flows rely on it.</dd></div>
+<div class="gitem"><dt id="g-integral">integral</dt><dd><b>Simple:</b> an accumulated area. <b>Precise:</b> the limit of a sum of thin rectangles; ∫ₐᵇ f(x) dx is the signed area under f from a to b. <b>Intuition:</b> adding up infinitely many thin slices. <b>Example:</b> ∫₀¹ 2x dx = 1. <b>Related:</b> area under the curve, derivative, CDF. <b>In practice/ML:</b> continuous expectation and probability are integrals.</dd></div>
+<div class="gitem"><dt id="g-derivative">derivative</dt><dd><b>Simple:</b> the slope — how fast something changes. <b>Precise:</b> dF/dx is the local rate of change of F. <b>Intuition:</b> the steepness of a curve at a point. <b>Example:</b> d/dx(x²) = 2x. <b>Related:</b> integral, PDF, density. <b>In practice/ML:</b> the PDF is the derivative of the CDF.</dd></div>
+<div class="gitem"><dt id="g-leftlimit">left limit</dt><dd><b>Simple:</b> the value a function approaches from below. <b>Precise:</b> F(x⁻) = lim of F as it approaches x from the left. <b>Intuition:</b> the running total just before x. <b>Example:</b> for a fair die, F(3⁻) = F(2) = 1/3. <b>Related:</b> CDF, PMF. <b>In practice/ML:</b> recovering discrete masses from a step CDF.</dd></div>
+<div class="gitem"><dt id="g-expect">expectation (expected value)</dt><dd><b>Simple:</b> the long-run average. <b>Precise:</b> E[X] = Σ x P(X=x) (discrete) or ∫ x f(x) dx (continuous). <b>Intuition:</b> the balance point of the probability budget. <b>Example:</b> a fair die has E[X] = 3.5. <b>Related:</b> mean, variance, linearity. <b>In practice/ML:</b> expected loss is what training minimizes.</dd></div>
+<div class="gitem"><dt id="g-mean">mean</dt><dd><b>Simple:</b> the average value, μ. <b>Precise:</b> synonym for E[X]. <b>Intuition:</b> the centre of mass of the distribution. <b>Example:</b> E[X] = 2/3 for f(x) = 2x. <b>Related:</b> expectation, variance. <b>In practice/ML:</b> a Gaussian's first parameter.</dd></div>
+<div class="gitem"><dt id="g-linearity">linearity of expectation</dt><dd><b>Simple:</b> averaging passes through sums and scalings. <b>Precise:</b> E[aX + b] = aE[X] + b and E[X + Y] = E[X] + E[Y], even if dependent. <b>Intuition:</b> the average of a shifted/scaled quantity shifts/scales the same way. <b>Example:</b> if reward = 2·score + 5, E[reward] = 2E[score] + 5. <b>Related:</b> expectation. <b>In practice/ML:</b> decomposing complex expected losses.</dd></div>
+<div class="gitem"><dt id="g-variance">variance</dt><dd><b>Simple:</b> how spread out the values are. <b>Precise:</b> Var(X) = E[(X − μ)²] = E[X²] − (E[X])². <b>Intuition:</b> the expected squared distance from the mean. <b>Example:</b> a fair die has Var ≈ 2.92. <b>Related:</b> standard deviation, spread, bias–variance. <b>In practice/ML:</b> unstable predictions = high variance = overfitting.</dd></div>
+<div class="gitem"><dt id="g-sd">standard deviation</dt><dd><b>Simple:</b> spread in the data's own units. <b>Precise:</b> σ = √Var(X). <b>Intuition:</b> "about this far from the mean." <b>Example:</b> a fair die has σ ≈ 1.71. <b>Related:</b> variance, spread. <b>In practice/ML:</b> the scale of Gaussian noise.</dd></div>
+<div class="gitem"><dt id="g-spread">spread</dt><dd><b>Simple:</b> how widely values scatter. <b>Precise:</b> the dispersion measured by variance or standard deviation. <b>Intuition:</b> tight cluster vs wide fan. <b>Example:</b> the same mean with growing spread in the variance lab. <b>Related:</b> variance, standard deviation. <b>In practice/ML:</b> feature scaling normalizes spread.</dd></div>
+<div class="gitem"><dt id="g-computational">computational formula (variance)</dt><dd><b>Simple:</b> a quicker way to get variance. <b>Precise:</b> Var(X) = E[X²] − (E[X])². <b>Intuition:</b> two averages instead of a sum of squared deviations. <b>Example:</b> 91/6 − 3.5² ≈ 2.92 for a die. <b>Related:</b> variance, second moment. <b>In practice/ML:</b> a standard interview identity.</dd></div>
+<div class="gitem"><dt id="g-biasvar">bias–variance tradeoff</dt><dd><b>Simple:</b> models can err by being too simple or too jumpy. <b>Precise:</b> the decomposition of expected error into bias² (systematic) and variance (sensitivity to data). <b>Intuition:</b> a rigid model underfits; a twitchy model overfits. <b>Example:</b> a deep tree has high variance. <b>Related:</b> variance, overfitting. <b>In practice/ML:</b> regularization and ensembling trade bias for variance.</dd></div>
+<div class="gitem"><dt id="g-cov">covariance</dt><dd><b>Simple:</b> whether two variables move together. <b>Precise:</b> Cov(X,Y) = E[(X − E[X])(Y − E[Y])]. <b>Intuition:</b> the average product of the two deviations. <b>Example:</b> study hours and scores have positive covariance. <b>Related:</b> correlation, covariance matrix, independence. <b>In practice/ML:</b> the raw material of PCA and Gaussian models.</dd></div>
+<div class="gitem"><dt id="g-corr">correlation</dt><dd><b>Simple:</b> covariance rescaled to [−1, 1]. <b>Precise:</b> Corr(X,Y) = Cov(X,Y)/(σ_X σ_Y). <b>Intuition:</b> strength and direction of linear relationship, unit-free. <b>Example:</b> ρ = 0.8 is a strong positive relationship. <b>Related:</b> covariance, independence. <b>In practice/ML:</b> feature-correlation heatmaps guide feature selection.</dd></div>
+<div class="gitem"><dt id="g-indep">independence</dt><dd><b>Simple:</b> knowing one variable tells you nothing about the other. <b>Precise:</b> X and Y are independent if P(X, Y) = P(X)P(Y) for all values. <b>Intuition:</b> no information leaks between them. <b>Example:</b> two separate dice rolls. <b>Related:</b> uncorrelated, covariance. <b>In practice/ML:</b> the i.i.d. assumption in many models.</dd></div>
+<div class="gitem"><dt id="g-uncorr">uncorrelated</dt><dd><b>Simple:</b> no linear relationship. <b>Precise:</b> Cov(X,Y) = 0 (equivalently Corr = 0). <b>Intuition:</b> the cloud is not tilted. <b>Example:</b> Y = X² with X symmetric about 0. <b>Related:</b> independence, covariance. <b>In practice/ML:</b> whitening decorrelates but does not make features independent.</dd></div>
+<div class="gitem"><dt id="g-pca">PCA (Principal Component Analysis)</dt><dd><b>Simple:</b> finding the directions along which data varies most. <b>Precise:</b> an eigen-decomposition of the covariance matrix; the eigenvectors are the principal components and the eigenvalues are the variances along them. <b>Intuition:</b> rotate the axes so the first axis catches the most spread. <b>Example:</b> reducing 100 features to 2 for a scatter plot. <b>Related:</b> covariance matrix, eigenvector, principal component. <b>In practice/ML:</b> dimensionality reduction, visualization, whitening.</dd></div>
+<div class="gitem"><dt id="g-covmat">covariance matrix</dt><dd><b>Simple:</b> a table of every variable's variance and pairwise covariance. <b>Precise:</b> Σ with diagonal variances and off-diagonal covariances; symmetric. <b>Intuition:</b> the spread-and-tilt summary of many variables at once. <b>Example:</b> [[2, 1], [1, 2]] has eigenvalues 3 and 1. <b>Related:</b> covariance, PCA, multivariate Gaussian. <b>In practice/ML:</b> the input to PCA and to multivariate Gaussian models.</dd></div>
+<div class="gitem"><dt id="g-eig">eigenvector</dt><dd><b>Simple:</b> a direction a matrix only stretches, never turns (Class 2's word, reused). <b>Precise:</b> a vector v with Mv = λv for some scalar λ (the eigenvalue). <b>Intuition:</b> the special directions of a transformation. <b>Example:</b> for [[2,1],[1,2]], v = (1,1) with λ = 3. <b>Related:</b> covariance matrix, principal component. <b>In practice/ML:</b> PCA's principal components are eigenvectors.</dd></div>
+<div class="gitem"><dt id="g-pc">principal component</dt><dd><b>Simple:</b> a direction of maximum variance. <b>Precise:</b> an eigenvector of the covariance matrix, ordered by its eigenvalue (variance). <b>Intuition:</b> the "long axis" of the data cloud. <b>Example:</b> the rising diagonal when features are positively correlated. <b>Related:</b> PCA, eigenvector, covariance matrix. <b>In practice/ML:</b> the new axes after PCA projection.</dd></div>
+<div class="gitem"><dt id="g-gaussian">Gaussian (normal) distribution</dt><dd><b>Simple:</b> the bell curve. <b>Precise:</b> a continuous distribution with density (1/(σ√(2π)))·e^{−(x−μ)²/(2σ²)}, determined by μ and σ. <b>Intuition:</b> values cluster near the mean and thin out symmetrically. <b>Example:</b> measurement noise. <b>Related:</b> mean, variance, multivariate Gaussian. <b>In practice/ML:</b> noise models, Gaussian processes, GMMs.</dd></div>
+<div class="gitem"><dt id="g-mvg">multivariate Gaussian</dt><dd><b>Simple:</b> a bell over several variables at once. <b>Precise:</b> a Gaussian with a mean vector and a covariance matrix. <b>Intuition:</b> a tilted, stretched bell in higher dimensions. <b>Example:</b> a 2-D Gaussian with correlated coordinates. <b>Related:</b> covariance matrix, Gaussian. <b>In practice/ML:</b> latent spaces, Kalman filters, Gaussian mixture models.</dd></div>
+<div class="gitem"><dt id="g-llm">language model</dt><dd><b>Simple:</b> a model that predicts the next token. <b>Precise:</b> a system that outputs a probability distribution over a vocabulary given context. <b>Intuition:</b> autocomplete that weighs every possible next word. <b>Example:</b> the "world 0.41, everyone 0.22" table. <b>Related:</b> PMF, token distribution. <b>In practice/ML:</b> chatbots and text generators.</dd></div>
+<div class="gitem"><dt id="g-token">token distribution</dt><dd><b>Simple:</b> the probabilities a language model gives to the next token. <b>Precise:</b> a PMF over the vocabulary produced at each step. <b>Intuition:</b> the ranked shortlist of next words. <b>Example:</b> P(world) = 0.41. <b>Related:</b> PMF, language model. <b>In practice/ML:</b> sampling and temperature shape it.</dd></div>
+<div class="gitem"><dt id="g-fraud">fraud detection</dt><dd><b>Simple:</b> scoring how likely a transaction is fraudulent. <b>Precise:</b> estimating P(Fraud | transaction features) and thresholding it. <b>Intuition:</b> a risk score per transaction. <b>Example:</b> 0.02 → safe; 0.95 → suspicious. <b>Related:</b> probability, conditional probability. <b>In practice/ML:</b> the classic probabilistic classifier application.</dd></div>
+<div class="gitem"><dt id="g-recsys">recommendation system</dt><dd><b>Simple:</b> a system that ranks items for a user. <b>Precise:</b> it estimates P(User Likes Item) and ranks by that probability. <b>Intuition:</b> probability ranking in disguise. <b>Example:</b> Netflix's "because you watched…". <b>Related:</b> probability, PMF. <b>In practice/ML:</b> ranking is sorting by predicted probability.</dd></div>
+</dl>
+</section>
+<footer class="colophon">Built with <span class="heart">♥</span> using Interactive Lessons<br>AI-generated, so mistakes can sneak in — double-check what matters.</footer>
+
+</div>
+<script>
+/* ===== helpers ===== */
+function fmt(n,d){ if(!isFinite(n)){ return "—"; } return (+n).toFixed(d); }
+function makeView(canvasId,xMin,xMax,yMin,yMax){
+  var cv=document.getElementById(canvasId); if(!cv){ return null; }
+  function fresh(){
+    var dpr=window.devicePixelRatio||1;
+    var cw=cv.clientWidth||640;
+    var ch=Math.round(cw*(yMax-yMin)/(xMax-xMin));
+    if(cv.width!==Math.round(cw*dpr)){ cv.width=Math.round(cw*dpr); cv.height=Math.round(ch*dpr); cv.style.height=ch+"px"; }
+    var ctx=cv.getContext("2d");
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+    return {ctx:ctx,cw:cw,ch:ch};
+  }
+  var X=function(x){ return (x-xMin)/(xMax-xMin); };
+  var Y=function(y){ return 1-(y-yMin)/(yMax-yMin); };
+  return {cv:cv,fresh:fresh,X:X,Y:Y,xMin:xMin,xMax:xMax,yMin:yMin,yMax:yMax};
+}
+function px(view,nx){ return nx*view.cv.clientWidth; }
+function py(view,ny){ return ny*view.cv.clientHeight; }
+function barAt(view,ctx,x,val,color,wfrac){
+  var w=(wfrac||0.6)*view.cv.clientWidth/(view.xMax-view.xMin);
+  var cx=px(view,view.X(x));
+  var top=py(view,view.Y(val));
+  var base=py(view,view.Y(Math.max(view.yMin,0)));
+  ctx.fillStyle=color;
+  ctx.fillRect(cx-w/2,top,w,base-top);
+}
+/* ===== storage with graceful fallback ===== */
+var STORAGE_OK=(function(){ try{ var t="__prob1t"; localStorage.setItem(t,"1"); localStorage.removeItem(t); return true; }catch(e){ return false; } })();
+function loadJSON(key,fb){ if(!STORAGE_OK){ return fb; } try{ var raw=localStorage.getItem(key); if(raw===null){ return fb; } var v=JSON.parse(raw); return (v&&typeof v==="object")?v:fb; }catch(e){ return fb; } }
+function saveJSON(key,val){ if(!STORAGE_OK){ return; } try{ localStorage.setItem(key,JSON.stringify(val)); }catch(e){} }
+var dots=loadJSON("prob1-dots",{});
+var storedReview=loadJSON("prob1-review",[]);
+var review=Array.isArray(storedReview)?storedReview.filter(function(item){ return item&&typeof item.id==="string"&&(/^chk[1-9](-(n|m))?$/.test(item.id)||/^mastery-m[0-9]+$/.test(item.id)); }):[];
+function addReview(id,label){ for(var i=0;i<review.length;i++){ if(review[i].id===id){ return; } } review.push({id:id,label:label}); saveJSON("prob1-review",review); renderReview(); }
+function removeReview(id){ var next=[]; for(var i=0;i<review.length;i++){ if(review[i].id!==id){ next.push(review[i]); } } if(next.length!==review.length){ review=next; saveJSON("prob1-review",review); renderReview(); } }
+function renderReview(){
+  var el=document.getElementById("reviewList"); if(!el){ return; }
+  if(!review.length){ el.innerHTML="<p style='color:var(--ink-faint)'>Nothing queued — clear the checks above and see.</p>"; return; }
+  var html="<ul style='margin:.3rem 0;padding-left:1.2rem'>";
+  for(var i=0;i<review.length;i++){ html+="<li>"+review[i].label+" — <a href='#"+review[i].id+"'>go back</a></li>"; }
+  html+="</ul><p style='font-size:.82rem;color:var(--ink-soft)'>"+review.length+" item(s) queued. Come back after a break — spacing helps it stick.</p>";
+  el.innerHTML=html;
+}
+function setDot(unit,done){ var link=document.querySelector('.topnav a[href="#'+unit+'"] .dot'); if(link){ link.classList.toggle("done",!!done); } }
+function markCheck(unit,part,ok,label){
+  dots[unit]=dots[unit]||{}; dots[unit][part]=!!ok; saveJSON("prob1-dots",dots);
+  var reviewId="chk"+unit.slice(1)+"-"+part;
+  var all=Object.keys(dots[unit]).every(function(k){ return dots[unit][k]; });
+  setDot(unit,all);
+  if(ok){ removeReview(reviewId); } else { addReview(reviewId,label); }
+}
+/* ===== W1: random-variable lab (fair n-sided die) ===== */
+function draw_w1(){ drawW1(); }
+function drawW1(){
+  var n=+document.getElementById("nsides").value;
+  document.getElementById("nVal").textContent=String(n);
+  var view=makeView("cv1",0,12,0,1.05); if(!view){ return; }
+  var f=view.fresh(), ctx=f.ctx; ctx.clearRect(0,0,f.cw,f.ch);
+  var i; for(i=1;i<=n;i++){ barAt(view,ctx,i,1/n,"#2f5fd0",0.6); }
+  ctx.font="11px monospace"; ctx.fillStyle="#66727f";
+  ctx.fillText("1/n = "+fmt(1/n,3),8,14);
+  document.getElementById("r1").innerHTML="n = <b>"+n+"</b> values, each with mass 1/n = <b>"+fmt(1/n,3)+"</b>.<br>Sum of masses = "+n+" × 1/n = <b>1</b> — the budget is fully spent.";
+}
+/* ===== W2: PMF lab (dice with cumulative shading) ===== */
+function draw_w2(){ drawW2(); }
+function drawW2(){
+  var k=+document.getElementById("ksel").value;
+  document.getElementById("kVal").textContent=String(k);
+  var view=makeView("cv2",0,7,0,1.05); if(!view){ return; }
+  var f=view.fresh(), ctx=f.ctx; ctx.clearRect(0,0,f.cw,f.ch);
+  var i; for(i=1;i<=6;i++){ barAt(view,ctx,i,1/6,(i<=k)?"#1e7a46":"#2f5fd0",0.6); }
+  ctx.font="11px monospace"; ctx.fillStyle="#66727f";
+  ctx.fillText("1/6 ≈ "+fmt(1/6,3),8,14);
+  document.getElementById("r2").innerHTML="P(X = k) = 1/6 ≈ <b>"+fmt(1/6,3)+"</b> &nbsp;·&nbsp; F(k) = P(X ≤ k) = "+k+"/6 ≈ <b>"+fmt(k/6,3)+"</b><br>Reading: the shaded bars are the accumulated mass up to k.";
+}
+/* ===== W3: PDF area lab (f(x)=2x) — gated by G1 ===== */
+function draw_w3(){ drawW3(); }
+function drawW3(){
+  var a=+document.getElementById("pdfa").value;
+  var b=+document.getElementById("pdfb").value;
+  if(b<a){ var t=a; a=b; b=t; }
+  document.getElementById("aVal").textContent=fmt(a,2);
+  document.getElementById("bVal").textContent=fmt(b,2);
+  var view=makeView("cv3",-0.05,1.05,0,2.3); if(!view){ return; }
+  var f=view.fresh(), ctx=f.ctx; ctx.clearRect(0,0,f.cw,f.ch);
+  var i;
+  /* shaded region */
+  ctx.fillStyle="rgba(138,97,22,.25)"; ctx.beginPath();
+  var started=false;
+  for(i=0;i<=60;i++){ var xx=a+(b-a)*i/60; var xp=px(view,view.X(xx)); var yp=py(view,view.Y(2*xx)); if(!started){ ctx.moveTo(xp,yp); started=true; } else { ctx.lineTo(xp,yp); } }
+  ctx.lineTo(px(view,view.X(b)),py(view,view.Y(0)));
+  ctx.lineTo(px(view,view.X(a)),py(view,view.Y(0)));
+  ctx.closePath(); ctx.fill();
+  /* curve */
+  ctx.strokeStyle="#2f5fd0"; ctx.lineWidth=2.2; ctx.beginPath();
+  for(i=0;i<=80;i++){ var t=i/80; var xp2=px(view,view.X(t)); var yp2=py(view,view.Y(2*t)); if(i===0){ ctx.moveTo(xp2,yp2); } else { ctx.lineTo(xp2,yp2); } }
+  ctx.stroke();
+  ctx.font="11px monospace"; ctx.fillStyle="#66727f";
+  ctx.fillText("f(x) = 2x",8,14);
+  document.getElementById("r3").innerHTML="Shaded area over ["+fmt(a,2)+", "+fmt(b,2)+"] = ∫ f = b² − a² = "+fmt(b*b,3)+" − "+fmt(a*a,3)+" = <b>"+fmt(b*b-a*a,3)+"</b>.<br>Reading: that area is P(a ≤ X ≤ b); the curve's height f(x) is a density, not a probability.";
+}
+/* ===== W4: CDF lab (F(x)=x²) ===== */
+function draw_w4(){ drawW4(); }
+function drawW4(){
+  var x=+document.getElementById("cdfx").value;
+  document.getElementById("xVal").textContent=fmt(x,2);
+  var view=makeView("cv4",-0.05,1.05,0,1.05); if(!view){ return; }
+  var f=view.fresh(), ctx=f.ctx; ctx.clearRect(0,0,f.cw,f.ch);
+  var i;
+  ctx.strokeStyle="#e3e0d8"; ctx.lineWidth=1; ctx.beginPath();
+  ctx.moveTo(px(view,view.X(0)),py(view,view.Y(0))); ctx.lineTo(px(view,view.X(1)),py(view,view.Y(1))); ctx.stroke();
+  ctx.strokeStyle="#2f5fd0"; ctx.lineWidth=2.2; ctx.beginPath();
+  for(i=0;i<=80;i++){ var t=i/80; var xp=px(view,view.X(t)); var yp=py(view,view.Y(t*t)); if(i===0){ ctx.moveTo(xp,yp); } else { ctx.lineTo(xp,yp); } }
+  ctx.stroke();
+  ctx.fillStyle="#1e7a46"; ctx.beginPath(); ctx.arc(px(view,view.X(x)),py(view,view.Y(x*x)),4,0,2*Math.PI); ctx.fill();
+  ctx.font="11px monospace"; ctx.fillStyle="#66727f";
+  ctx.fillText("F(x) = x²",8,14);
+  document.getElementById("r4").innerHTML="F("+fmt(x,2)+") = P(X ≤ "+fmt(x,2)+") = x² = <b>"+fmt(x*x,3)+"</b>.<br>Reading: the marker height is the running total — "+fmt(x*x*100,1)+"% of the probability is at or below x.";
+}
+/* ===== W5: conversion lab (two panels) — gated by G2 ===== */
+function draw_w5(){ drawW5(); }
+function drawW5(){
+  var x=+document.getElementById("convx").value;
+  document.getElementById("cxVal").textContent=fmt(x,2);
+  var view=makeView("cv5",0,1,0,1); if(!view){ return; }
+  var f=view.fresh(), ctx=f.ctx, cw=f.cw, ch=f.ch; ctx.clearRect(0,0,cw,ch);
+  var pad=16; function X(xx){ return pad+xx*(cw-2*pad); }
+  var y0t=ch*0.42, ht=ch*0.34, y0b=ch-10, hb=ch*0.34;
+  function YT(v){ return y0t-(v/2)*ht; } function YB(v){ return y0b-v*hb; }
+  var i;
+  /* top: density f=2t, shade [0,x] */
+  ctx.fillStyle="rgba(138,97,22,.25)"; ctx.beginPath(); ctx.moveTo(X(0),YT(0));
+  for(i=0;i<=60;i++){ var t=x*i/60; ctx.lineTo(X(t),YT(2*t)); }
+  ctx.lineTo(X(x),YT(0)); ctx.closePath(); ctx.fill();
+  ctx.strokeStyle="#2f5fd0"; ctx.lineWidth=2.2; ctx.beginPath();
+  for(i=0;i<=80;i++){ var t2=i/80; if(i===0){ ctx.moveTo(X(t2),YT(2*t2)); } else { ctx.lineTo(X(t2),YT(2*t2)); } } ctx.stroke();
+  ctx.font="11px monospace"; ctx.fillStyle="#66727f"; ctx.fillText("PDF  f(t) = 2t  (area shaded = P(X ≤ x))",pad,12);
+  /* bottom: CDF F=t² */
+  ctx.strokeStyle="#1e7a46"; ctx.lineWidth=2.2; ctx.beginPath();
+  for(i=0;i<=80;i++){ var t3=i/80; if(i===0){ ctx.moveTo(X(t3),YB(t3*t3)); } else { ctx.lineTo(X(t3),YB(t3*t3)); } } ctx.stroke();
+  ctx.fillStyle="#1e7a46"; ctx.beginPath(); ctx.arc(X(x),YB(x*x),4,0,2*Math.PI); ctx.fill();
+  ctx.fillStyle="#66727f"; ctx.fillText("CDF  F(x) = x²  (height = accumulated area)",pad,ch*0.52);
+  document.getElementById("r5").innerHTML="Area under the PDF up to x = x² = <b>"+fmt(x*x,3)+"</b> &nbsp;·&nbsp; CDF height F(x) = <b>"+fmt(x*x,3)+"</b>.<br>Reading: the two numbers are always equal — that is the CDF↔PDF conversion, live.";
+}
+/* ===== W6: expectation lab (balance point) ===== */
+function draw_w6(){ drawW6(); }
+function drawW6(){
+  var n=+document.getElementById("esn").value;
+  document.getElementById("enVal").textContent=String(n);
+  var view=makeView("cv6",0,11,0,1.05); if(!view){ return; }
+  var f=view.fresh(), ctx=f.ctx; ctx.clearRect(0,0,f.cw,f.ch);
+  var i; for(i=1;i<=n;i++){ barAt(view,ctx,i,1/n,"#2f5fd0",0.5); }
+  var mean=(n+1)/2;
+  var mx=px(view,view.X(mean));
+  ctx.strokeStyle="#b3382e"; ctx.lineWidth=2; ctx.beginPath(); ctx.moveTo(mx,py(view,view.Y(0))); ctx.lineTo(mx,py(view,view.Y(1.02))); ctx.stroke();
+  ctx.fillStyle="#b3382e"; ctx.font="11px monospace"; ctx.fillText("E[X]",mx+3,py(view,view.Y(1.0)));
+  document.getElementById("r6").innerHTML="Uniform on {1…"+n+"}: E[X] = (n + 1)/2 = <b>"+fmt(mean,2)+"</b>.<br>Reading: the red line is the balance point — where the equal bars would balance. (For the continuous toy f(x)=2x, the balance point is 2/3.)";
+}
+/* ===== W7: spread lab (same mean, growing variance) — gated by G3 ===== */
+function draw_w7(){ drawW7(); }
+function drawW7(){
+  var s=+document.getElementById("spread").value;
+  document.getElementById("spVal").textContent=fmt(s,1);
+  var view=makeView("cv7",-3.5,3.5,0,1.05); if(!view){ return; }
+  var f=view.fresh(), ctx=f.ctx; ctx.clearRect(0,0,f.cw,f.ch);
+  if(s>0){ barAt(view,ctx,-s,0.25,"#2f5fd0",0.5); barAt(view,ctx,s,0.25,"#2f5fd0",0.5); }
+  barAt(view,ctx,0,0.5,"#2f5fd0",0.5);
+  var mx=px(view,view.X(0));
+  ctx.strokeStyle="#b3382e"; ctx.lineWidth=2; ctx.beginPath(); ctx.moveTo(mx,py(view,view.Y(0))); ctx.lineTo(mx,py(view,view.Y(1.02))); ctx.stroke();
+  ctx.fillStyle="#b3382e"; ctx.font="11px monospace"; ctx.fillText("mean = 0",mx+3,py(view,view.Y(1.0)));
+  var v=0.5*s*s; var sd=Math.sqrt(v);
+  document.getElementById("r7").innerHTML="masses 0.25 / 0.50 / 0.25 at −s / 0 / +s, mean = 0.<br>Var(X) = E[X²] = 0.5·s² = <b>"+fmt(v,2)+"</b> &nbsp;·&nbsp; σ = <b>"+fmt(sd,2)+"</b>.<br>Reading: the mean never moves; only the spread (and the variance) does.";
+}
+/* ===== deterministic seeded cloud (shared by W8 and W9) ===== */
+function mulberry32(a){ return function(){ a|=0; a=a+0x6D2B79F5|0; var t=Math.imul(a^a>>>15,1|a); t=t+Math.imul(t^t>>>7,61|t)^t; return ((t^t>>>14)>>>0)/4294967296; }; }
+function makeCloud(rho,seed,n){
+  var rnd=mulberry32(seed); var pts=[]; var s=Math.sqrt(Math.max(0,1-rho*rho));
+  for(var i=0;i<n;i++){
+    var u1=Math.max(1e-9,rnd()), u2=rnd();
+    var z1=Math.sqrt(-2*Math.log(u1))*Math.cos(2*Math.PI*u2);
+    var z2=Math.sqrt(-2*Math.log(u1))*Math.sin(2*Math.PI*u2);
+    var x=z1, y=rho*z1+s*z2;
+    pts.push([x,y]);
+  }
+  var mx=0,my=0,i; for(i=0;i<n;i++){ mx+=pts[i][0]; my+=pts[i][1]; } mx/=n; my/=n;
+  var vx=0,vy=0,cov=0; for(i=0;i<n;i++){ var dx=pts[i][0]-mx, dy=pts[i][1]-my; vx+=dx*dx; vy+=dy*dy; cov+=dx*dy; } vx/=n; vy/=n; cov/=n;
+  var corr=cov/Math.sqrt(vx*vy);
+  return {pts:pts,mx:mx,my:my,vx:vx,vy:vy,cov:cov,corr:corr};
+}
+/* ===== W8: covariance lab ===== */
+function draw_w8(){ drawW8(); }
+function drawW8(){
+  var rho=+document.getElementById("corr").value;
+  document.getElementById("crVal").textContent=fmt(rho,2);
+  var view=makeView("cv8",-4,4,-4,4); if(!view){ return; }
+  var f=view.fresh(), ctx=f.ctx; ctx.clearRect(0,0,f.cw,f.ch);
+  var C=makeCloud(rho,42,120); var i;
+  ctx.fillStyle="rgba(47,95,208,.7)";
+  for(i=0;i<C.pts.length;i++){ ctx.beginPath(); ctx.arc(px(view,view.X(C.pts[i][0])),py(view,view.Y(C.pts[i][1])),2.6,0,2*Math.PI); ctx.fill(); }
+  ctx.strokeStyle="#b3382e"; ctx.lineWidth=1.4;
+  var cxp=px(view,view.X(C.mx)), cyp=py(view,view.Y(C.my));
+  ctx.beginPath(); ctx.moveTo(cxp,0); ctx.lineTo(cxp,f.ch); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(0,cyp); ctx.lineTo(f.cw,cyp); ctx.stroke();
+  document.getElementById("r8").innerHTML="Seeded sample (n = 120): sample Cov ≈ <b>"+fmt(C.cov,2)+"</b> &nbsp;·&nbsp; sample Corr ≈ <b>"+fmt(C.corr,2)+"</b>.<br>Reading: the target ρ is "+fmt(rho,2)+"; positive tilts up, negative down, zero is a round blob. Same seed every load — reproducible.";
+}
+/* ===== W9: PCA lab (ellipse + principal axes) ===== */
+function draw_w9(){ drawW9(); }
+function drawW9(){
+  var rho=+document.getElementById("pcaRho").value;
+  document.getElementById("prVal").textContent=fmt(rho,2);
+  var view=makeView("cv9",-4,4,-4,4); if(!view){ return; }
+  var f=view.fresh(), ctx=f.ctx; ctx.clearRect(0,0,f.cw,f.ch);
+  var C=makeCloud(rho,42,120); var i;
+  ctx.fillStyle="rgba(47,95,208,.6)";
+  for(i=0;i<C.pts.length;i++){ ctx.beginPath(); ctx.arc(px(view,view.X(C.pts[i][0])),py(view,view.Y(C.pts[i][1])),2.4,0,2*Math.PI); ctx.fill(); }
+  /* covariance ellipse (sample) via eigen of [[vx,cov],[cov,vy]] */
+  var a=C.vx, b=C.cov, d=C.vy;
+  var tr=a+d, det=a*d-b*b, disc=Math.sqrt(Math.max(0,tr*tr/4-det));
+  var l1=tr/2+disc, l2=tr/2-disc;
+  var ang=0.5*Math.atan2(2*b,a-d);
+  function ax(len){ return [px(view,view.X(2*len*Math.cos(ang))),py(view,view.Y(2*len*Math.sin(ang)))]; }
+  var e1=ax(Math.sqrt(l1)), e2=ax(Math.sqrt(l2));
+  ctx.strokeStyle="#0f6f6a"; ctx.lineWidth=2; ctx.beginPath(); ctx.moveTo(px(view,view.X(0)),py(view,view.Y(0))); ctx.lineTo(e1[0],e1[1]); ctx.stroke();
+  ctx.strokeStyle="#8a6116"; ctx.lineWidth=2; ctx.beginPath(); ctx.moveTo(px(view,view.X(0)),py(view,view.Y(0))); ctx.lineTo(e2[0],e2[1]); ctx.stroke();
+  /* ellipse outline (1-sigma) */
+  ctx.strokeStyle="rgba(15,111,106,.5)"; ctx.lineWidth=1.2; ctx.beginPath();
+  for(i=0;i<=64;i++){ var th=2*Math.PI*i/64;
+    var x1=Math.sqrt(l1)*Math.cos(th), y1=Math.sqrt(l2)*Math.sin(th);
+    var rx=x1*Math.cos(ang)-y1*Math.sin(ang), ry=x1*Math.sin(ang)+y1*Math.cos(ang);
+    var Xp=px(view,view.X(rx)), Yp=py(view,view.Y(ry));
+    if(i===0){ ctx.moveTo(Xp,Yp); } else { ctx.lineTo(Xp,Yp); } }
+  ctx.closePath(); ctx.stroke();
+  document.getElementById("r9").innerHTML="Sample covariance matrix ≈ [["+fmt(a,2)+", "+fmt(b,2)+"], ["+fmt(b,2)+", "+fmt(d,2)+"]].<br>Eigenvalues (variance along each principal axis) ≈ <b>"+fmt(l1,2)+"</b> (1st) and <b>"+fmt(l2,2)+"</b> (2nd).<br>Reading: the teal axis is the 1st principal component — the direction of maximum variance.";
+}
+/* ===== prediction gates ===== */
+var GATES={
+  g1:{fb:"g1fb",target:"w3",rule:"Rule: f(x) is a density; only its area is a probability, and P(X = x) = 0 for any single point.",
+    opts:{a:"Not quite — a density can be large; it is the AREA that is a probability. Lab unlocked — watch the shaded slice, not the height.",
+      b:"Right: f(x) is a density, P(X = x) = 0, and only the shaded area is a probability. Lab unlocked — drag a and b and watch the area move.",
+      c:"The size of f(x) is irrelevant to whether it is a probability; even f(x) < 1 is not a probability. Lab unlocked."}},
+  g2:{fb:"g2fb",target:"w5",rule:"Rule: the CDF already holds the accumulation, so P(a ≤ X ≤ b) = F(b) − F(a).",
+    opts:{a:"Right: F(0.7) − F(0.2) = 0.49 − 0.04 = 0.45. Lab unlocked — see the area under the PDF equal the CDF height.",
+      b:"That is the height (a density), not a probability. The fastest route uses the CDF. Lab unlocked — slide x and watch area = height.",
+      c:"Adding would exceed the interval's probability; you subtract. Lab unlocked."}},
+  g3:{fb:"g3fb",target:"w7",rule:"Rule: variance (and standard deviation) measure spread around the mean; the mean does not change.",
+    opts:{a:"Spread does change the variance — that is exactly what variance measures. Lab unlocked — widen s and watch it climb.",
+      b:"Spreading values AWAY from the mean increases the squared deviations, so variance grows. Lab unlocked.",
+      c:"Right: same mean, more spread → larger variance and standard deviation. Lab unlocked — drag s and watch."}}
+};
+function gAnswer(key){ return {g1:"b",g2:"a",g3:"c"}[key]; }
+function bindGates(){
+  var btns=document.querySelectorAll("[data-gate]");
+  for(var i=0;i<btns.length;i++){
+    btns[i].addEventListener("click",function(){
+      var key=this.getAttribute("data-gate"); var G=GATES[key];
+      var fb=document.getElementById(G.fb);
+      var choice=document.querySelector('input[name="'+key+'"]:checked');
+      if(!choice){ fb.className="feedback note"; fb.textContent="Commit to an answer first — that commitment is what makes the reveal worth it."; return; }
+      fb.className="feedback "+(choice.value===gAnswer(key)?"ok":"no");
+      fb.innerHTML=G.opts[choice.value]+"<br><b>"+G.rule+"</b>";
+      var w=document.getElementById(G.target);
+      if(w){ w.style.display=""; w.removeAttribute("data-locked"); }
+      if(typeof window["draw_"+G.target]==="function"){ window["draw_"+G.target](); }
+    });
+  }
+}
+/* ===== ladders ===== */
+var LAD={
+  l1r2:{ans:0.25,tol:0.01,ok:"Correct: P(X = 2) = 1/4 = 0.25.",no:"Four equally likely values, so the mass is 1/4."},
+  l1r3:{ans:0.5,tol:0.01,ok:"Correct: 1 − 0.5 = 0.5.",no:"Five values spend 0.5; the last must bring the total to 1."},
+  l2r2:{ans:0.75,tol:0.01,ok:"Correct: 1 − 0.25 = 0.75.",no:"Total area is 1; subtract the lower half (0.25)."},
+  l2r3:{ans:0.5,tol:0.01,ok:"Correct: width 0.5 × height 1 = 0.5.",no:"It is a rectangle of width 0.5 and height 1."},
+  l3r2:{ans:0.75,tol:0.01,ok:"Correct: f(x) = 3x², so f(0.5) = 3·0.25 = 0.75.",no:"Differentiate F(x) = x³ to get f(x) = 3x², then substitute 0.5."},
+  l3r3:{ans:0.75,tol:0.01,ok:"Correct: F(1) − F(0.5) = 1 − 0.25 = 0.75.",no:"F(1) − F(0.5) with F(x) = x²."},
+  l4r2:{ans:2.5,tol:0.01,ok:"Correct: (1 + 2 + 3 + 4)/4 = 2.5.",no:"Average the four equally likely values."},
+  l4r3:{ans:4.5,tol:0.01,ok:"Correct: 0.1·(1+2+3+4+5) + 0.5·6 = 1.5 + 3.0 = 4.5.",no:"Weight each value by its own mass; the 6 carries 0.5."},
+  l5r2:{ans:0.67,tol:0.02,ok:"Correct: E[X²] = 14/3 ≈ 4.667, mean = 2, so Var = 4.667 − 4 ≈ 0.67.",no:"Mean is 2; E[X²] = (1 + 4 + 9)/3 ≈ 4.667."},
+  l5r3:{ans:1.25,tol:0.02,ok:"Correct: E[X²] = 30/4 = 7.5, mean = 2.5, Var = 7.5 − 6.25 = 1.25.",no:"Mean is 2.5; E[X²] = (1 + 4 + 9 + 16)/4 = 7.5."},
+  l6r2:{ans:1.0,tol:0.02,ok:"Correct: 6/(2·3) = 1.",no:"Divide the covariance by the product of the standard deviations."},
+  l6r3:{ans:4.0,tol:0.05,ok:"Correct: 0.5·(2·4) = 4.",no:"Cov = Corr · σ_X · σ_Y."}
+};
+function bindLadders(){
+  var btns=document.querySelectorAll("[data-ladder]");
+  for(var i=0;i<btns.length;i++){
+    btns[i].addEventListener("click",function(){
+      var key=this.getAttribute("data-ladder"); var L=LAD[key];
+      var inp=document.getElementById(key+"in"); var fb=document.getElementById(key+"fb");
+      var v=parseFloat(inp.value);
+      if(isNaN(v)){ fb.className="feedback note"; fb.textContent="Enter a number first."; return; }
+      var ok=Math.abs(v-L.ans)<=L.tol+1e-9;
+      fb.className="feedback "+(ok?"ok":"no"); fb.textContent=ok?L.ok:L.no;
+    });
+  }
+  var hs=document.querySelectorAll("[data-hint]");
+  for(i=0;i<hs.length;i++){
+    hs[i].addEventListener("click",function(){ var h=document.getElementById(this.getAttribute("data-hint")); if(h){ h.hidden=!h.hidden; } });
+  }
+}
+/* ===== unit checks ===== */
+var CHKN={
+  c1n:{ans:0.1,tol:0.005,ok:"Correct: a fair 10-sided die gives P(X = 7) = 1/10 = 0.1.",no:"Ten equally likely values, so each mass is 1/10."},
+  c2n:{ans:0.25,tol:0.01,ok:"Correct: P(X ≤ 2) = 2/8 = 0.25.",no:"Add the masses for 1 and 2: 1/8 + 1/8."},
+  c3n:{ans:0.09,tol:0.005,ok:"Correct: ∫₀^{0.3} 2x dx = 0.3² = 0.09.",no:"Area = x² evaluated at 0.3."},
+  c4n:{ans:0.49,tol:0.01,ok:"Correct: F(0.7) = 0.7² = 0.49.",no:"Square the value: 0.7²."},
+  c5n:{ans:1.0,tol:0.02,ok:"Correct: f(x) = d/dx(x²) = 2x, so f(0.5) = 1.",no:"Differentiate F(x) = x² to get 2x, then substitute 0.5."},
+  c6n:{ans:5.5,tol:0.05,ok:"Correct: E[X] = (1 + 10)/2 = 5.5.",no:"For a uniform 1…n variable, E[X] = (n + 1)/2."},
+  c7n:{ans:1.25,tol:0.02,ok:"Correct: Var = 7.5 − 6.25 = 1.25.",no:"Mean 2.5, E[X²] = 7.5; subtract the mean squared."},
+  c8n:{ans:1.0,tol:0.02,ok:"Correct: 6/(2·3) = 1.",no:"Divide the covariance by the product of the standard deviations."},
+  c9n:{ans:3.0,tol:0.05,ok:"Correct: for [[2,1],[1,2]], λ = (a+d)/2 ± √(((a−d)/2)² + c²) = 2 ± 1 → 3 and 1.",no:"Eigenvalues of [[a,c],[c,d]]: (a+d)/2 ± √(((a−d)/2)² + c²)."}
+};
+var CHKM={
+  c1m:{ans:"a",opts:{a:"Right: it takes any value in an interval, so it is continuous and P(X = x) = 0.",b:"No — countability, not writability, decides. Rainfall takes a continuum of values.",c:"It is a random variable — it maps outcomes (rain amounts) to numbers."},rule:"Rule: an interval-valued variable is continuous."},
+  c2m:{ans:"b",opts:{a:"Masses need not be equal — only non-negative and summing to 1.",b:"Right: each mass is in [0,1] and 0.4 + 0.3 + 0.3 = 1, so it is valid.",c:"There is no requirement that the largest mass equal 1/3."},rule:"Rule: a PMF is valid iff all masses lie in [0,1] and sum to 1."},
+  c3m:{ans:"b",opts:{a:"Densities may exceed 1 — they are not probabilities.",b:"Right: a density may exceed 1; only its total area must be 1.",c:"Densities belong to continuous variables, not discrete ones."},rule:"Rule: a density is not a probability and has no upper bound of 1."},
+  c4m:{ans:"c",opts:{a:"F(x) is the cumulative P(X ≤ x), and the limits are 0 and 1.",b:"A CDF never decreases.",c:"Right: F(x) = P(X ≤ x), non-decreasing, in [0,1], →0 left and →1 right."},rule:"Rule: the CDF is the running total, non-decreasing, with limits 0 and 1."},
+  c5m:{ans:"b",opts:{a:"The directions are reversed.",b:"Right: CDF = integral of PDF; PDF = derivative of CDF.",c:"PMFs and PDFs belong to different variable types; the derivative link is PDF ↔ CDF."},rule:"Rule: accumulate (integrate) for the CDF; differentiate for the PDF."},
+  c6m:{ans:"b",opts:{a:"The expectation need not be attainable — it is a balance point.",b:"Right: 3.5 is the long-run average and need not be rolled.",c:"No rounding — the expectation is exactly 3.5."},rule:"Rule: expectation is the balance point / long-run average."},
+  c7m:{ans:"a",opts:{a:"Right: variance is in square metres; σ = 2 m is the spread in metres.",b:"Variance is in squared units, not metres.",c:"Variance carries squared units of X."},rule:"Rule: variance is in squared units; σ returns to X's units."},
+  c8m:{ans:"b",opts:{a:"Zero covariance is not independence.",b:"Right: zero covariance means no linear relation; Y = X² is the counterexample.",c:"Zero covariance happens often (e.g. symmetric dependence)."},rule:"Rule: uncorrelated ≠ independent."},
+  c9m:{ans:"b",opts:{a:"The diagonal holds variances, not the components.",b:"Right: principal components are the eigenvectors of the covariance matrix.",c:"Principal components are new directions, not reordered features."},rule:"Rule: principal components = eigenvectors of the covariance matrix."}
+};
+function checkUnit(key){ return "u"+key.charAt(1); }
+function bindChecks(){
+  var nb=document.querySelectorAll("[data-check]");
+  for(var i=0;i<nb.length;i++){
+    nb[i].addEventListener("click",function(){
+      var key=this.getAttribute("data-check"); var C=CHKN[key];
+      var inp=document.getElementById(key); var fb=document.getElementById(this.getAttribute("data-target"));
+      var v=parseFloat(inp.value);
+      if(isNaN(v)){ fb.className="feedback note"; fb.textContent="Enter a number first."; return; }
+      var ok=Math.abs(v-C.ans)<=C.tol+1e-9;
+      fb.className="feedback "+(ok?"ok":"no"); fb.textContent=ok?C.ok:C.no;
+      markCheck(checkUnit(key),"n",ok,"Unit "+key.charAt(1)+" check — numeric");
+    });
+  }
+  var mb=document.querySelectorAll("[data-mcq]");
+  for(i=0;i<mb.length;i++){
+    mb[i].addEventListener("click",function(){
+      var key=this.getAttribute("data-mcq"); var C=CHKM[key];
+      var fb=document.getElementById(this.getAttribute("data-target"));
+      var choice=document.querySelector('input[name="'+key+'"]:checked');
+      if(!choice){ fb.className="feedback note"; fb.textContent="Pick an option first."; return; }
+      var ok=choice.value===C.ans;
+      fb.className="feedback "+(ok?"ok":"no");
+      fb.innerHTML=C.opts[choice.value]+"<br><b>"+C.rule+"</b>";
+      markCheck(checkUnit(key),"m",ok,"Unit "+key.charAt(1)+" check — diagnostic");
+    });
+  }
+}
+/* ===== explain reveals ===== */
+function bindExplains(){
+  var exs=document.querySelectorAll("[data-explain]");
+  for(var i=0;i<exs.length;i++){
+    exs[i].addEventListener("click",function(){
+      var key=this.getAttribute("data-explain");
+      var el=document.getElementById(key);
+      if(el){ el.hidden=!el.hidden; }
+    });
+  }
+}
+/* ===== mastery ===== */
+var MASTM={
+  m2:{ans:"a",label:"M2 (PDF can exceed 1)",fb:{a:"Right: a density is not a probability and may exceed 1; only its area is a probability.",b:"That confuses density with probability — P(X = x) = 0 for a continuous variable.",c:"No — densities have no upper bound of 1."}},
+  m4:{ans:"b",label:"M4 (CDF upper limit)",fb:{a:"The upper limit is 1 (total probability); the lower limit is 0.",b:"Right: as x → +∞ the running total reaches 1.",c:"Every CDF has limits 0 and 1."}},
+  m7:{ans:"a",label:"M7 (Cov = 0 ≠ independence)",fb:{a:"Right: no linear relation, but dependence can remain (Y = X²).",b:"Zero covariance does not prove independence.",c:"Zero covariance is compatible with dependence."}},
+  m10:{ans:"b",label:"M10 (conversion direction error)",fb:{a:"The rule is reversed — CDF is the integral of the PDF.",b:"Right: the directions are reversed; CDF = ∫f, PDF = dF/dx.",c:"PDFs are differentiable; that is not the error."}},
+  m11:{ans:"a",label:"M11 (Gaussian needs mean + variance)",fb:{a:"Right: mean = centre, variance = width (and covariance = tilt); together they fix the shape.",b:"The variance is essential — a mean alone fixes no width.",c:"The covariance adds tilt; it does not replace the mean."}}
+};
+var MASTN={
+  m1:{ans:0.2,tol:0.01,label:"M1 (fair 5-sided P=3)",ok:"Correct: 1/5 = 0.2.",no:"Five equally likely values, so each mass is 1/5."},
+  m3:{ans:0.208,tol:0.005,label:"M3 (P(0.2≤X≤0.6), F=x³)",ok:"Correct: 0.6³ − 0.2³ = 0.216 − 0.008 = 0.208.",no:"F(0.6) − F(0.2) = 0.6³ − 0.2³."},
+  m5:{ans:4,tol:0.05,label:"M5 (uniform 1–7 mean)",ok:"Correct: (1 + 7)/2 = 4.",no:"For a uniform 1…n variable, E[X] = (n + 1)/2."},
+  m6:{ans:2,tol:0.02,label:"M6 (fair 5-sided variance)",ok:"Correct: E[X²] = 11, mean = 3, Var = 11 − 9 = 2.",no:"Mean 3; E[X²] = (1 + 4 + 9 + 16 + 25)/5 = 11."},
+  m8:{ans:1,tol:0.02,label:"M8 (Corr from Cov=8, σ=2,4)",ok:"Correct: 8/(2·4) = 1.",no:"Divide the covariance by the product of the standard deviations."},
+  m9:{ans:0.125,tol:0.005,label:"M9 (transfer: P(X≤0.5), F=x³)",ok:"Correct: 0.5³ = 0.125.",no:"For this density, F(x) = x³; evaluate at 0.5."}
+};
+function confOf(key){ var c=document.querySelector('input[name="'+key+'c"]:checked'); return c?c.value:null; }
+var mastState={};
+function renderMSummary(){
+  var el=document.getElementById("msum"); var keys=Object.keys(mastState);
+  if(!keys.length){ el.innerHTML="Answer items and tag confidence — a summary appears here."; return; }
+  var okc=0; for(var i=0;i<keys.length;i++){ if(mastState[keys[i]].ok){ okc++; } }
+  el.innerHTML="Answered "+keys.length+"/11 — "+okc+" correct so far."+(keys.length===11?" Interleaved retrieval complete: revisit your review list tomorrow for the spacing effect.":"");
+}
+function bindMastery(){
+  var mb=document.querySelectorAll("[data-mastery]");
+  for(var i=0;i<mb.length;i++){
+    mb[i].addEventListener("click",function(){
+      var key=this.getAttribute("data-mastery"); var M=MASTM[key];
+      var fb=document.getElementById(this.getAttribute("data-target"));
+      var choice=document.querySelector('input[name="'+key+'"]:checked'); var conf=confOf(key);
+      if(!choice){ fb.className="feedback note"; fb.textContent="Pick an option first."; return; }
+      if(!conf){ fb.className="feedback note"; fb.textContent="Also tag your confidence (sure / think so / guessing) — that is what routes misses to your review list."; return; }
+      var ok=choice.value===M.ans;
+      fb.className="feedback "+(ok?"ok":"no"); fb.innerHTML=M.fb[choice.value];
+      mastState[key]={ok:ok,conf:conf};
+      var reviewId="mastery-"+key;
+      if(!ok&&conf==="sure"){ addReview(reviewId,"Confident miss: "+M.label); fb.innerHTML+="<br><span class='no'>You were sure — this one goes to your review list.</span>"; } else if(ok){ removeReview(reviewId); }
+      renderMSummary();
+    });
+  }
+  var nb=document.querySelectorAll("[data-masteryn]");
+  for(i=0;i<nb.length;i++){
+    nb[i].addEventListener("click",function(){
+      var key=this.getAttribute("data-masteryn"); var M=MASTN[key];
+      var inp=document.getElementById(key+"in"); var fb=document.getElementById(this.getAttribute("data-target")); var conf=confOf(key);
+      var v=parseFloat(inp.value);
+      if(isNaN(v)){ fb.className="feedback note"; fb.textContent="Enter a number first."; return; }
+      if(!conf){ fb.className="feedback note"; fb.textContent="Also tag your confidence (sure / think so / guessing)."; return; }
+      var ok=Math.abs(v-M.ans)<=M.tol+1e-9;
+      fb.className="feedback "+(ok?"ok":"no"); fb.textContent=ok?M.ok:M.no;
+      mastState[key]={ok:ok,conf:conf};
+      var reviewId="mastery-"+key;
+      if(!ok&&conf==="sure"){ addReview(reviewId,"Confident miss: "+M.label); fb.innerHTML+="<br><span class='no'>You were sure — this one goes to your review list.</span>"; } else if(ok){ removeReview(reviewId); }
+      renderMSummary();
+    });
+  }
+}
+/* ===== reset + init ===== */
+function bindReset(){
+  var b=document.getElementById("resetProgress"); if(!b){ return; }
+  b.addEventListener("click",function(){
+    if(STORAGE_OK){ try{ localStorage.removeItem("prob1-dots"); localStorage.removeItem("prob1-review"); }catch(e){} }
+    dots={}; review=[]; renderReview();
+    var ds=document.querySelectorAll(".topnav .dot"); for(var i=0;i<ds.length;i++){ ds[i].classList.remove("done"); }
+    window.scrollTo(0,0);
+  });
+}
+function bindNav(){
+  var links=document.querySelectorAll(".topnav a");
+  if(!("IntersectionObserver" in window)){ return; }
+  var obs=new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      if(en.isIntersecting){
+        for(var j=0;j<links.length;j++){ links[j].removeAttribute("aria-current"); }
+        var a=document.querySelector('.topnav a[href="#'+en.target.id+'"]'); if(a){ a.setAttribute("aria-current","true"); }
+      }
+    });
+  },{rootMargin:"-25% 0px -60% 0px"});
+  ["u0","u1","u2","u3","u4","u5","u6","u7","u8","u9","synthesis","mastery","glossary"].forEach(function(id){ var s=document.getElementById(id); if(s){ obs.observe(s); } });
+}
+document.addEventListener("DOMContentLoaded",function(){
+  var locked=document.querySelectorAll('.widget[data-locked="true"]'); for(var i=0;i<locked.length;i++){ locked[i].style.display="none"; }
+  window.draw_w3=drawW3; window.draw_w5=drawW5; window.draw_w7=drawW7;
+  bindGates(); bindLadders(); bindChecks(); bindExplains(); bindMastery(); bindReset(); bindNav();
+  if(!STORAGE_OK){ var sn=document.getElementById("storageNote"); if(sn){ sn.textContent="Storage is unavailable in this browser — progress lasts only for this visit. "; } }
+  renderReview();
+  drawW1(); drawW2(); drawW4(); drawW6(); drawW8(); drawW9();
+  document.getElementById("nsides").addEventListener("input",drawW1);
+  document.getElementById("ksel").addEventListener("input",drawW2);
+  document.getElementById("pdfa").addEventListener("input",drawW3);
+  document.getElementById("pdfb").addEventListener("input",drawW3);
+  document.getElementById("cdfx").addEventListener("input",drawW4);
+  document.getElementById("convx").addEventListener("input",drawW5);
+  document.getElementById("esn").addEventListener("input",drawW6);
+  document.getElementById("spread").addEventListener("input",drawW7);
+  document.getElementById("corr").addEventListener("input",drawW8);
+  document.getElementById("pcaRho").addEventListener("input",drawW9);
+  window.addEventListener("resize",drawW1);
+  window.addEventListener("resize",drawW2);
+  window.addEventListener("resize",drawW3);
+  window.addEventListener("resize",drawW4);
+  window.addEventListener("resize",drawW5);
+  window.addEventListener("resize",drawW6);
+  window.addEventListener("resize",drawW7);
+  window.addEventListener("resize",drawW8);
+  window.addEventListener("resize",drawW9);
+});
+</script>
+</body>
+</html>
